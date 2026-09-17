@@ -1,18 +1,25 @@
-# [What you are building]
+# Billing and time-tracking tool for consulting companies (working title)
 
-> One sentence: what this is and who it is for.
+> A tool to reduce billing and time-tracking pain for consulting companies — not yet
+> validated. Sprint 1 is talking to 10 consulting companies to find out.
 
 **Live:** [URL]
-**Built by:** [your name], MSB 341 Product Management, BYU
+**Built by:** Jaxon White, MSB 341 Product Management, BYU
 
 ## Context
 
 Fill this in during Sprint 1 and keep it current. Every sprint is read against it.
 
-- **What I am building:**
-- **Who it is for:**
-- **My role:** [solo builder, or your role on a team]
-- **My user:** [the specific person who will use this, and how you reach them]
+- **What I am building:** A tool aimed at billing and time-tracking pain points for
+  consulting companies. The specific product is not decided yet — Sprint 1 is validating
+  whether this problem is real before committing to a solution.
+- **Who it is for:** Consulting companies, specifically around how they bill and track
+  time. Which segment (size, industry, role) is not decided — that is part of what
+  Sprint 1's interviews are meant to narrow down.
+- **My role:** Not decided. Working solo for now; open to this becoming a team effort
+  depending on what Sprint 1 shows.
+- **My user:** Not decided. Depends on who Sprint 1's interviews identify as feeling
+  this pain most acutely.
 
 If your situation changes, revise this and note what changed. That is normal; a silent
 mismatch between this file and your work is not.
