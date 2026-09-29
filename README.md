@@ -1,7 +1,7 @@
-# Billing and time-tracking tool for consulting companies (working title)
+# Homeless help finder for church leaders (working title)
 
-> A tool to reduce billing and time-tracking pain for consulting companies — not yet
-> validated. Sprint 1 is talking to 10 consulting companies to find out.
+> A tool that helps bishops and Relief Society presidents find help for homeless people who
+> come to them. Not yet validated with those leaders.
 
 **Live:** [URL]
 **Built by:** Jaxon White, MSB 341 Product Management, BYU
@@ -10,16 +10,16 @@
 
 Fill this in during Sprint 1 and keep it current. Every sprint is read against it.
 
-- **What I am building:** A tool aimed at billing and time-tracking pain points for
-  consulting companies. The specific product is not decided yet — Sprint 1 is validating
-  whether this problem is real before committing to a solution.
-- **Who it is for:** Consulting companies, specifically around how they bill and track
-  time. Which segment (size, industry, role) is not decided — that is part of what
-  Sprint 1's interviews are meant to narrow down.
-- **My role:** Not decided. Working solo for now; open to this becoming a team effort
-  depending on what Sprint 1 shows.
-- **My user:** Not decided. Depends on who Sprint 1's interviews identify as feeling
-  this pain most acutely.
+- **What I am building:** A tool that helps church leaders find help for homeless people.
+  The specific product is not decided yet.
+- **Who it is for:** Bishops and Relief Society presidents.
+- **My role:** Developer. A professor brought me the idea and is helping.
+- **My user:** Bishops and Relief Society presidents. I am assuming the church wants this;
+  no leader has confirmed the need yet.
+
+**What changed (Sprint 1, 2026-09-28):** This repo started as a billing and time-tracking
+tool for consulting companies. After 6 interviews showed little pain there, I pivoted to
+this project. See `decisions/001-pivot-to-church-homelessness-help.md`.
 
 If your situation changes, revise this and note what changed. That is normal; a silent
 mismatch between this file and your work is not.
