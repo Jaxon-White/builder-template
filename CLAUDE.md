@@ -6,7 +6,8 @@ a brand new session act like a colleague who already knows what you are working 
 ## What I am building
 
 - **What it is:** A tool that helps church leaders find help for homeless people.
-- **Who it is for:** Bishops and Relief Society presidents.
+- **Who it is for:** Bishops and Relief Society presidents, and Deseret Industries (DI) workers,
+  who are almost intermediaries: they encounter people with needs and connect them to help.
 - **My role:** Developer. A professor is helping.
 - **Why they would use it:** They need to find help for homeless people who come to them.
   [Not yet in their words: replace with a real quote after talking to bishops and RS presidents.]
@@ -15,7 +16,8 @@ a brand new session act like a colleague who already knows what you are working 
 
 ## Current state
 
-- **This sprint's goal:** [from sprints/sprint-N-plan.md, update each sprint]
+- **This sprint's goal:** Sprint 2: working prototype on real data, with logins, deployed and
+  used by the professor and 3 DI workers.
 - **Live at:** [URL]
 - **Biggest open risk:** Assuming the church wants this app. The professor brought the idea;
   no bishop or Relief Society president has confirmed the need yet.
