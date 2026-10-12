@@ -1,17 +1,15 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { connection } from "next/server";
 import { Handoff } from "@/components/handoff";
-import { OpenBadge } from "@/components/resource-card";
-import { resources } from "@/lib/data";
+import { CallAheadWarning, OpenBadge } from "@/components/resource-card";
+import { getResource } from "@/lib/data";
+import { checkedAgoText, needsCallAhead } from "@/lib/freshness";
 import { isOpenNow } from "@/lib/hours";
 import { AUDIENCE_LABELS, CATEGORY_LABELS } from "@/lib/types";
 
 export default async function ResourcePage({ params }: PageProps<"/resources/[id]">) {
-  // "Open now" depends on the current time, so render on every request.
-  await connection();
   const { id } = await params;
-  const r = await resources.getResource(id);
+  const r = await getResource(id);
   if (!r) notFound();
 
   const facts: [string, string][] = [
@@ -37,6 +35,14 @@ export default async function ResourcePage({ params }: PageProps<"/resources/[id
         <p className="text-base">{r.description}</p>
       </section>
 
+      {r.status === "closed" ? (
+        <p className="rounded-2xl bg-rose-50 p-4 text-sm font-medium text-rose-900">
+          Marked closed on the last upkeep call. Don&apos;t send anyone here.
+        </p>
+      ) : (
+        needsCallAhead(r) && <CallAheadWarning unreachable={r.status === "unreachable"} />
+      )}
+
       <Handoff resource={r} size="lg" />
 
       <dl className="divide-y divide-border rounded-2xl border border-border bg-surface">
@@ -48,7 +54,9 @@ export default async function ResourcePage({ params }: PageProps<"/resources/[id
         ))}
       </dl>
 
-      <p className="text-xs text-muted">Last checked {r.lastVerified}. Call ahead to confirm.</p>
+      <p className="text-xs text-muted">
+        {checkedAgoText(r)} ({r.lastVerified}). Call ahead to confirm.
+      </p>
 
       <Link href="/resources" className="inline-block text-sm font-medium text-primary underline">
         ← All resources

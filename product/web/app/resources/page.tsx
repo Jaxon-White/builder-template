@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ResourceCard } from "@/components/resource-card";
-import { resources } from "@/lib/data";
+import { getFinderResources } from "@/lib/data";
 import { isOpenNow } from "@/lib/hours";
 import {
   AUDIENCE_LABELS,
@@ -29,7 +29,7 @@ export default async function ResourcesPage({ searchParams }: PageProps<"/resour
 
   const now = new Date();
   const query = f.q.trim().toLowerCase();
-  const results = (await resources.getResources())
+  const results = (await getFinderResources())
     .map((r) => ({ r, open: isOpenNow(r, now) }))
     .filter(({ r, open }) => {
       if (f.category && r.category !== f.category && !r.alsoOffers.includes(f.category as Category)) return false;

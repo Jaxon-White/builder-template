@@ -1,4 +1,4 @@
-import type { Resource } from "@/lib/types";
+import type { CheckLog, Resource, ResourceChanges } from "@/lib/types";
 
 /**
  * Everything the app knows about where resources come from. UI and matching code only talk
@@ -8,4 +8,10 @@ import type { Resource } from "@/lib/types";
 export interface ResourceSource {
   getResources(): Promise<Resource[]>;
   getResource(id: string): Promise<Resource | null>;
+
+  // Upkeep writes
+  updateResource(id: string, changes: ResourceChanges): Promise<Resource>;
+  logCheck(entry: Omit<CheckLog, "id">): Promise<CheckLog>;
+  /** Newest first. */
+  getChecks(resourceId: string): Promise<CheckLog[]>;
 }

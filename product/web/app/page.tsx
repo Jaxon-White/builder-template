@@ -1,9 +1,29 @@
 import Link from "next/link";
+import { requireUser } from "@/lib/auth";
 import { CATEGORIES, CATEGORY_LABELS } from "@/lib/types";
 
-export default function Home() {
+export default async function Home({ searchParams }: PageProps<"/">) {
+  const user = await requireUser();
+  const denied = (await searchParams).denied === "1";
+
   return (
     <div className="space-y-8">
+      {denied && (
+        <p className="rounded-2xl bg-amber-50 p-4 text-sm text-amber-900">
+          That page is only for upkeep volunteers.
+        </p>
+      )}
+
+      {user.role === "upkeep" && (
+        <Link
+          href="/upkeep"
+          className="flex items-center justify-between rounded-2xl border border-primary bg-primary-soft p-4 font-medium text-primary"
+        >
+          Monthly upkeep calls
+          <span aria-hidden>→</span>
+        </Link>
+      )}
+
       <section className="space-y-3 pt-2">
         <h1 className="text-3xl font-semibold leading-tight">Someone needs help right now?</h1>
         <p className="text-base text-muted">

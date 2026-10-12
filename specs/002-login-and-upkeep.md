@@ -27,20 +27,23 @@ confirmed them yet.
 ### Login (required for everything)
 
 - Every page except `/login` requires sign-in. Signed-out visitors are redirected to `/login`.
-- The goal is **Sign in with Microsoft**. That needs an app registration in the organization's
-  Microsoft Entra ID (Azure AD), which an admin of that tenant has to create. Until then:
-- **Demo sign-in**: `/login` shows a "Sign in with Microsoft" button styled as it will be,
+- The goal is **Sign in with Church Account** (changed from Microsoft on 2026-10-12, see
+  decision 004). That needs the Church to register the app and issue a client ID and secret,
+  which requires a sponsoring department and Church IT approval. Until then:
+- **Demo sign-in**: `/login` shows a plain-text "Sign in with Church Account" button (no
+  Church logo or branding),
   which opens a demo picker of sample accounts (e.g. "Bishop (demo)", "Relief Society
   president (demo)", "Upkeep volunteer (demo)"). Picking one signs you in with that role.
 - Built behind a swappable auth layer, like the data source:
   - `lib/auth/` exposes `getUser()`, `requireUser()`, `requireRole()`, `signIn()` and
     `signOut()`.
-  - `AUTH_MODE=demo` (default) or `AUTH_MODE=microsoft` (stub that throws "not configured",
-    documenting the Entra setup and env vars: tenant ID, client ID, client secret).
+  - `AUTH_MODE=demo` (default) or `AUTH_MODE=church` (stub that throws "not configured",
+    documenting the setup and env vars: OIDC issuer URL, client ID, client secret).
   - The session is an HTTP-only, signed cookie, checked on the server.
 - The header shows who is signed in, their role, and a sign-out link.
 - Roles come from a simple allow-list for now (the demo accounts). Real role assignment (which
-  Microsoft accounts are officials or upkeep) is decided when Microsoft login is wired up.
+  Church Accounts are officials or upkeep) is decided when Church Account login is wired up.
+  Having a Church Account alone does not let someone in.
 
 ### Upkeep: monthly call queue (`/upkeep`, upkeep role only)
 
@@ -85,7 +88,7 @@ confirmed them yet.
 
 ## Out of scope
 
-- Real Microsoft sign-in (needs a tenant admin; stub plus documented setup only)
+- Real Church Account sign-in (needs Church approval; stub plus documented setup only)
 - Inviting users, managing roles, or an admin screen
 - Real saving (database or SharePoint writes)
 - Assigning resources to specific upkeep people, reminders or notifications
@@ -99,5 +102,5 @@ confirmed them yet.
 - [ ] Recording "Still running" moves that resource to "up to date" in the queue
 - [ ] Recording "Closed" removes it from the finder; "Couldn't reach" shows the warning to officials
 - [ ] Editing hours or phone shows the new values in the finder immediately
-- [ ] `AUTH_MODE=microsoft` fails with a clear "not configured" message
+- [ ] `AUTH_MODE=church` fails with a clear "not configured" message
 - [ ] Works at phone width

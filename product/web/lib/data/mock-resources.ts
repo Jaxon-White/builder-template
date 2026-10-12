@@ -5,9 +5,10 @@ import type { Day, Resource } from "@/lib/types";
 
 const ALL: Day[] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const WEEKDAYS: Day[] = ["Mon", "Tue", "Wed", "Thu", "Fri"];
-const VERIFIED = "2026-09-30";
 
-export const MOCK_RESOURCES: Resource[] = [
+type SeedResource = Omit<Resource, "status" | "lastVerified">;
+
+const SEED: SeedResource[] = [
   // Shelter
   {
     id: "harbor-house-mens-shelter",
@@ -28,7 +29,6 @@ export const MOCK_RESOURCES: Resource[] = [
     walkIn: true,
     petsAllowed: false,
     free: true,
-    lastVerified: VERIFIED,
   },
   {
     id: "willow-womens-shelter",
@@ -49,7 +49,6 @@ export const MOCK_RESOURCES: Resource[] = [
     walkIn: true,
     petsAllowed: false,
     free: true,
-    lastVerified: VERIFIED,
   },
   {
     id: "hearthstone-family-shelter",
@@ -70,7 +69,6 @@ export const MOCK_RESOURCES: Resource[] = [
     walkIn: false,
     petsAllowed: false,
     free: true,
-    lastVerified: VERIFIED,
   },
   {
     id: "safe-harbor-crisis-center",
@@ -92,7 +90,6 @@ export const MOCK_RESOURCES: Resource[] = [
     walkIn: false,
     petsAllowed: true,
     free: true,
-    lastVerified: VERIFIED,
   },
   {
     id: "next-step-youth-center",
@@ -113,7 +110,6 @@ export const MOCK_RESOURCES: Resource[] = [
     walkIn: true,
     petsAllowed: false,
     free: true,
-    lastVerified: VERIFIED,
   },
 
   // Food
@@ -136,7 +132,6 @@ export const MOCK_RESOURCES: Resource[] = [
     walkIn: true,
     petsAllowed: true,
     free: true,
-    lastVerified: VERIFIED,
   },
   {
     id: "valley-food-pantry",
@@ -157,7 +152,6 @@ export const MOCK_RESOURCES: Resource[] = [
     walkIn: true,
     petsAllowed: false,
     free: true,
-    lastVerified: VERIFIED,
   },
   {
     id: "springville-meal-share",
@@ -178,7 +172,6 @@ export const MOCK_RESOURCES: Resource[] = [
     walkIn: true,
     petsAllowed: true,
     free: true,
-    lastVerified: VERIFIED,
   },
   {
     id: "north-county-family-pantry",
@@ -199,7 +192,6 @@ export const MOCK_RESOURCES: Resource[] = [
     walkIn: true,
     petsAllowed: false,
     free: true,
-    lastVerified: VERIFIED,
   },
   {
     id: "mobile-meals-van",
@@ -220,7 +212,6 @@ export const MOCK_RESOURCES: Resource[] = [
     walkIn: true,
     petsAllowed: true,
     free: true,
-    lastVerified: VERIFIED,
   },
 
   // Medical
@@ -243,7 +234,6 @@ export const MOCK_RESOURCES: Resource[] = [
     walkIn: true,
     petsAllowed: false,
     free: true,
-    lastVerified: VERIFIED,
   },
   {
     id: "veterans-health-outpost",
@@ -264,7 +254,6 @@ export const MOCK_RESOURCES: Resource[] = [
     walkIn: true,
     petsAllowed: false,
     free: true,
-    lastVerified: VERIFIED,
   },
   {
     id: "urgent-care-sliding-scale",
@@ -285,7 +274,6 @@ export const MOCK_RESOURCES: Resource[] = [
     walkIn: true,
     petsAllowed: false,
     free: false,
-    lastVerified: VERIFIED,
   },
 
   // Mental health
@@ -308,7 +296,6 @@ export const MOCK_RESOURCES: Resource[] = [
     walkIn: false,
     petsAllowed: false,
     free: true,
-    lastVerified: VERIFIED,
   },
   {
     id: "bridgeway-counseling",
@@ -329,7 +316,6 @@ export const MOCK_RESOURCES: Resource[] = [
     walkIn: false,
     petsAllowed: false,
     free: true,
-    lastVerified: VERIFIED,
   },
   {
     id: "peer-support-drop-in",
@@ -350,7 +336,6 @@ export const MOCK_RESOURCES: Resource[] = [
     walkIn: true,
     petsAllowed: true,
     free: true,
-    lastVerified: VERIFIED,
   },
 
   // Recovery
@@ -373,7 +358,6 @@ export const MOCK_RESOURCES: Resource[] = [
     walkIn: true,
     petsAllowed: false,
     free: true,
-    lastVerified: VERIFIED,
   },
   {
     id: "addiction-recovery-group",
@@ -394,7 +378,6 @@ export const MOCK_RESOURCES: Resource[] = [
     walkIn: true,
     petsAllowed: false,
     free: true,
-    lastVerified: VERIFIED,
   },
   {
     id: "sober-living-referral",
@@ -415,7 +398,6 @@ export const MOCK_RESOURCES: Resource[] = [
     walkIn: false,
     petsAllowed: false,
     free: true,
-    lastVerified: VERIFIED,
   },
 
   // Documents
@@ -438,7 +420,6 @@ export const MOCK_RESOURCES: Resource[] = [
     walkIn: true,
     petsAllowed: false,
     free: true,
-    lastVerified: VERIFIED,
   },
   {
     id: "benefits-help-desk",
@@ -459,7 +440,6 @@ export const MOCK_RESOURCES: Resource[] = [
     walkIn: true,
     petsAllowed: false,
     free: true,
-    lastVerified: VERIFIED,
   },
 
   // Transportation
@@ -482,7 +462,6 @@ export const MOCK_RESOURCES: Resource[] = [
     walkIn: true,
     petsAllowed: false,
     free: true,
-    lastVerified: VERIFIED,
   },
   {
     id: "volunteer-ride-line",
@@ -503,7 +482,6 @@ export const MOCK_RESOURCES: Resource[] = [
     walkIn: false,
     petsAllowed: true,
     free: true,
-    lastVerified: VERIFIED,
   },
 
   // Clothing & hygiene
@@ -526,7 +504,6 @@ export const MOCK_RESOURCES: Resource[] = [
     walkIn: true,
     petsAllowed: false,
     free: true,
-    lastVerified: VERIFIED,
   },
   {
     id: "shower-and-laundry-day",
@@ -547,6 +524,19 @@ export const MOCK_RESOURCES: Resource[] = [
     walkIn: true,
     petsAllowed: false,
     free: true,
-    lastVerified: VERIFIED,
   },
 ];
+
+// Spread "last checked" dates relative to today so the upkeep queue has a realistic mix of
+// current, due (30+ days) and overdue (60+ days) listings whenever the demo runs.
+const DAYS_AGO = [4, 38, 12, 71, 25, 33, 9, 64, 47, 18, 2, 55, 29, 88, 15, 41, 6, 35, 22, 62, 11, 50, 27, 7, 44];
+
+function daysAgo(n: number): string {
+  return new Date(Date.now() - n * 86_400_000).toISOString().slice(0, 10);
+}
+
+export const MOCK_RESOURCES: Resource[] = SEED.map((r, i) => ({
+  ...r,
+  status: "active",
+  lastVerified: daysAgo(DAYS_AGO[i % DAYS_AGO.length]),
+}));

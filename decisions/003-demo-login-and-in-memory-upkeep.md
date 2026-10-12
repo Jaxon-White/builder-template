@@ -1,7 +1,7 @@
 # Decision 003: Demo Microsoft login and in-memory saving until real backends exist
 
 **Date:** 2026-10-01
-**Status:** Active
+**Status:** Active (the planned real login changed from Microsoft to Church Account, see 004)
 
 ## Context
 

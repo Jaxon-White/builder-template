@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import Link from "next/link";
+import { signOut } from "@/app/login/actions";
+import { getUser } from "@/lib/auth";
 import { isSampleData } from "@/lib/data";
 import "./globals.css";
 
@@ -20,19 +22,43 @@ export const viewport: Viewport = {
   themeColor: "#1f5f5b",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  // Only used to show the header; access itself is checked in lib/data and each page.
+  const user = await getUser();
+
   return (
     <html lang="en" className={`${geistSans.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col font-sans">
         <header className="sticky top-0 z-10 border-b border-border bg-surface/95 backdrop-blur">
-          <div className="mx-auto flex max-w-md items-center justify-between px-4 py-3">
+          <div className="mx-auto flex max-w-md items-center justify-between gap-3 px-4 py-3">
             <Link href="/" className="text-lg font-semibold text-primary">
               Find Help
             </Link>
-            <Link href="/resources" className="text-sm font-medium text-muted hover:text-foreground">
-              All resources
-            </Link>
+            {user && (
+              <nav className="flex items-center gap-4 text-sm font-medium text-muted">
+                <Link href="/resources" className="hover:text-foreground">
+                  Resources
+                </Link>
+                {user.role === "upkeep" && (
+                  <Link href="/upkeep" className="hover:text-foreground">
+                    Upkeep
+                  </Link>
+                )}
+              </nav>
+            )}
           </div>
+          {user && (
+            <div className="mx-auto flex max-w-md items-center justify-between px-4 pb-2 text-xs text-muted">
+              <span>
+                Signed in as <span className="font-medium text-foreground">{user.name}</span>
+              </span>
+              <form action={signOut}>
+                <button type="submit" className="underline hover:text-foreground">
+                  Sign out
+                </button>
+              </form>
+            </div>
+          )}
         </header>
 
         {isSampleData && (

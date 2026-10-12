@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { ResourceCard } from "@/components/resource-card";
-import { resources } from "@/lib/data";
+import { getFinderResources } from "@/lib/data";
 import { parseIntake } from "@/lib/intake";
 import { matchResources } from "@/lib/match";
 import { CATEGORY_LABELS } from "@/lib/types";
 
 export default async function MatchesPage({ searchParams }: PageProps<"/matches">) {
   const answers = parseIntake(await searchParams);
-  const matches = matchResources(answers, await resources.getResources());
+  const matches = matchResources(answers, await getFinderResources());
   const needsText = answers.needs.map((n) => CATEGORY_LABELS[n].toLowerCase()).join(", ");
 
   return (

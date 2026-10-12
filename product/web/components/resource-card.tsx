@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Handoff } from "@/components/handoff";
+import { checkedAgoText, needsCallAhead } from "@/lib/freshness";
 import { CATEGORY_LABELS, type Resource } from "@/lib/types";
 
 export function OpenBadge({ open, always }: { open: boolean; always?: boolean }) {
@@ -10,6 +11,15 @@ export function OpenBadge({ open, always }: { open: boolean; always?: boolean })
       <span className={`h-2 w-2 rounded-full ${open ? "bg-open" : "bg-closed"}`} aria-hidden />
       {always ? "Open 24 hours" : open ? "Open now" : "Closed now"}
     </span>
+  );
+}
+
+export function CallAheadWarning({ unreachable }: { unreachable: boolean }) {
+  return (
+    <p className="rounded-xl bg-amber-50 px-3 py-2 text-sm text-amber-900">
+      {unreachable ? "Couldn't reach them on the last check." : "Not checked in over 2 months."} Call
+      ahead before sending someone.
+    </p>
   );
 }
 
@@ -38,8 +48,10 @@ export function ResourceCard({
           <p className="text-sm text-muted">{r.description}</p>
         )}
         <p className="text-sm text-muted">{r.hoursText}</p>
+        <p className="text-xs text-muted">{checkedAgoText(r)}</p>
         <span className="text-sm font-medium text-primary underline underline-offset-2">Details</span>
       </Link>
+      {needsCallAhead(r) && <CallAheadWarning unreachable={r.status === "unreachable"} />}
       <Handoff resource={r} />
     </article>
   );

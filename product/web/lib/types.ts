@@ -49,8 +49,12 @@ export const AUDIENCE_LABELS: Record<Audience, string> = {
 export const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] as const;
 export type Day = (typeof DAYS)[number];
 
+export type ResourceStatus = "active" | "closed" | "unreachable";
+
 export type Resource = {
   id: string;
+  /** Set by upkeep calls. Closed resources are hidden from the finder. */
+  status: ResourceStatus;
   name: string;
   category: Category;
   alsoOffers: Category[];
@@ -83,3 +87,38 @@ export type IntakeAnswers = {
   situations: Situation[];
   gender: Gender | null;
 };
+
+export type CheckOutcome = "running" | "closed" | "unreachable";
+
+export const OUTCOME_LABELS: Record<CheckOutcome, string> = {
+  running: "Still running",
+  closed: "Closed",
+  unreachable: "Couldn't reach",
+};
+
+/** One upkeep call. Maps to a row in a "Check Log" SharePoint list. */
+export type CheckLog = {
+  id: string;
+  resourceId: string;
+  /** ISO timestamp. */
+  at: string;
+  by: string;
+  outcome: CheckOutcome;
+  note: string;
+  changedFields: string[];
+};
+
+/** Fields an upkeep person can correct during a call. */
+export const EDITABLE_FIELDS = [
+  "phone",
+  "address",
+  "city",
+  "hoursText",
+  "opensAt",
+  "closesAt",
+  "openDays",
+  "eligibility",
+  "description",
+] as const;
+export type EditableField = (typeof EDITABLE_FIELDS)[number];
+export type ResourceChanges = Partial<Pick<Resource, EditableField | "status" | "lastVerified">>;
