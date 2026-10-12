@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist } from "next/font/google";
+import { Geist, Source_Serif_4 } from "next/font/google";
 import Link from "next/link";
 import { signOut } from "@/app/login/actions";
 import { getUser } from "@/lib/auth";
@@ -11,6 +11,11 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
+const sourceSerif = Source_Serif_4({
+  variable: "--font-source-serif",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
   title: "Find Help",
   description: "Help church leaders find shelter, food and care for someone in need.",
@@ -19,7 +24,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#1f5f5b",
+  themeColor: "#ffffff",
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
@@ -27,11 +32,11 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   const user = await getUser();
 
   return (
-    <html lang="en" className={`${geistSans.variable} h-full antialiased`}>
+    <html lang="en" className={`${geistSans.variable} ${sourceSerif.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col font-sans">
-        <header className="sticky top-0 z-10 border-b border-border bg-surface/95 backdrop-blur">
+        <header className="sticky top-0 z-10 border-b border-border bg-surface">
           <div className="mx-auto flex max-w-md items-center justify-between gap-3 px-4 py-3">
-            <Link href="/" className="text-lg font-semibold text-primary">
+            <Link href="/" className="font-serif text-xl font-semibold text-primary">
               Find Help
             </Link>
             {user && (
@@ -74,6 +79,10 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             In danger right now? Call <a href="tel:911" className="font-semibold text-foreground underline">911</a>.
             Mental health crisis: call or text{" "}
             <a href="tel:988" className="font-semibold text-foreground underline">988</a>.
+          </p>
+          <p className="mx-auto max-w-md px-4 pb-4 text-xs text-muted">
+            An independent project. Not an official website of The Church of Jesus Christ of
+            Latter-day Saints.
           </p>
         </footer>
       </body>

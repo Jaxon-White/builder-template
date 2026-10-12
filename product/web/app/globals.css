@@ -1,14 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f6f5f1;
+  --background: #f5f7f9;
   --surface: #ffffff;
-  --foreground: #1c2327;
-  --muted: #5b666d;
-  --border: #e2e0d9;
-  --primary: #1f5f5b;
-  --primary-hover: #174a47;
-  --primary-soft: #e3efed;
+  --foreground: #1f2933;
+  --muted: #5a6570;
+  --border: #dde2e7;
+  --primary: #1b3a5c;
+  --primary-hover: #132b45;
+  --primary-soft: #e6edf5;
   --open: #1d7a46;
   --closed: #8a5a12;
   color-scheme: light;
@@ -26,10 +26,17 @@
   --color-open: var(--open);
   --color-closed: var(--closed);
   --font-sans: var(--font-geist-sans);
+  --font-serif: var(--font-source-serif);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   -webkit-tap-highlight-color: transparent;
+}
+
+h1,
+h2 {
+  font-family: var(--font-serif);
+  letter-spacing: -0.01em;
 }
