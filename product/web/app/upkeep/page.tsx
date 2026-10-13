@@ -3,19 +3,22 @@ import { getAllResourcesForUpkeep } from "@/lib/data";
 import { checkedAgoText, daysSinceChecked, freshness, type Freshness } from "@/lib/freshness";
 import type { Resource } from "@/lib/types";
 
-type QueueStatus = Freshness | "unreachable" | "closed";
+type QueueStatus = Freshness | "unreachable" | "unconfirmed" | "closed";
 
 function queueStatus(r: Resource, now: Date): QueueStatus {
   if (r.status === "closed") return "closed";
   if (r.status === "unreachable") return "unreachable";
+  if (!r.lastVerified) return "unconfirmed";
   return freshness(r, now);
 }
 
-// Most urgent first: unreachable places may be gone, then overdue, due, current, closed.
-const ORDER: QueueStatus[] = ["unreachable", "overdue", "due", "current", "closed"];
+// Most urgent first: unreachable places may be gone, then never-confirmed, overdue, due,
+// current, closed.
+const ORDER: QueueStatus[] = ["unreachable", "unconfirmed", "overdue", "due", "current", "closed"];
 
 const BADGES: Record<QueueStatus, { label: string; className: string }> = {
   unreachable: { label: "Couldn't reach", className: "bg-rose-100 text-rose-900" },
+  unconfirmed: { label: "Not confirmed", className: "bg-rose-100 text-rose-900" },
   overdue: { label: "Overdue", className: "bg-rose-100 text-rose-900" },
   due: { label: "Due", className: "bg-amber-100 text-amber-900" },
   current: { label: "Up to date", className: "bg-emerald-100 text-emerald-900" },
@@ -30,10 +33,14 @@ export default async function UpkeepPage({ searchParams }: PageProps<"/upkeep">)
   const now = new Date();
   const rows = all
     .map((r) => ({ r, status: queueStatus(r, now), days: daysSinceChecked(r, now) }))
-    .sort((a, b) => ORDER.indexOf(a.status) - ORDER.indexOf(b.status) || b.days - a.days);
+    .sort(
+      (a, b) =>
+        ORDER.indexOf(a.status) - ORDER.indexOf(b.status) ||
+        (a.days === b.days ? a.r.name.localeCompare(b.r.name) : b.days > a.days ? 1 : -1),
+    );
 
   const count = (s: QueueStatus) => rows.filter((row) => row.status === s).length;
-  const toCall = count("overdue") + count("due") + count("unreachable");
+  const toCall = count("unconfirmed") + count("overdue") + count("due") + count("unreachable");
 
   return (
     <div className="space-y-5">
@@ -63,7 +70,7 @@ export default async function UpkeepPage({ searchParams }: PageProps<"/upkeep">)
 
       <div className="grid grid-cols-3 gap-2 text-center">
         <Stat value={toCall} label="To call" strong />
-        <Stat value={count("overdue") + count("unreachable")} label="Overdue / unreachable" />
+        <Stat value={count("unconfirmed") + count("overdue") + count("unreachable")} label="Overdue / unconfirmed" />
         <Stat value={count("current")} label="Up to date" />
       </div>
 

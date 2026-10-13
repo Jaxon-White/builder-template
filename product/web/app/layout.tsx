@@ -4,7 +4,7 @@ import Link from "next/link";
 import { signOut } from "@/app/login/actions";
 import { NavLink } from "@/components/nav-link";
 import { getUser } from "@/lib/auth";
-import { isSampleData } from "@/lib/data";
+import { dataNotice } from "@/lib/data";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -74,9 +74,9 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           )}
         </header>
 
-        {isSampleData && (
+        {dataNotice && (
           <div className="bg-amber-50 px-4 py-1.5 text-center text-xs text-amber-900">
-            Prototype · sample data, not real organizations
+            {dataNotice}
           </div>
         )}
 
