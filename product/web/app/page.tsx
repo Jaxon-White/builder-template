@@ -100,7 +100,7 @@ function OutreachHome() {
           {CATEGORIES.map((c) => (
             <Link
               key={c}
-              href={`/resources?category=${c}`}
+              href={`/resources?category=${c}&near=1`}
               className="flex min-h-12 items-center rounded-xl border border-border bg-surface px-4 text-sm font-medium hover:border-primary"
             >
               {CATEGORY_LABELS[c]}

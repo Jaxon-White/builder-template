@@ -79,6 +79,9 @@ export type Resource = {
   lastVerified: string;
   /** Where the details came from (URL), for anyone re-checking them. */
   source: string;
+  /** Approximate latitude and longitude of the street address. Missing when the address is confidential. */
+  lat?: number;
+  lng?: number;
 };
 
 export type Household = "alone" | "kids" | "partner";

@@ -35,10 +35,13 @@ export function ResourceCard({
   resource: r,
   openNow,
   reasons,
+  distanceLabel,
 }: {
   resource: Resource;
   openNow: boolean;
   reasons?: string[];
+  /** Shown under the name, e.g. "1.2 mi away" or "Location confidential, call first." */
+  distanceLabel?: string;
 }) {
   return (
     <article className="space-y-3 rounded-2xl border border-border bg-surface p-4 shadow-sm">
@@ -49,6 +52,7 @@ export function ResourceCard({
           </span>
           <OpenBadge open={openNow} always={r.open24h} unknown={!r.hoursKnown} />
         </div>
+        {distanceLabel && <p className="text-sm font-medium text-muted">{distanceLabel}</p>}
         <h3 className="text-lg font-semibold leading-snug">{r.name}</h3>
         {reasons && reasons.length > 0 ? (
           <p className="text-sm font-medium text-primary">{reasons.slice(0, 3).join(" · ")}</p>

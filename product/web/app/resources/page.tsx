@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ResourceCard } from "@/components/resource-card";
 import { getFinderResources } from "@/lib/data";
+import { milesFromProvo, NEARBY_RADIUS_MILES, distanceText } from "@/lib/geo";
 import { isOpenNow } from "@/lib/hours";
 import {
   AUDIENCE_LABELS,
@@ -12,7 +13,7 @@ import {
 
 const SERVES_FILTERS: Audience[] = ["families", "men", "women", "youth", "veterans"];
 
-type Filters = { q: string; category: string; open: string; serves: string };
+type Filters = { q: string; category: string; open: string; serves: string; near: string };
 
 function hrefWith(current: Filters, change: Partial<Filters>) {
   const next = { ...current, ...change };
@@ -25,12 +26,18 @@ function hrefWith(current: Filters, change: Partial<Filters>) {
 export default async function ResourcesPage({ searchParams }: PageProps<"/resources">) {
   const sp = await searchParams;
   const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v) ?? "";
-  const f: Filters = { q: one(sp.q), category: one(sp.category), open: one(sp.open), serves: one(sp.serves) };
+  const f: Filters = {
+    q: one(sp.q),
+    category: one(sp.category),
+    open: one(sp.open),
+    serves: one(sp.serves),
+    near: one(sp.near),
+  };
 
   const now = new Date();
   const query = f.q.trim().toLowerCase();
-  const results = (await getFinderResources())
-    .map((r) => ({ r, open: isOpenNow(r, now) }))
+  const matching = (await getFinderResources())
+    .map((r) => ({ r, open: isOpenNow(r, now), miles: milesFromProvo(r) }))
     .filter(({ r, open }) => {
       if (f.category && r.category !== f.category && !r.alsoOffers.includes(f.category as Category)) return false;
       if (f.open && !open) return false;
@@ -42,10 +49,34 @@ export default async function ResourcesPage({ searchParams }: PageProps<"/resour
         if (!haystack.includes(query)) return false;
       }
       return true;
-    })
-    .sort((a, b) => Number(b.open) - Number(a.open) || a.r.name.localeCompare(b.r.name));
+    });
 
-  const hasFilters = Boolean(f.q || f.category || f.open || f.serves);
+  // Browse by need (near=1): keep places within the radius, plus the confidential-address place
+  // (no coordinates) labeled as such. Nearest first, unknown distance last.
+  const nearMode = f.near === "1";
+  const results = (
+    nearMode
+      ? matching
+          .filter(({ miles }) => miles === null || miles <= NEARBY_RADIUS_MILES)
+          .sort(
+            (a, b) =>
+              (a.miles ?? Infinity) - (b.miles ?? Infinity) || a.r.name.localeCompare(b.r.name),
+          )
+      : matching.sort((a, b) => Number(b.open) - Number(a.open) || a.r.name.localeCompare(b.r.name))
+  ).map(({ r, open, miles }) => ({
+    r,
+    open,
+    distanceLabel: !nearMode
+      ? undefined
+      : miles !== null
+        ? distanceText(miles)
+        : r.address.toLowerCase().includes("confidential")
+          ? "Location confidential. Call first."
+          : undefined,
+  }));
+
+  const hasFilters = Boolean(f.q || f.category || f.open || f.serves || f.near);
+  const outsideCount = nearMode ? matching.length - results.length : 0;
 
   return (
     <div className="space-y-4">
@@ -55,6 +86,7 @@ export default async function ResourcesPage({ searchParams }: PageProps<"/resour
         {f.category && <input type="hidden" name="category" value={f.category} />}
         {f.open && <input type="hidden" name="open" value={f.open} />}
         {f.serves && <input type="hidden" name="serves" value={f.serves} />}
+        {f.near && <input type="hidden" name="near" value={f.near} />}
         <input
           type="search"
           name="q"
@@ -87,9 +119,19 @@ export default async function ResourcesPage({ searchParams }: PageProps<"/resour
         ))}
       </ChipRow>
 
+      {nearMode && (
+        <p className="rounded-xl bg-surface px-4 py-3 text-sm text-muted">
+          Showing places within {NEARBY_RADIUS_MILES} miles of Provo city center, nearest first.{" "}
+          <Link href={hrefWith(f, { near: "" })} className="font-medium text-primary underline">
+            Show places farther away
+          </Link>
+        </p>
+      )}
+
       <div className="flex items-center justify-between pt-1 text-sm text-muted">
         <span>
           {results.length} {results.length === 1 ? "result" : "results"}
+          {nearMode && outsideCount > 0 ? ` (${outsideCount} farther away not shown)` : ""}
         </span>
         {hasFilters && (
           <Link href="/resources" className="font-medium text-primary underline">
@@ -98,13 +140,28 @@ export default async function ResourcesPage({ searchParams }: PageProps<"/resour
         )}
       </div>
 
-      <ul className="space-y-3">
-        {results.map(({ r, open }) => (
-          <li key={r.id}>
-            <ResourceCard resource={r} openNow={open} />
-          </li>
-        ))}
-      </ul>
+      {results.length === 0 ? (
+        <div className="space-y-3 rounded-2xl border border-border bg-surface p-5">
+          <p>
+            {nearMode
+              ? `Nothing within ${NEARBY_RADIUS_MILES} miles of Provo city center for this need.`
+              : "Nothing matches these filters."}
+          </p>
+          {nearMode && (
+            <Link href={hrefWith(f, { near: "" })} className="font-medium text-primary underline">
+              Show places farther away
+            </Link>
+          )}
+        </div>
+      ) : (
+        <ul className="space-y-3">
+          {results.map(({ r, open, distanceLabel }) => (
+            <li key={r.id}>
+              <ResourceCard resource={r} openNow={open} distanceLabel={distanceLabel} />
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

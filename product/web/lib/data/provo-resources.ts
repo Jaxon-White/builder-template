@@ -5,12 +5,18 @@ import type { Day, Resource } from "@/lib/types";
 // it. Where listings disagreed on hours, `hoursKnown` is false and the app says "Call for hours".
 // Upkeep calls don't persist yet, so record phone-check results by editing this file.
 
+// Coordinates (lat, lng) are APPROXIMATE, estimated from each street address to within a
+// block or two. Check them on a map before relying on distances. The Refuge Utah has a
+// confidential address, so it has none.
+
 const ALL: Day[] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const WEEKDAYS: Day[] = ["Mon", "Tue", "Wed", "Thu", "Fri"];
 
 export const PROVO_RESOURCES: Resource[] = [
   {
     id: "food-and-care-coalition",
+    lat: 40.2175,
+    lng: -111.6514,
     status: "active",
     name: "Food & Care Coalition",
     category: "food",
@@ -36,6 +42,8 @@ export const PROVO_RESOURCES: Resource[] = [
   },
   {
     id: "community-action-services-food-bank",
+    lat: 40.2195,
+    lng: -111.67,
     status: "active",
     name: "Community Action Services & Food Bank",
     category: "food",
@@ -86,6 +94,8 @@ export const PROVO_RESOURCES: Resource[] = [
   },
   {
     id: "mountainlands-community-health-center",
+    lat: 40.2231,
+    lng: -111.6585,
     status: "active",
     name: "Mountainlands Community Health Center",
     category: "medical",
@@ -111,6 +121,8 @@ export const PROVO_RESOURCES: Resource[] = [
   },
   {
     id: "volunteer-care-clinic",
+    lat: 40.2228,
+    lng: -111.6585,
     status: "active",
     name: "Volunteer Care Clinic",
     category: "medical",
@@ -136,6 +148,8 @@ export const PROVO_RESOURCES: Resource[] = [
   },
   {
     id: "wasatch-receiving-center",
+    lat: 40.2392,
+    lng: -111.631,
     status: "active",
     name: "Wasatch Behavioral Health Receiving Center",
     category: "mental-health",
@@ -161,6 +175,8 @@ export const PROVO_RESOURCES: Resource[] = [
   },
   {
     id: "wasatch-substance-use-assessment",
+    lat: 40.292,
+    lng: -111.695,
     status: "active",
     name: "Wasatch Behavioral Health Substance Use Intake",
     category: "recovery",
@@ -186,6 +202,8 @@ export const PROVO_RESOURCES: Resource[] = [
   },
   {
     id: "dws-provo-employment-center",
+    lat: 40.262,
+    lng: -111.6635,
     status: "active",
     name: "Workforce Services, Provo Employment Center",
     category: "documents",
@@ -211,6 +229,8 @@ export const PROVO_RESOURCES: Resource[] = [
   },
   {
     id: "utah-county-vital-records",
+    lat: 40.231,
+    lng: -111.6561,
     status: "active",
     name: "Utah County Vital Records",
     category: "documents",
@@ -236,6 +256,8 @@ export const PROVO_RESOURCES: Resource[] = [
   },
   {
     id: "deseret-industries-provo",
+    lat: 40.259,
+    lng: -111.6585,
     status: "active",
     name: "Deseret Industries (Provo)",
     category: "clothing",
