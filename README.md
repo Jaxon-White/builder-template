@@ -3,7 +3,7 @@
 > A tool that helps bishops and Relief Society presidents find help for homeless people who
 > come to them. Not yet validated with those leaders.
 
-**Live:** [URL]
+**Live:** https://find-help-sooty.vercel.app (prototype: demo sign-in, sample data)
 **Built by:** Jaxon White, MSB 341 Product Management, BYU
 
 ## Context
