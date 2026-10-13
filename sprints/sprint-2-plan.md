@@ -34,6 +34,11 @@ Why:
 - **A DI worker with some access to the data** has been in email contact with me, but replies
   have been very slow, so that route hasn't gone anywhere yet.
 
+What I tried (details in `gtm/outreach-log.md`): a text to the professor on Oct 3 about
+database access, an email thread with the professor and the DI worker Oct 5–8 to get me
+access (still waiting on the DI worker), and two emails on Oct 12 that set up a meeting to
+demo the prototype to the professor.
+
 Where "done" stands:
 
 | Done looks like | Status |
@@ -43,6 +48,24 @@ Where "done" stands:
 | Pulls resources from the real data | Blocked: no access to the real data yet. The app is wired so it can be swapped in (`DATA_SOURCE`, decision 002) |
 | Professor and 3 DI workers have logged in and used it | Not yet: waiting on real data so they're testing real listings |
 
-**Next week:** meet with the professor now that they're back, get access to the real data
+**Next week:** demo the prototype to the professor at the meeting we scheduled, get access to the real data
 and connect it (keep following up with the DI worker by email in parallel), then invite the professor and the
 3 DI workers (see `gtm/experiments/001-di-worker-pilot.md`).
+
+---
+
+**Actual difficulty:** 4
+
+**Why it differed:** Building and deploying the app was easier than I expected, but everything
+the goal depended on from other people (the real data, meeting the professor, getting DI
+workers to try it) was harder and outside my control.
+
+**Retro:** I didn't hit the goal. The app is live at a real URL and requires sign-in, but it
+still runs on sample data with a demo login, and no one besides me has used it. The real data
+was blocked because the professor was out of town for two weeks and the DI worker I emailed
+was slow to reply, and without real data I held off on putting it in front of DI workers. I
+also rewrote the plan partway through and then did most of the work on the last day, with
+nothing between Oct 4 and Oct 11. Next sprint I'll start with the people side instead of the
+code: demo the app to the professor at the meeting we've now scheduled and get the data there, follow up with the DI worker
+on a set schedule instead of waiting, and get at least one DI worker to try the app even if
+some listings are still samples, so I learn whether they want it before building more.
