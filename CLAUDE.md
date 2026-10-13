@@ -16,7 +16,7 @@ a brand new session act like a colleague who already knows what you are working 
 ## Current state
 
 - **This sprint's goal:** [from sprints/sprint-N-plan.md, update each sprint]
-- **Live at:** [URL]
+- **Live at:** https://find-help-sooty.vercel.app (demo sign-in, sample data)
 - **Biggest open risk:** Assuming the church wants this app. The professor brought the idea;
   no bishop or Relief Society president has confirmed the need yet.
 
@@ -35,7 +35,7 @@ a brand new session act like a colleague who already knows what you are working 
 ## Stack and conventions
 
 - **Stack:** [fill in]
-- **Deploy:** [how a push becomes live]
+- **Deploy:** Vercel project `find-help` (root `product/web`). Not connected to GitHub yet, so deploy manually: `cd product/web && vercel deploy --prod`. `AUTH_SECRET` is set in Vercel.
 - **Testing and style:** [fill in as they emerge]
 
 ## Working with me

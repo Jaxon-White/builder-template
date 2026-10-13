@@ -14,7 +14,9 @@ export default async function MatchesPage({ searchParams }: PageProps<"/matches"
     <div className="space-y-5">
       <section className="space-y-1">
         <h1 className="text-2xl font-semibold">
-          {matches.length > 0 ? `${matches.length} places can help` : "No close matches"}
+          {matches.length === 0
+            ? "No close matches"
+            : `${matches.length} ${matches.length === 1 ? "place" : "places"} can help`}
         </h1>
         {needsText && <p className="text-sm text-muted">For: {needsText}. Best fit first.</p>}
         <Link href="/intake" className="inline-block pt-1 text-sm font-medium text-primary underline">
