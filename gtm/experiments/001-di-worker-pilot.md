@@ -1,6 +1,7 @@
 # Experiment 001: DI worker pilot
 
-**Dates:** planned 2026-10-19 → 2026-10-26 (moved from this week: real data not available yet)
+**Dates:** planned 2026-10-19 → 2026-10-26 (moved from this week: real data not available yet,
+because the professor was out of town for 2 weeks and the DI worker contact has been slow on email)
 **Channel:** in person, introduced through the professor
 
 ## Hypothesis
