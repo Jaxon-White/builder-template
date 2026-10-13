@@ -24,7 +24,7 @@ export async function signInDemo(formData: FormData) {
     path: "/",
     maxAge: SESSION_MAX_AGE,
   });
-  redirect(user.role === "upkeep" ? "/upkeep" : "/");
+  redirect("/");
 }
 
 export async function signOut() {

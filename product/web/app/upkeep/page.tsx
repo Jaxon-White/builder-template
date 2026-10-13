@@ -43,6 +43,17 @@ export default async function UpkeepPage({ searchParams }: PageProps<"/upkeep">)
         </p>
       )}
 
+      <Link
+        href="/intake"
+        className="flex items-center justify-between rounded-2xl bg-primary p-4 font-semibold text-white hover:bg-primary-hover"
+      >
+        <span>
+          Helping someone right now?
+          <span className="block text-sm font-normal text-white/80">Find shelter, food and care</span>
+        </span>
+        <span aria-hidden>→</span>
+      </Link>
+
       <section className="space-y-1">
         <h1 className="text-2xl font-semibold">Monthly upkeep calls</h1>
         <p className="text-sm text-muted">

@@ -18,7 +18,7 @@ function mapsHref(r: Resource) {
 
 function summary(r: Resource) {
   const where = hasStreetAddress(r) ? `${r.address}, ${r.city}` : r.address;
-  return [r.name, `Phone: ${r.phone}`, `Where: ${where}`, `Hours: ${r.hoursText}`, r.eligibility].join("\n");
+  return [r.name, `Phone: ${r.phone}`, `Where: ${where}`, `Hours: ${r.hoursText}`].join("\n");
 }
 
 /** Call, directions and share: the three things a leader does once they've found a place. */
