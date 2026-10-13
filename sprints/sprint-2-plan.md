@@ -26,6 +26,14 @@ almost intermediaries: they meet people with needs directly and connect them to 
 **Update 2026-10-12: roadblock on real data.** I couldn't get access to the real resource data
 this week, so the app still runs on sample data. I'll try again next week.
 
+Why:
+
+- **The professor was out of town for the last 2 weeks**, so we haven't been able to meet and
+  regroup. The real data is what the professor's group is using, so getting access depends
+  on that meeting.
+- **A DI worker with some access to the data** has been in email contact with me, but replies
+  have been very slow, so that route hasn't gone anywhere yet.
+
 Where "done" stands:
 
 | Done looks like | Status |
@@ -35,5 +43,6 @@ Where "done" stands:
 | Pulls resources from the real data | Blocked: no access to the real data yet. The app is wired so it can be swapped in (`DATA_SOURCE`, decision 002) |
 | Professor and 3 DI workers have logged in and used it | Not yet: waiting on real data so they're testing real listings |
 
-**Next week:** get access to the real data and connect it, then invite the professor and the
+**Next week:** meet with the professor now that they're back, get access to the real data
+and connect it (keep following up with the DI worker by email in parallel), then invite the professor and the
 3 DI workers (see `gtm/experiments/001-di-worker-pilot.md`).
