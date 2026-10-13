@@ -3,7 +3,14 @@
 *Written by `/sprint-review` on the last day of the sprint. Read it before you write your retro.*
 
 **Window:** 2026-09-28 to 2026-10-12
-**Sessions reviewed:** 3 across 2 projects (4 sessions excluded at your request)
+**Sessions reviewed:** 3 across 2 projects (Claude Code 3, Codex 0; 4 sessions excluded at your request)
+**Not visible to this review:** a text with the professor (Oct 3), an email thread with the professor and a DI worker (Oct 5–8), and two emails scheduling a demo (Oct 12). Summarized in `gtm/outreach-log.md`.
+
+## Where the work lives
+
+- **Repo:** https://github.com/Jaxon-White/builder-template (public). 18 commits in the window,
+  on Sep 28, Sep 29, Oct 1, Oct 3 and Oct 12. The app is in `product/web/`.
+- **Live:** https://find-help-sooty.vercel.app (demo sign-in, sample data)
 
 ## When you worked
 
@@ -57,6 +64,10 @@ and tested them in the browser.
 Sep 28 (27 prompts) was mostly the Sprint 1 review and pivot write-up. It falls at the very
 start of this window.
 
+## Learning sessions
+
+None logged this sprint.
+
 ## Axis
 
 **Application Architecture.** Most of the sprint's work was:
@@ -86,3 +97,19 @@ The goal was not met. One of the four "done" items is complete:
 The plan was rewritten on Oct 3, partway through the sprint. The original goal was a prototype
 to present to the professor. That prototype was built on Oct 1, but the presentation didn't
 happen because the professor was away.
+
+---
+
+## Your retro
+
+*The builder's own answers, recorded word for word.*
+
+**Did you hit the goal?** my goal was partly done. the app is completely developed but is missing the back end database to pull from.  the roadblock was out of my control, i thought getting access to the data base would be easy but so far it requires a lot more access permissions than expected.
+
+**What did the report show you?** i didnt realize that i was so focused on getting access that i didnt touch the app itself much.
+
+**If the plan changed, why?** i changed it because i got the prototype done and i really wanted to get to the next step not knowing how dificult it would be to get past the next roadblock
+
+**Actual difficulty:** 4. it was pretty easy to get the app done but getting access like i changed it to made it impossible to complete my goals fully
+
+**What will you change next sprint?** next sprint i will make sure that i set goals that are based on my own personal work not based on things that others have to do for me like gaining access to the database

@@ -51,21 +51,3 @@ Where "done" stands:
 **Next week:** demo the prototype to the professor at the meeting we scheduled, get access to the real data
 and connect it (keep following up with the DI worker by email in parallel), then invite the professor and the
 3 DI workers (see `gtm/experiments/001-di-worker-pilot.md`).
-
----
-
-**Actual difficulty:** 4
-
-**Why it differed:** Building and deploying the app was easier than I expected, but everything
-the goal depended on from other people (the real data, meeting the professor, getting DI
-workers to try it) was harder and outside my control.
-
-**Retro:** I didn't hit the goal. The app is live at a real URL and requires sign-in, but it
-still runs on sample data with a demo login, and no one besides me has used it. The real data
-was blocked because the professor was out of town for two weeks and the DI worker I emailed
-was slow to reply, and without real data I held off on putting it in front of DI workers. I
-also rewrote the plan partway through and then did most of the work on the last day, with
-nothing between Oct 4 and Oct 11. Next sprint I'll start with the people side instead of the
-code: demo the app to the professor at the meeting we've now scheduled and get the data there, follow up with the DI worker
-on a set schedule instead of waiting, and get at least one DI worker to try the app even if
-some listings are still samples, so I learn whether they want it before building more.

@@ -24,6 +24,12 @@ this project. See `decisions/001-pivot-to-church-homelessness-help.md`.
 If your situation changes, revise this and note what changed. That is normal; a silent
 mismatch between this file and your work is not.
 
+## Where the work lives
+
+- **Repo:** https://github.com/Jaxon-White/builder-template (this repo, public). The app is in
+  `product/web/`.
+- **Live:** https://find-help-sooty.vercel.app (prototype: demo sign-in, sample data)
+
 ## What is in this repo
 
 | Folder | What lives here |
