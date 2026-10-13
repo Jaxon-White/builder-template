@@ -25,6 +25,7 @@ function toMinutes(hhmm: string): number {
 
 export function isOpenNow(r: Resource, date = new Date()): boolean {
   if (r.open24h) return true;
+  if (!r.hoursKnown) return false;
   const { day, minutes } = localNow(date);
   const opens = toMinutes(r.opensAt);
   const closes = toMinutes(r.closesAt);

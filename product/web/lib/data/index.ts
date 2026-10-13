@@ -2,23 +2,35 @@ import "server-only";
 import { requireRole, requireUser } from "@/lib/auth";
 import type { CheckLog, Resource, ResourceChanges } from "@/lib/types";
 import type { ResourceSource } from "./source";
-import { mockSource } from "./mock-source";
+import { localSource, sampleSource } from "./mock-source";
 import { sharepointSource } from "./sharepoint-source";
+
+const DATA_SOURCE = process.env.DATA_SOURCE ?? "local";
 
 // The one place that decides where resource data comes from.
 function pickSource(): ResourceSource {
-  switch (process.env.DATA_SOURCE ?? "mock") {
+  switch (DATA_SOURCE) {
+    case "local":
+      return localSource;
+    case "sample":
+    case "mock": // older name for the sample data
+      return sampleSource;
     case "sharepoint":
       return sharepointSource;
-    case "mock":
-      return mockSource;
     default:
-      throw new Error(`Unknown DATA_SOURCE "${process.env.DATA_SOURCE}". Use "mock" or "sharepoint".`);
+      throw new Error(`Unknown DATA_SOURCE "${DATA_SOURCE}". Use "local", "sample" or "sharepoint".`);
   }
 }
 
 const source = pickSource();
-export const isSampleData = (process.env.DATA_SOURCE ?? "mock") === "mock";
+
+/** Banner text explaining what kind of data is showing, or null for none. */
+export const dataNotice: string | null =
+  DATA_SOURCE === "local"
+    ? "Prototype · real places, still being confirmed by phone. Call ahead."
+    : DATA_SOURCE === "sharepoint"
+      ? null
+      : "Prototype · sample data, not real organizations";
 
 // Data access layer: every read and write checks the session here, close to the data, so a
 // page or action that forgets to check can't leak anything.

@@ -31,6 +31,9 @@ export default async function MatchesPage({ searchParams }: PageProps<"/matches"
         </p>
       )}
 
+      {answers.needs.includes("shelter") &&
+        !matches.some((m) => m.resource.category === "shelter") && <NoShelterHelp />}
+
       {matches.length === 0 ? (
         <div className="space-y-3 rounded-2xl border border-border bg-surface p-5">
           <p>Nothing matched every answer. Try fewer needs, or browse everything.</p>
@@ -48,5 +51,33 @@ export default async function MatchesPage({ searchParams }: PageProps<"/matches"
         </ul>
       )}
     </div>
+  );
+}
+
+/**
+ * Utah County has no year-round general homeless shelter, so a "place to sleep" search usually
+ * finds nothing. Say so plainly and point to the real options.
+ */
+function NoShelterHelp() {
+  return (
+    <section className="space-y-2 rounded-2xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-950">
+      <h2 className="text-base font-semibold">No year-round shelter in Utah County</h2>
+      <p>For a place to sleep tonight, try:</p>
+      <ul className="list-disc space-y-1 pl-5">
+        <li>
+          <a href="tel:211" className="font-semibold underline">
+            Call 211
+          </a>{" "}
+          for current emergency options.
+        </li>
+        <li>
+          <a href="tel:8013738200" className="font-semibold underline">
+            Community Action Services, (801) 373-8200
+          </a>
+          : ask about emergency help for tonight.
+        </li>
+        <li>In winter (roughly mid-November to early March), the county runs an overnight warming center. 211 has the current location.</li>
+      </ul>
+    </section>
   );
 }

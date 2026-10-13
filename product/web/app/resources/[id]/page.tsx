@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { Handoff } from "@/components/handoff";
 import { CallAheadWarning, OpenBadge } from "@/components/resource-card";
 import { getResource } from "@/lib/data";
-import { checkedAgoText, needsCallAhead } from "@/lib/freshness";
+import { callAheadReason, checkedAgoText } from "@/lib/freshness";
 import { isOpenNow } from "@/lib/hours";
 import { AUDIENCE_LABELS, CATEGORY_LABELS } from "@/lib/types";
 
@@ -31,7 +31,7 @@ export default async function ResourcePage({ params }: PageProps<"/resources/[id
           {CATEGORY_LABELS[r.category]} · {r.city}
         </span>
         <h1 className="text-2xl font-semibold leading-snug">{r.name}</h1>
-        <OpenBadge open={isOpenNow(r)} always={r.open24h} />
+        <OpenBadge open={isOpenNow(r)} always={r.open24h} unknown={!r.hoursKnown} />
         <p className="text-base">{r.description}</p>
       </section>
 
@@ -40,7 +40,7 @@ export default async function ResourcePage({ params }: PageProps<"/resources/[id
           Marked closed on the last upkeep call. Don&apos;t send anyone here.
         </p>
       ) : (
-        needsCallAhead(r) && <CallAheadWarning unreachable={r.status === "unreachable"} />
+        callAheadReason(r) && <CallAheadWarning reason={callAheadReason(r)!} />
       )}
 
       <Handoff resource={r} size="lg" />
@@ -55,7 +55,16 @@ export default async function ResourcePage({ params }: PageProps<"/resources/[id
       </dl>
 
       <p className="text-xs text-muted">
-        {checkedAgoText(r)} ({r.lastVerified}). Call ahead to confirm.
+        {checkedAgoText(r)}
+        {r.lastVerified && ` (${r.lastVerified})`}. Call ahead to confirm.
+        {r.source && (
+          <>
+            {" "}
+            <a href={r.source} target="_blank" rel="noopener noreferrer" className="underline">
+              Where this info came from
+            </a>
+          </>
+        )}
       </p>
 
       <Link href="/resources" className="inline-block text-sm font-medium text-primary underline">

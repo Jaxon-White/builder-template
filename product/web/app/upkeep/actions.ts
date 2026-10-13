@@ -41,6 +41,10 @@ export async function recordCheck(resourceId: string, formData: FormData) {
     }
   }
 
+  if (changedFields.some((f) => f === "opensAt" || f === "closesAt" || f === "openDays")) {
+    changes.hoursKnown = true;
+  }
+
   const note = String(formData.get("note") ?? "").trim().slice(0, 1000);
   await saveCheck(resourceId, outcome, changes, changedFields, note);
 

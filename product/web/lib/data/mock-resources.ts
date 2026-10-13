@@ -6,7 +6,7 @@ import type { Day, Resource } from "@/lib/types";
 const ALL: Day[] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const WEEKDAYS: Day[] = ["Mon", "Tue", "Wed", "Thu", "Fri"];
 
-type SeedResource = Omit<Resource, "status" | "lastVerified">;
+type SeedResource = Omit<Resource, "status" | "lastVerified" | "hoursKnown" | "source">;
 
 const SEED: SeedResource[] = [
   // Shelter
@@ -538,5 +538,7 @@ function daysAgo(n: number): string {
 export const MOCK_RESOURCES: Resource[] = SEED.map((r, i) => ({
   ...r,
   status: "active",
+  hoursKnown: true,
+  source: "",
   lastVerified: daysAgo(DAYS_AGO[i % DAYS_AGO.length]),
 }));

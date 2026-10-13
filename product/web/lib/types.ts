@@ -65,6 +65,8 @@ export type Resource = {
   serves: Audience[];
   eligibility: string;
   hoursText: string;
+  /** False when listings disagree; the app says "Call for hours" instead of Open/Closed. */
+  hoursKnown: boolean;
   open24h: boolean;
   openDays: Day[];
   /** "HH:MM", 24-hour, local time. If closesAt <= opensAt the hours run overnight. */
@@ -73,8 +75,10 @@ export type Resource = {
   walkIn: boolean;
   petsAllowed: boolean;
   free: boolean;
-  /** ISO date the listing was last checked. */
+  /** ISO date someone last confirmed it by phone, or "" if never. */
   lastVerified: string;
+  /** Where the details came from (URL), for anyone re-checking them. */
+  source: string;
 };
 
 export type Household = "alone" | "kids" | "partner";
@@ -121,4 +125,4 @@ export const EDITABLE_FIELDS = [
   "description",
 ] as const;
 export type EditableField = (typeof EDITABLE_FIELDS)[number];
-export type ResourceChanges = Partial<Pick<Resource, EditableField | "status" | "lastVerified">>;
+export type ResourceChanges = Partial<Pick<Resource, EditableField | "status" | "lastVerified" | "hoursKnown">>;
