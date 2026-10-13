@@ -13,6 +13,14 @@ export const CATEGORIES = [
 ] as const;
 export type Category = (typeof CATEGORIES)[number];
 
+/**
+ * Needs hidden from the survey and browse lists because no verified resource offers them yet.
+ * Remove a category from here once a real, phone-confirmed resource exists for it.
+ * (Transportation: no real ride or bus pass program is listed yet.)
+ */
+export const HIDDEN_CATEGORIES: Category[] = ["transportation"];
+export const SHOWN_CATEGORIES = CATEGORIES.filter((c) => !HIDDEN_CATEGORIES.includes(c));
+
 export const CATEGORY_LABELS: Record<Category, string> = {
   shelter: "Shelter",
   food: "Food",

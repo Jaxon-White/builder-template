@@ -5,8 +5,8 @@ import { milesFromProvo, NEARBY_RADIUS_MILES, distanceText } from "@/lib/geo";
 import { isOpenNow } from "@/lib/hours";
 import {
   AUDIENCE_LABELS,
-  CATEGORIES,
   CATEGORY_LABELS,
+  SHOWN_CATEGORIES,
   type Audience,
   type Category,
 } from "@/lib/types";
@@ -101,7 +101,7 @@ export default async function ResourcesPage({ searchParams }: PageProps<"/resour
       </form>
 
       <ChipRow label="Need">
-        {CATEGORIES.map((c) => (
+        {SHOWN_CATEGORIES.map((c) => (
           <Chip key={c} href={hrefWith(f, { category: f.category === c ? "" : c })} active={f.category === c}>
             {CATEGORY_LABELS[c]}
           </Chip>

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { requireUser } from "@/lib/auth";
 import { getAllResourcesForUpkeep } from "@/lib/data";
 import { freshness } from "@/lib/freshness";
-import { CATEGORIES, CATEGORY_LABELS } from "@/lib/types";
+import { CATEGORY_LABELS, SHOWN_CATEGORIES } from "@/lib/types";
 
 export default async function Home({ searchParams }: PageProps<"/">) {
   const user = await requireUser();
@@ -97,7 +97,7 @@ function OutreachHome() {
       <section className="space-y-3">
         <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">Or browse by need</h2>
         <div className="grid grid-cols-2 gap-2">
-          {CATEGORIES.map((c) => (
+          {SHOWN_CATEGORIES.map((c) => (
             <Link
               key={c}
               href={`/resources?category=${c}&near=1`}

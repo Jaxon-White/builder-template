@@ -14,7 +14,6 @@ const NEEDS: Option<Category>[] = [
   { value: "mental-health", label: "Mental health / someone to talk to" },
   { value: "recovery", label: "Drug or alcohol recovery" },
   { value: "documents", label: "Replacing ID or applying for benefits" },
-  { value: "transportation", label: "A ride or bus pass" },
   { value: "clothing", label: "Clothes, a shower or laundry" },
 ];
 
