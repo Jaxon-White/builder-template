@@ -35,7 +35,7 @@ a brand new session act like a colleague who already knows what you are working 
 ## Stack and conventions
 
 - **Stack:** [fill in]
-- **Deploy:** Vercel project `find-help` (root `product/web`). Not connected to GitHub yet, so deploy manually: `cd product/web && vercel deploy --prod`. `AUTH_SECRET` is set in Vercel.
+- **Deploy:** Vercel project `find-help`, root directory `product/web`. Pushes to `main` go live; other branches get preview URLs. Manual deploy, from the repo root: `vercel deploy --prod`. `AUTH_SECRET` is set in Vercel.
 - **Testing and style:** [fill in as they emerge]
 
 ## Working with me
