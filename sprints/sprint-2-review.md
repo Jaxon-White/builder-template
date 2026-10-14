@@ -10,7 +10,7 @@
 
 - **Repo:** https://github.com/Jaxon-White/builder-template (public). 18 commits in the window,
   on Sep 28, Sep 29, Oct 1, Oct 3 and Oct 12. The app is in `product/web/`.
-- **Live:** https://find-help-sooty.vercel.app (demo sign-in, sample data)
+- **Live:** https://find-help-provo.vercel.app (demo sign-in, sample data)
 
 ## When you worked
 
@@ -84,7 +84,7 @@ have logged in and used it.
 
 The goal was not met. One of the four "done" items is complete:
 
-- **Deployed at a live URL:** done. https://find-help-sooty.vercel.app, auto-deploying from
+- **Deployed at a live URL:** done. https://find-help-provo.vercel.app, auto-deploying from
   `main`.
 - **Requires login:** partly done. Every page needs sign-in, but it is a demo picker that
   anyone with the link can use. Church Account sign-in is a stub until the Church approves

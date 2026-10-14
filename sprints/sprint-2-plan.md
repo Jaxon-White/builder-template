@@ -43,7 +43,7 @@ Where "done" stands:
 
 | Done looks like | Status |
 |---|---|
-| Deployed at a live URL | Done: https://find-help-sooty.vercel.app, auto-deploys from `main` |
+| Deployed at a live URL | Done: https://find-help-provo.vercel.app, auto-deploys from `main` |
 | Requires users to log in | Partly: every page needs sign-in, but it's a demo sign-in until Church Account is approved (decision 004) |
 | Pulls resources from the real data | Blocked: no access to the real data yet. The app is wired so it can be swapped in (`DATA_SOURCE`, decision 002) |
 | Professor and 3 DI workers have logged in and used it | Not yet: waiting on real data so they're testing real listings |

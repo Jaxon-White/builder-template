@@ -1,6 +1,6 @@
 # Prototype screens and flows: 2026-10-12
 
-Screenshots of the live prototype (https://find-help-sooty.vercel.app) at phone width, with
+Screenshots of the live prototype (https://find-help-provo.vercel.app) at phone width, with
 sample data. No one outside the team has used it yet, so there are no usability tests this
 week. The first ones come with the DI worker pilot.
 

@@ -8,7 +8,7 @@ Hi [first name],
 
 Thanks for talking with me. Here's the app I mentioned:
 
-https://find-help-sooty.vercel.app
+https://find-help-provo.vercel.app
 
 When someone needs help DI can't give, like a bed tonight, food, or medical care, tap
 "Find help for someone," answer a few quick questions, and it shows places nearby with a
