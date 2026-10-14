@@ -1,6 +1,8 @@
 import { isOpenNow } from "@/lib/hours";
 import {
+  CATEGORIES,
   CATEGORY_LABELS,
+  type Category,
   type Audience,
   type IntakeAnswers,
   type Resource,
@@ -12,6 +14,14 @@ export type Match = {
   reasons: string[];
   openNow: boolean;
 };
+
+/**
+ * Needs at least one resource covers, as its main category or something it also offers.
+ * Only these are offered as choices, so nobody is promised help the app can't point to.
+ */
+export function categoriesOffered(all: Resource[]): Category[] {
+  return CATEGORIES.filter((c) => all.some((r) => r.category === c || r.alsoOffers.includes(c)));
+}
 
 /** The groups this person belongs to, based on their answers. */
 function audiencesFor(a: IntakeAnswers): Audience[] {
