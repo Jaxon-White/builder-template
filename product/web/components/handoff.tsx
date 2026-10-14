@@ -29,7 +29,8 @@ export function Handoff({ resource, size = "md" }: { resource: Resource; size?: 
     const text = summary(resource);
     if (navigator.share) {
       try {
-        await navigator.share({ title: resource.name, text });
+        // No `title`: the text already starts with the name, and apps like Messages paste both.
+        await navigator.share({ text });
         return;
       } catch (e) {
         if ((e as Error).name === "AbortError") return;
