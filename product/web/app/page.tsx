@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { requireUser } from "@/lib/auth";
-import { getAllResourcesForUpkeep } from "@/lib/data";
+import { getAllResourcesForUpkeep, getFinderResources } from "@/lib/data";
 import { freshness } from "@/lib/freshness";
-import { CATEGORIES, CATEGORY_LABELS } from "@/lib/types";
+import { categoriesOffered } from "@/lib/match";
+import { CATEGORY_LABELS } from "@/lib/types";
 
 export default async function Home({ searchParams }: PageProps<"/">) {
   const user = await requireUser();
@@ -76,7 +77,9 @@ function Choice({ href, title, detail, primary }: { href: string; title: string;
   );
 }
 
-function OutreachHome() {
+async function OutreachHome() {
+  const offered = categoriesOffered(await getFinderResources());
+
   return (
     <>
       <section className="space-y-3 pt-2">
@@ -97,7 +100,7 @@ function OutreachHome() {
       <section className="space-y-3">
         <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">Or browse by need</h2>
         <div className="grid grid-cols-2 gap-2">
-          {CATEGORIES.map((c) => (
+          {offered.map((c) => (
             <Link
               key={c}
               href={`/resources?category=${c}`}

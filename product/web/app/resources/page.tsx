@@ -2,9 +2,9 @@ import Link from "next/link";
 import { ResourceCard } from "@/components/resource-card";
 import { getFinderResources } from "@/lib/data";
 import { isOpenNow } from "@/lib/hours";
+import { categoriesOffered } from "@/lib/match";
 import {
   AUDIENCE_LABELS,
-  CATEGORIES,
   CATEGORY_LABELS,
   type Audience,
   type Category,
@@ -29,7 +29,12 @@ export default async function ResourcesPage({ searchParams }: PageProps<"/resour
 
   const now = new Date();
   const query = f.q.trim().toLowerCase();
-  const results = (await getFinderResources())
+  const all = await getFinderResources();
+  // Keep an active filter visible even if nothing offers it any more, so it can be cleared.
+  const offered = categoriesOffered(all);
+  const active = f.category as Category;
+  const needChips = active in CATEGORY_LABELS && !offered.includes(active) ? [...offered, active] : offered;
+  const results = all
     .map((r) => ({ r, open: isOpenNow(r, now) }))
     .filter(({ r, open }) => {
       if (f.category && r.category !== f.category && !r.alsoOffers.includes(f.category as Category)) return false;
@@ -69,7 +74,7 @@ export default async function ResourcesPage({ searchParams }: PageProps<"/resour
       </form>
 
       <ChipRow label="Need">
-        {CATEGORIES.map((c) => (
+        {needChips.map((c) => (
           <Chip key={c} href={hrefWith(f, { category: f.category === c ? "" : c })} active={f.category === c}>
             {CATEGORY_LABELS[c]}
           </Chip>
