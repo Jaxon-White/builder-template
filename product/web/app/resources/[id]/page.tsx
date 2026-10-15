@@ -4,7 +4,7 @@ import { Handoff } from "@/components/handoff";
 import { CallAheadWarning, OpenBadge } from "@/components/resource-card";
 import { getResource } from "@/lib/data";
 import { callAheadReason, checkedAgoText } from "@/lib/freshness";
-import { isOpenNow } from "@/lib/hours";
+import { hoursSummary, isOpenNow } from "@/lib/hours";
 import { AUDIENCE_LABELS, CATEGORY_LABELS } from "@/lib/types";
 
 export default async function ResourcePage({ params }: PageProps<"/resources/[id]">) {
@@ -12,8 +12,14 @@ export default async function ResourcePage({ params }: PageProps<"/resources/[id
   const r = await getResource(id);
   if (!r) notFound();
 
-  const facts: [string, string][] = [
-    ["Hours", r.hoursText],
+  const facts: [string, React.ReactNode][] = [
+    [
+      "Hours",
+      <>
+        {hoursSummary(r)}
+        {r.hoursNote && <span className="block pt-1 text-muted">{r.hoursNote}</span>}
+      </>,
+    ],
     ["Where", `${r.address}, ${r.city}`],
     ["Phone", r.phone],
     ["Who it serves", r.serves.map((s) => AUDIENCE_LABELS[s]).join(", ")],

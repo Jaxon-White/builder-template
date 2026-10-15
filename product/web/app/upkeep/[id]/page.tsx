@@ -4,6 +4,7 @@ import { getAllResourcesForUpkeep, getChecks } from "@/lib/data";
 import { checkedAgoText } from "@/lib/freshness";
 import { DAYS, OUTCOME_LABELS, type CheckOutcome } from "@/lib/types";
 import { recordCheck } from "../actions";
+import { DailyHoursFields } from "./daily-hours-fields";
 
 const OUTCOME_HINTS: Record<CheckOutcome, string> = {
   running: "Marks it checked today",
@@ -15,10 +16,8 @@ const FIELD_LABELS: Record<string, string> = {
   phone: "phone",
   address: "address",
   city: "city",
-  hoursText: "hours",
-  opensAt: "opening time",
-  closesAt: "closing time",
-  openDays: "open days",
+  ...Object.fromEntries(DAYS.map((d) => [`hours${d}`, `${d} hours`])),
+  hoursNote: "hours note",
   eligibility: "eligibility",
   description: "description",
   website: "website",
@@ -88,31 +87,15 @@ export default async function RecordCallPage({ params, searchParams }: PageProps
             <Field label="Website">
               <input name="website" type="url" defaultValue={r.website} placeholder="https://" className={input} />
             </Field>
-            <Field label="Hours (as leaders will read it)">
-              <input name="hoursText" defaultValue={r.hoursText} className={input} />
+            <DailyHoursFields hours={r} />
+            <Field label="Hours note (optional)">
+              <input
+                name="hoursNote"
+                defaultValue={r.hoursNote}
+                placeholder="e.g. Walk-ins first come, first served"
+                className={input}
+              />
             </Field>
-            <div className="grid grid-cols-2 gap-3">
-              <Field label="Opens">
-                <input type="time" name="opensAt" defaultValue={r.opensAt} className={input} />
-              </Field>
-              <Field label="Closes">
-                <input type="time" name="closesAt" defaultValue={r.closesAt} className={input} />
-              </Field>
-            </div>
-            <fieldset>
-              <legend className="pb-1.5 text-sm font-medium text-muted">Open days</legend>
-              <div className="flex flex-wrap gap-1.5">
-                {DAYS.map((d) => (
-                  <label
-                    key={d}
-                    className="flex min-h-10 min-w-11 cursor-pointer items-center justify-center rounded-lg border border-border px-2 text-sm has-[:checked]:border-primary has-[:checked]:bg-primary has-[:checked]:text-white"
-                  >
-                    <input type="checkbox" name="openDays" value={d} defaultChecked={r.openDays.includes(d)} className="sr-only" />
-                    {d}
-                  </label>
-                ))}
-              </div>
-            </fieldset>
             <Field label="Eligibility">
               <textarea name="eligibility" defaultValue={r.eligibility} rows={2} className={`${input} py-2`} />
             </Field>

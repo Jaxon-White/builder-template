@@ -3,16 +3,17 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getResource, saveCheck } from "@/lib/data";
+import { DAY_HOURS } from "@/lib/hours";
 import {
-  DAYS,
+  DAY_HOURS_FIELDS,
   EDITABLE_FIELDS,
   type CheckOutcome,
   type Day,
+  type DayHoursField,
   type ResourceChanges,
 } from "@/lib/types";
 
 const OUTCOMES: CheckOutcome[] = ["running", "closed", "unreachable"];
-const TIME = /^([01]\d|2[0-3]):[0-5]\d$/;
 
 export async function recordCheck(resourceId: string, formData: FormData) {
   const outcome = formData.get("outcome") as CheckOutcome;
@@ -25,25 +26,29 @@ export async function recordCheck(resourceId: string, formData: FormData) {
   const changes: ResourceChanges = {};
   const changedFields: string[] = [];
   for (const field of EDITABLE_FIELDS) {
-    if (field === "openDays") {
-      const days = DAYS.filter((d) => formData.getAll("openDays").includes(d)) as Day[];
-      if (days.join() !== current.openDays.join()) {
-        changes.openDays = days;
+    if (DAY_HOURS_FIELDS.includes(field as DayHoursField)) {
+      const day = field.slice("hours".length) as Day;
+      const opens = String(formData.get(`opens-${day}`) ?? "");
+      const closes = String(formData.get(`closes-${day}`) ?? "");
+      const value = formData.get(`open-${day}`) ? `${opens}-${closes}` : "";
+      if (value && !DAY_HOURS.test(value)) continue;
+      if (value !== current[field as DayHoursField]) {
+        changes[field as DayHoursField] = value;
         changedFields.push(field);
       }
       continue;
     }
     const value = String(formData.get(field) ?? "").trim();
-    if ((field === "opensAt" || field === "closesAt") && !TIME.test(value)) continue;
     // Shown as a link to leaders, so only allow ordinary web addresses.
     if (field === "website" && value && !/^https?:\/\/[^\s]+$/i.test(value)) continue;
-    if (value && value !== current[field]) {
+    // The note can be cleared; other fields keep their value if left blank.
+    if ((value || field === "hoursNote") && value !== current[field]) {
       changes[field] = value;
       changedFields.push(field);
     }
   }
 
-  if (changedFields.some((f) => f === "opensAt" || f === "closesAt" || f === "openDays")) {
+  if (changedFields.some((f) => DAY_HOURS_FIELDS.includes(f as DayHoursField))) {
     changes.hoursKnown = true;
   }
 

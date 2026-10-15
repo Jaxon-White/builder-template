@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { hoursLine } from "@/lib/hours";
 import type { Resource } from "@/lib/types";
 
 function telHref(phone: string) {
@@ -18,7 +19,7 @@ function mapsHref(r: Resource) {
 
 function summary(r: Resource) {
   const where = hasStreetAddress(r) ? `${r.address}, ${r.city}` : r.address;
-  const lines = [r.name, `Phone: ${r.phone}`, `Where: ${where}`, `Hours: ${r.hoursText}`];
+  const lines = [r.name, `Phone: ${r.phone}`, `Where: ${where}`, `Hours: ${hoursLine(r)}`];
   if (r.website) lines.push(`Website: ${r.website}`);
   return lines.join("\n");
 }

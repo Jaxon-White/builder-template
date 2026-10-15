@@ -51,9 +51,13 @@ export const AUDIENCE_LABELS: Record<Audience, string> = {
 export const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] as const;
 export type Day = (typeof DAYS)[number];
 
+/** One text field per day so each maps to a SharePoint column: "hoursMon", "hoursTue", … */
+export type DayHoursField = `hours${Day}`;
+export const DAY_HOURS_FIELDS = DAYS.map((d) => `hours${d}` as DayHoursField);
+
 export type ResourceStatus = "active" | "closed" | "unreachable";
 
-export type Resource = {
+export type Resource = DailyHours & {
   id: string;
   /** Set by upkeep calls. Closed resources are hidden from the finder. */
   status: ResourceStatus;
@@ -66,14 +70,11 @@ export type Resource = {
   city: string;
   serves: Audience[];
   eligibility: string;
-  hoursText: string;
+  /** Optional extra detail times can't say, shown under the hours ("Walk-ins first come, first served"). */
+  hoursNote: string;
   /** False when listings disagree; the app says "Call for hours" instead of Open/Closed. */
   hoursKnown: boolean;
   open24h: boolean;
-  openDays: Day[];
-  /** "HH:MM", 24-hour, local time. If closesAt <= opensAt the hours run overnight. */
-  opensAt: string;
-  closesAt: string;
   walkIn: boolean;
   petsAllowed: boolean;
   free: boolean;
@@ -84,6 +85,12 @@ export type Resource = {
   /** Where the details came from (URL), for anyone re-checking them. */
   source: string;
 };
+
+/**
+ * Each day's hours as "HH:MM-HH:MM" (24-hour, local time), or "" when closed that day.
+ * If the closing time is at or before the opening time, the hours run overnight into the next day.
+ */
+export type DailyHours = Record<DayHoursField, string>;
 
 export type Household = "alone" | "kids" | "partner";
 export type Situation = "veteran" | "abuse" | "pets" | "youth" | "immigrant";
@@ -121,10 +128,8 @@ export const EDITABLE_FIELDS = [
   "phone",
   "address",
   "city",
-  "hoursText",
-  "opensAt",
-  "closesAt",
-  "openDays",
+  ...DAY_HOURS_FIELDS,
+  "hoursNote",
   "eligibility",
   "description",
   "website",

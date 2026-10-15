@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Handoff } from "@/components/handoff";
 import { callAheadReason, checkedAgoText, type CallAheadReason } from "@/lib/freshness";
+import { hoursLine } from "@/lib/hours";
 import { CATEGORY_LABELS, type Resource } from "@/lib/types";
 
 export function OpenBadge({ open, always, unknown }: { open: boolean; always?: boolean; unknown?: boolean }) {
@@ -55,7 +56,7 @@ export function ResourceCard({
         ) : (
           <p className="text-sm text-muted">{r.description}</p>
         )}
-        <p className="text-sm text-muted">{r.hoursText}</p>
+        <p className="text-sm text-muted">{hoursLine(r)}</p>
         {r.lastVerified && <p className="text-xs text-muted">{checkedAgoText(r)}</p>}
         <span className="text-sm font-medium text-primary underline underline-offset-2">Details</span>
       </Link>
