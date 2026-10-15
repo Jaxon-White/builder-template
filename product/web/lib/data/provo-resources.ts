@@ -1,6 +1,7 @@
 import type { Day, Resource } from "@/lib/types";
 
 // REAL places near Provo, gathered from public listings on 2026-10-12 (see each `source`).
+// `website` is each place's own site, checked to load on 2026-10-15 ("" if none found).
 // None have been confirmed by phone yet: `lastVerified` is "" until someone calls and records
 // it. Where listings disagreed on hours, `hoursKnown` is false and the app says "Call for hours".
 // Upkeep calls don't persist yet, so record phone-check results by editing this file.
@@ -32,6 +33,7 @@ export const PROVO_RESOURCES: Resource[] = [
     petsAllowed: false,
     free: true,
     lastVerified: "",
+    website: "https://foodandcare.org",
     source: "https://foodandcare.org",
   },
   {
@@ -57,6 +59,7 @@ export const PROVO_RESOURCES: Resource[] = [
     petsAllowed: false,
     free: true,
     lastVerified: "",
+    website: "https://communityactionprovo.org",
     source: "https://networks.whyhunger.org/organisation/21583",
   },
   {
@@ -82,6 +85,7 @@ export const PROVO_RESOURCES: Resource[] = [
     petsAllowed: false,
     free: true,
     lastVerified: "",
+    website: "https://therefugeutah.org",
     source: "https://uovc.concerncenter.utah.gov/resource/1976",
   },
   {
@@ -107,6 +111,7 @@ export const PROVO_RESOURCES: Resource[] = [
     petsAllowed: false,
     free: false,
     lastVerified: "",
+    website: "https://www.mountainlands.org",
     source: "https://feedam.org/resource/161543",
   },
   {
@@ -132,6 +137,7 @@ export const PROVO_RESOURCES: Resource[] = [
     petsAllowed: false,
     free: true,
     lastVerified: "",
+    website: "",
     source: "https://www.heraldextra.com/news/community/2022/dec/10/making-a-difference-volunteer-care-clinic-serves-underserved-keeps-utah-county-healthy",
   },
   {
@@ -157,6 +163,7 @@ export const PROVO_RESOURCES: Resource[] = [
     petsAllowed: false,
     free: true,
     lastVerified: "",
+    website: "https://www.wasatch.org",
     source: "https://www.uacnet.org/receiving-centers",
   },
   {
@@ -182,6 +189,7 @@ export const PROVO_RESOURCES: Resource[] = [
     petsAllowed: false,
     free: false,
     lastVerified: "",
+    website: "https://www.wasatch.org",
     source: "https://www.wasatch.org/substance-abuse-services/substance-use-screening/",
   },
   {
@@ -207,6 +215,7 @@ export const PROVO_RESOURCES: Resource[] = [
     petsAllowed: false,
     free: true,
     lastVerified: "",
+    website: "https://jobs.utah.gov",
     source: "https://utahdhhs.211utah.org/provider/department-workforce-services-provo-center",
   },
   {
@@ -232,6 +241,7 @@ export const PROVO_RESOURCES: Resource[] = [
     petsAllowed: false,
     free: false,
     lastVerified: "",
+    website: "https://health.utahcounty.gov/birth-death-certificates/order-a-birth-or-death-certificate/",
     source: "https://health.utahcounty.gov/?p=143",
   },
   {
@@ -257,6 +267,7 @@ export const PROVO_RESOURCES: Resource[] = [
     petsAllowed: false,
     free: false,
     lastVerified: "",
+    website: "https://www.deseretindustries.org",
     source: "https://search.earth911.com/location/Q1RQNVJYWVlDUg",
   },
 ];

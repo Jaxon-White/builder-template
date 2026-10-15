@@ -52,6 +52,16 @@ export default async function ResourcePage({ params }: PageProps<"/resources/[id
             <dd>{v}</dd>
           </div>
         ))}
+        {r.website && (
+          <div className="grid grid-cols-[7.5rem_1fr] gap-3 px-4 py-3 text-sm">
+            <dt className="font-medium text-muted">Website</dt>
+            <dd className="min-w-0 break-words">
+              <a href={r.website} target="_blank" rel="noopener noreferrer" className="font-medium text-primary underline">
+                {r.website.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")}
+              </a>
+            </dd>
+          </div>
+        )}
       </dl>
 
       <p className="text-xs text-muted">

@@ -35,6 +35,8 @@ export async function recordCheck(resourceId: string, formData: FormData) {
     }
     const value = String(formData.get(field) ?? "").trim();
     if ((field === "opensAt" || field === "closesAt") && !TIME.test(value)) continue;
+    // Shown as a link to leaders, so only allow ordinary web addresses.
+    if (field === "website" && value && !/^https?:\/\/[^\s]+$/i.test(value)) continue;
     if (value && value !== current[field]) {
       changes[field] = value;
       changedFields.push(field);

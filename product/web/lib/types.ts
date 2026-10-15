@@ -79,6 +79,8 @@ export type Resource = {
   free: boolean;
   /** ISO date someone last confirmed it by phone, or "" if never. */
   lastVerified: string;
+  /** The place's own website, shared with the person needing help, or "" if none. */
+  website: string;
   /** Where the details came from (URL), for anyone re-checking them. */
   source: string;
 };
@@ -125,6 +127,7 @@ export const EDITABLE_FIELDS = [
   "openDays",
   "eligibility",
   "description",
+  "website",
 ] as const;
 export type EditableField = (typeof EDITABLE_FIELDS)[number];
 export type ResourceChanges = Partial<Pick<Resource, EditableField | "status" | "lastVerified" | "hoursKnown">>;

@@ -21,6 +21,7 @@ const FIELD_LABELS: Record<string, string> = {
   openDays: "open days",
   eligibility: "eligibility",
   description: "description",
+  website: "website",
 };
 
 export default async function RecordCallPage({ params, searchParams }: PageProps<"/upkeep/[id]">) {
@@ -83,6 +84,9 @@ export default async function RecordCallPage({ params, searchParams }: PageProps
             </Field>
             <Field label="City">
               <input name="city" defaultValue={r.city} className={input} />
+            </Field>
+            <Field label="Website">
+              <input name="website" type="url" defaultValue={r.website} placeholder="https://" className={input} />
             </Field>
             <Field label="Hours (as leaders will read it)">
               <input name="hoursText" defaultValue={r.hoursText} className={input} />
