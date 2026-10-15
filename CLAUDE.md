@@ -17,7 +17,7 @@ a brand new session act like a colleague who already knows what you are working 
 ## Current state
 
 - **This sprint's goal:** Sprint 3: at least 10 real places in the live app, and UX feedback from a bishop, the professor and a DI worker (sprints/sprint-3-plan.md).
-- **Live at:** https://find-help-provo.vercel.app (demo sign-in, 10 real Provo-area places not yet confirmed by phone)
+- **Live at:** https://resource-navigator-provo.vercel.app (demo sign-in, 10 real Provo-area places not yet confirmed by phone)
 - **Biggest open risk:** Assuming the church wants this app. The professor brought the idea;
   no bishop or Relief Society president has confirmed the need yet.
 

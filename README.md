@@ -1,9 +1,9 @@
-# Homeless help finder for church leaders (working title)
+# Resource Navigator
 
 > A tool that helps bishops and Relief Society presidents find help for homeless people who
 > come to them. Not yet validated with those leaders.
 
-**Live:** https://find-help-provo.vercel.app (prototype: demo sign-in, 10 real Provo-area places not yet confirmed by phone)
+**Live:** https://resource-navigator-provo.vercel.app (prototype: demo sign-in, 10 real Provo-area places not yet confirmed by phone)
 **Built by:** Jaxon White, MSB 341 Product Management, BYU
 
 ## Context
@@ -28,7 +28,7 @@ mismatch between this file and your work is not.
 
 - **Repo:** https://github.com/Jaxon-White/builder-template (this repo, public). The app is in
   `product/web/`.
-- **Live:** https://find-help-provo.vercel.app (prototype: demo sign-in, 10 real Provo-area places not yet confirmed by phone)
+- **Live:** https://resource-navigator-provo.vercel.app (prototype: demo sign-in, 10 real Provo-area places not yet confirmed by phone)
 
 ## What is in this repo
 
