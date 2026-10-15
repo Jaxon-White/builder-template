@@ -18,7 +18,7 @@ const sourceSerif = Source_Serif_4({
 });
 
 export const metadata: Metadata = {
-  title: "Find Help",
+  title: "Resource Navigator",
   description: "Help church leaders find shelter, food and care for someone in need.",
 };
 
@@ -38,7 +38,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <header className="sticky top-0 z-10 bg-primary text-white">
           <div className="mx-auto flex max-w-md items-center justify-between gap-3 px-4 py-3">
             <Link href="/" className="shrink-0 whitespace-nowrap font-serif text-xl font-semibold text-white">
-              Find Help
+              Resource Navigator
             </Link>
             {user && (
               <nav className="-mr-2 flex items-center text-sm font-medium text-white/80">
