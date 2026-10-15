@@ -23,11 +23,6 @@ export function categoriesOffered(all: Resource[]): Category[] {
   return CATEGORIES.filter((c) => all.some((r) => r.category === c || r.alsoOffers.includes(c)));
 }
 
-/** True when at least one place specializes in serving immigrants. Until then the option stays hidden. */
-export function servesImmigrants(all: Resource[]): boolean {
-  return all.some((r) => r.serves.includes("immigrants"));
-}
-
 /** The groups this person belongs to, based on their answers. */
 function audiencesFor(a: IntakeAnswers): Audience[] {
   const out: Audience[] = ["everyone"];

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ResourceCard } from "@/components/resource-card";
 import { getFinderResources } from "@/lib/data";
 import { isOpenNow } from "@/lib/hours";
-import { categoriesOffered, servesImmigrants } from "@/lib/match";
+import { categoriesOffered } from "@/lib/match";
 import {
   AUDIENCE_LABELS,
   CATEGORY_LABELS,
@@ -10,7 +10,7 @@ import {
   type Category,
 } from "@/lib/types";
 
-const SERVES_FILTERS: Audience[] = ["families", "men", "women", "youth", "veterans"];
+const SERVES_FILTERS: Audience[] = ["families", "men", "women", "youth", "veterans", "immigrants"];
 
 type Filters = { q: string; category: string; open: string; serves: string };
 
@@ -85,7 +85,7 @@ export default async function ResourcesPage({ searchParams }: PageProps<"/resour
         <Chip href={hrefWith(f, { open: f.open ? "" : "1" })} active={Boolean(f.open)}>
           Open now
         </Chip>
-        {SERVES_FILTERS.concat(servesImmigrants(all) || f.serves === "immigrants" ? ["immigrants"] : []).map((a) => (
+        {SERVES_FILTERS.map((a) => (
           <Chip key={a} href={hrefWith(f, { serves: f.serves === a ? "" : a })} active={f.serves === a}>
             {AUDIENCE_LABELS[a]}
           </Chip>

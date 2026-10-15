@@ -39,7 +39,7 @@ const GENDERS: Option<Gender>[] = [
 
 const STEPS = 4;
 
-export function IntakeForm({ offered, immigrants }: { offered: Category[]; immigrants: boolean }) {
+export function IntakeForm({ offered }: { offered: Category[] }) {
   const router = useRouter();
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<IntakeAnswers>({
@@ -101,7 +101,7 @@ export function IntakeForm({ offered, immigrants }: { offered: Category[]; immig
 
         {step === 2 && (
           <Question title="Does any of this apply?" hint="Optional. Helps find places that specialize.">
-            {SITUATIONS.filter((o) => o.value !== "immigrant" || immigrants).map((o) => (
+            {SITUATIONS.map((o) => (
               <Choice
                 key={o.value}
                 label={o.label}
