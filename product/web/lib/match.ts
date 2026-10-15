@@ -23,6 +23,11 @@ export function categoriesOffered(all: Resource[]): Category[] {
   return CATEGORIES.filter((c) => all.some((r) => r.category === c || r.alsoOffers.includes(c)));
 }
 
+/** True when at least one place specializes in serving immigrants. Until then the option stays hidden. */
+export function servesImmigrants(all: Resource[]): boolean {
+  return all.some((r) => r.serves.includes("immigrants"));
+}
+
 /** The groups this person belongs to, based on their answers. */
 function audiencesFor(a: IntakeAnswers): Audience[] {
   const out: Audience[] = ["everyone"];
@@ -32,6 +37,7 @@ function audiencesFor(a: IntakeAnswers): Audience[] {
   if (a.situations.includes("youth")) out.push("youth");
   if (a.situations.includes("veteran")) out.push("veterans");
   if (a.situations.includes("abuse")) out.push("abuse-survivors");
+  if (a.situations.includes("immigrant")) out.push("immigrants");
   return out;
 }
 
@@ -94,6 +100,10 @@ export function matchResources(
     if (answers.situations.includes("youth") && r.serves.includes("youth")) {
       score += 2;
       reasons.push("For young people");
+    }
+    if (answers.situations.includes("immigrant") && r.serves.includes("immigrants")) {
+      score += 2;
+      reasons.push("For immigrants & refugees");
     }
     if (answers.household === "kids" && r.serves.includes("families")) {
       score += 1.5;

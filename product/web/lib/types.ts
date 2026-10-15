@@ -33,6 +33,7 @@ export const AUDIENCES = [
   "youth",
   "veterans",
   "abuse-survivors",
+  "immigrants",
 ] as const;
 export type Audience = (typeof AUDIENCES)[number];
 
@@ -44,6 +45,7 @@ export const AUDIENCE_LABELS: Record<Audience, string> = {
   youth: "Youth (under 25)",
   veterans: "Veterans",
   "abuse-survivors": "Abuse survivors",
+  immigrants: "Immigrants & refugees",
 };
 
 export const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] as const;
@@ -82,7 +84,7 @@ export type Resource = {
 };
 
 export type Household = "alone" | "kids" | "partner";
-export type Situation = "veteran" | "abuse" | "pets" | "youth";
+export type Situation = "veteran" | "abuse" | "pets" | "youth" | "immigrant";
 export type Gender = "man" | "woman";
 
 export type IntakeAnswers = {

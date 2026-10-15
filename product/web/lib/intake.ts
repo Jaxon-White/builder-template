@@ -18,7 +18,7 @@ function list(v: string | string[] | undefined): string[] {
 }
 
 const HOUSEHOLDS: Household[] = ["alone", "kids", "partner"];
-const SITUATIONS: Situation[] = ["veteran", "abuse", "pets", "youth"];
+const SITUATIONS: Situation[] = ["veteran", "abuse", "pets", "youth", "immigrant"];
 const GENDERS: Gender[] = ["man", "woman"];
 
 export function parseIntake(p: Params): IntakeAnswers {
