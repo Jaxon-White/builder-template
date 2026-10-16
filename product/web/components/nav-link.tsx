@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-/** Header tab that highlights while you're anywhere in its section. */
+/** One side of the header switch; shows as the white pill while you're anywhere in its section. */
 export function NavLink({ href, match, children }: { href: string; match: string[]; children: React.ReactNode }) {
   const pathname = usePathname();
   const active = match.some((m) => (m === "/" ? pathname === "/" : pathname.startsWith(m)));
@@ -11,7 +11,9 @@ export function NavLink({ href, match, children }: { href: string; match: string
     <Link
       href={href}
       aria-current={active ? "page" : undefined}
-      className={`whitespace-nowrap rounded-full px-2.5 py-1.5 ${active ? "bg-white/15 text-white" : "hover:text-white"}`}
+      className={`flex min-h-8 items-center whitespace-nowrap rounded-full px-[9px] text-[13px] ${
+        active ? "bg-white font-semibold text-primary shadow-sm" : "text-white/85 hover:text-white"
+      }`}
     >
       {children}
     </Link>

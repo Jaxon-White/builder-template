@@ -31,35 +31,45 @@ export const viewport: Viewport = {
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   // Only used to show the header; access itself is checked in lib/data and each page.
   const user = await getUser();
+  const isUpkeep = user?.role === "upkeep";
+  const switchInHeader = Boolean(user) && !isUpkeep;
+  const navSwitch = user && (
+    <nav aria-label="Sections" className="flex w-max rounded-full bg-white/15 p-[3px] font-medium">
+      {/* Upkeep volunteers' home is a chooser, so "Find help" goes straight to the questions. */}
+      <NavLink
+        href={isUpkeep ? "/intake" : "/"}
+        match={isUpkeep ? ["/intake", "/matches"] : ["/", "/intake", "/matches"]}
+      >
+        Find help
+      </NavLink>
+      <NavLink href="/resources" match={["/resources"]}>
+        Resources
+      </NavLink>
+      {isUpkeep && (
+        <NavLink href="/upkeep" match={["/upkeep"]}>
+          Upkeep
+        </NavLink>
+      )}
+    </nav>
+  );
 
   return (
     <html lang="en" className={`${geistSans.variable} ${sourceSerif.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col font-sans">
         <header className="sticky top-0 z-10 bg-primary text-white print:hidden">
-          <div className="mx-auto flex max-w-md items-center justify-between gap-3 px-4 py-3">
-            <Link href="/" className="shrink-0 whitespace-nowrap font-serif text-xl font-semibold text-white">
+          <div className="mx-auto flex max-w-md items-center justify-between gap-2 px-4 py-3">
+            <Link
+              href="/"
+              className={`shrink-0 whitespace-nowrap font-serif font-semibold text-white ${
+                switchInHeader ? "text-lg" : "text-xl"
+              }`}
+            >
               Resource Navigator
             </Link>
-            {user && (
-              <nav className="-mr-2 flex items-center text-sm font-medium text-white/80">
-                {/* Upkeep volunteers' home is a chooser, so "Find help" goes straight to the questions. */}
-                <NavLink
-                  href={user.role === "upkeep" ? "/intake" : "/"}
-                  match={user.role === "upkeep" ? ["/intake", "/matches"] : ["/", "/intake", "/matches"]}
-                >
-                  Find help
-                </NavLink>
-                <NavLink href="/resources" match={["/resources"]}>
-                  Resources
-                </NavLink>
-                {user.role === "upkeep" && (
-                  <NavLink href="/upkeep" match={["/upkeep"]}>
-                    Upkeep
-                  </NavLink>
-                )}
-              </nav>
-            )}
+            {switchInHeader && navSwitch}
           </div>
+          {/* Three tabs don't fit beside the title on a phone, so the switch gets its own row. */}
+          {isUpkeep && <div className="mx-auto max-w-md px-4 pb-3">{navSwitch}</div>}
           {user && (
             <div className="mx-auto flex max-w-md items-center justify-between px-4 pb-2 text-xs text-white/75">
               <span>
