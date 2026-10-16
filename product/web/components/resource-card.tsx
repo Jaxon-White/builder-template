@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Handoff } from "@/components/handoff";
-import { callAheadReason, checkedAgoText, type CallAheadReason } from "@/lib/freshness";
+import { callAheadReason, checkedAgoText, isVetted, type CallAheadReason } from "@/lib/freshness";
 import { hoursLine } from "@/lib/hours";
 import { CATEGORY_LABELS, type Resource } from "@/lib/types";
 
@@ -14,6 +14,22 @@ export function OpenBadge({ open, always, unknown }: { open: boolean; always?: b
     >
       <span className={`h-2 w-2 rounded-full ${open ? "bg-open" : "bg-closed"}`} aria-hidden />
       {always ? "Open 24 hours" : open ? "Open now" : "Closed now"}
+    </span>
+  );
+}
+
+/** Vetted = confirmed by phone recently (see isVetted). `detail` adds when it was checked. */
+export function VettedBadge({ resource: r, detail }: { resource: Resource; detail?: boolean }) {
+  const vetted = isVetted(r);
+  return (
+    <span
+      className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold ${
+        vetted ? "bg-emerald-50 text-emerald-800" : "bg-amber-50 text-amber-900"
+      }`}
+    >
+      <span aria-hidden>{vetted ? "✓" : "!"}</span>
+      {vetted ? "Vetted" : "Not vetted"}
+      {detail && vetted && <span className="font-normal">· {checkedAgoText(r).toLowerCase()}</span>}
     </span>
   );
 }
@@ -44,11 +60,14 @@ export function ResourceCard({
   return (
     <article className="space-y-3 rounded-2xl border border-border bg-surface p-4 shadow-sm">
       <Link href={`/resources/${r.id}`} className="block space-y-1.5">
-        <div className="flex items-center justify-between gap-2">
+        <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1">
           <span className="text-xs font-semibold uppercase tracking-wide text-muted">
             {CATEGORY_LABELS[r.category]} · {r.city}
           </span>
-          <OpenBadge open={openNow} always={r.open24h} unknown={!r.hoursKnown} />
+          <span className="flex items-center gap-2">
+            <VettedBadge resource={r} />
+            <OpenBadge open={openNow} always={r.open24h} unknown={!r.hoursKnown} />
+          </span>
         </div>
         <h3 className="text-lg font-semibold leading-snug">{r.name}</h3>
         {reasons && reasons.length > 0 ? (

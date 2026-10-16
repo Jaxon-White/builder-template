@@ -21,6 +21,10 @@ const FIELD_LABELS: Record<string, string> = {
   eligibility: "eligibility",
   description: "description",
   website: "website",
+  qualifiers: "who qualifies",
+  howToApply: "how to apply",
+  whatToBring: "what to bring",
+  languages: "languages",
 };
 
 export default async function RecordCallPage({ params, searchParams }: PageProps<"/upkeep/[id]">) {
@@ -96,8 +100,20 @@ export default async function RecordCallPage({ params, searchParams }: PageProps
                 className={input}
               />
             </Field>
-            <Field label="Eligibility">
+            <Field label="Eligibility (one-line summary)">
               <textarea name="eligibility" defaultValue={r.eligibility} rows={2} className={`${input} py-2`} />
+            </Field>
+            <Field label="Who qualifies (one per line)">
+              <textarea name="qualifiers" defaultValue={r.qualifiers.join("\n")} rows={4} className={`${input} py-2`} />
+            </Field>
+            <Field label="How to apply">
+              <textarea name="howToApply" defaultValue={r.howToApply} rows={3} className={`${input} py-2`} />
+            </Field>
+            <Field label="What to bring (one per line)">
+              <textarea name="whatToBring" defaultValue={r.whatToBring.join("\n")} rows={3} className={`${input} py-2`} />
+            </Field>
+            <Field label="Languages">
+              <input name="languages" defaultValue={r.languages} placeholder="e.g. Spanish spoken" className={input} />
             </Field>
             <Field label="Description">
               <textarea name="description" defaultValue={r.description} rows={3} className={`${input} py-2`} />

@@ -38,11 +38,24 @@ export async function recordCheck(resourceId: string, formData: FormData) {
       }
       continue;
     }
+    if (field === "qualifiers" || field === "whatToBring") {
+      // One item per line in the form.
+      const items = String(formData.get(field) ?? "")
+        .split("\n")
+        .map((line) => line.trim())
+        .filter(Boolean);
+      if (items.join("\n") !== current[field].join("\n")) {
+        changes[field] = items;
+        changedFields.push(field);
+      }
+      continue;
+    }
     const value = String(formData.get(field) ?? "").trim();
     // Shown as a link to leaders, so only allow ordinary web addresses.
     if (field === "website" && value && !/^https?:\/\/[^\s]+$/i.test(value)) continue;
-    // The note can be cleared; other fields keep their value if left blank.
-    if ((value || field === "hoursNote") && value !== current[field]) {
+    // These can be cleared; other fields keep their value if left blank.
+    const clearable = field === "hoursNote" || field === "howToApply" || field === "languages";
+    if ((value || clearable) && value !== current[field]) {
       changes[field] = value;
       changedFields.push(field);
     }

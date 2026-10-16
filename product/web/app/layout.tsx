@@ -35,7 +35,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${geistSans.variable} ${sourceSerif.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col font-sans">
-        <header className="sticky top-0 z-10 bg-primary text-white">
+        <header className="sticky top-0 z-10 bg-primary text-white print:hidden">
           <div className="mx-auto flex max-w-md items-center justify-between gap-3 px-4 py-3">
             <Link href="/" className="shrink-0 whitespace-nowrap font-serif text-xl font-semibold text-white">
               Resource Navigator
@@ -75,14 +75,14 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         </header>
 
         {dataNotice && (
-          <div className="bg-amber-50 px-4 py-1.5 text-center text-xs text-amber-900">
+          <div className="bg-amber-50 px-4 py-1.5 text-center text-xs text-amber-900 print:hidden">
             {dataNotice}
           </div>
         )}
 
-        <main className="mx-auto w-full max-w-md flex-1 px-4 pb-10 pt-5">{children}</main>
+        <main className="mx-auto w-full max-w-md flex-1 px-4 pb-10 pt-5 print:max-w-none print:p-0">{children}</main>
 
-        <footer className="bg-primary text-white/80">
+        <footer className="bg-primary text-white/80 print:hidden">
           <p className="mx-auto max-w-md px-4 py-4 text-sm">
             In danger right now? Call <a href="tel:911" className="font-semibold text-white underline">911</a>.
             Mental health crisis: call or text{" "}

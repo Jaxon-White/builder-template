@@ -36,3 +36,11 @@ export function callAheadReason(r: Resource, now = new Date()): CallAheadReason 
   if (freshness(r, now) === "overdue") return "stale";
   return null;
 }
+
+/**
+ * Vetted: a missionary confirmed it by phone in the last 60 days and reached them. Shown at a
+ * glance on cards so leaders can tell which listings have been checked.
+ */
+export function isVetted(r: Resource, now = new Date()): boolean {
+  return Boolean(r.lastVerified) && r.status !== "unreachable" && freshness(r, now) !== "overdue";
+}

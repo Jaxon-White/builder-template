@@ -3,7 +3,21 @@ import type { Resource } from "@/lib/types";
 // SAMPLE DATA. Organization names, addresses and phone numbers are made up.
 // Phone numbers use the 555-01xx range, which is reserved for fiction.
 
-type SeedResource = Omit<Resource, "status" | "lastVerified" | "hoursKnown" | "source" | "website">;
+type SeedResource = Omit<
+  Resource,
+  | "status"
+  | "lastVerified"
+  | "hoursKnown"
+  | "source"
+  | "website"
+  | "county"
+  | "state"
+  | "qualifiers"
+  | "howToApply"
+  | "whatToBring"
+  | "languages"
+  | "factSources"
+>;
 
 const SEED: SeedResource[] = [
   // Shelter
@@ -663,5 +677,13 @@ export const MOCK_RESOURCES: Resource[] = SEED.map((r, i) => ({
   hoursKnown: true,
   source: "",
   website: "",
+  county: "Utah County",
+  state: "UT",
+  // Made-up details so sample mode shows the full place page.
+  qualifiers: [r.eligibility],
+  howToApply: r.walkIn ? "Walk in during open hours." : "Call first to set up a time.",
+  whatToBring: ["Photo ID, if they have one"],
+  languages: "",
+  factSources: [],
   lastVerified: daysAgo(DAYS_AGO[i % DAYS_AGO.length]),
 }));

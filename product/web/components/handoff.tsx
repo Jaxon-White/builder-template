@@ -1,21 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { hasStreetAddress, mapsHref, telHref } from "@/lib/contact";
 import { hoursLine } from "@/lib/hours";
 import type { Resource } from "@/lib/types";
-
-function telHref(phone: string) {
-  return `tel:${phone.replace(/[^\d+]/g, "")}`;
-}
-
-function hasStreetAddress(r: Resource) {
-  return /\d/.test(r.address);
-}
-
-function mapsHref(r: Resource) {
-  const q = encodeURIComponent(`${r.address}, ${r.city}, UT`);
-  return `https://www.google.com/maps/search/?api=1&query=${q}`;
-}
 
 function summary(r: Resource) {
   const where = hasStreetAddress(r) ? `${r.address}, ${r.city}` : r.address;
@@ -24,7 +12,7 @@ function summary(r: Resource) {
   return lines.join("\n");
 }
 
-/** Call, directions and share: the three things a leader does once they've found a place. */
+/** Call, directions, share and print: the things a leader does once they've found a place. */
 export function Handoff({ resource, size = "md" }: { resource: Resource; size?: "md" | "lg" }) {
   const [copied, setCopied] = useState(false);
 
@@ -50,7 +38,7 @@ export function Handoff({ resource, size = "md" }: { resource: Resource; size?: 
       : "min-h-11 rounded-xl text-sm";
 
   return (
-    <div className="grid grid-cols-3 gap-2">
+    <div className="grid grid-cols-4 gap-2">
       <a
         href={telHref(resource.phone)}
         className={`${btn} flex items-center justify-center bg-primary font-semibold text-white hover:bg-primary-hover`}
@@ -81,6 +69,14 @@ export function Handoff({ resource, size = "md" }: { resource: Resource; size?: 
       >
         {copied ? "Copied" : "Share"}
       </button>
+      <a
+        href={`/resources/${resource.id}/print`}
+        target="_blank"
+        rel="noopener"
+        className={`${btn} flex items-center justify-center border border-border bg-surface font-semibold hover:border-primary`}
+      >
+        Print
+      </a>
     </div>
   );
 }

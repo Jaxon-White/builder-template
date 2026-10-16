@@ -6,6 +6,7 @@ import { categoriesOffered } from "@/lib/match";
 import {
   AUDIENCE_LABELS,
   CATEGORY_LABELS,
+  STATE_NAMES,
   type Audience,
   type Category,
 } from "@/lib/types";
@@ -28,7 +29,8 @@ export default async function ResourcesPage({ searchParams }: PageProps<"/resour
   const f: Filters = { q: one(sp.q), category: one(sp.category), open: one(sp.open), serves: one(sp.serves) };
 
   const now = new Date();
-  const query = f.q.trim().toLowerCase();
+  // Every word has to match somewhere, so "food utah county" finds food places in Utah County.
+  const words = f.q.trim().toLowerCase().split(/\s+/).filter(Boolean);
   const all = await getFinderResources();
   // Keep an active filter visible even if nothing offers it any more, so it can be cleared.
   const offered = categoriesOffered(all);
@@ -40,11 +42,22 @@ export default async function ResourcesPage({ searchParams }: PageProps<"/resour
       if (f.category && r.category !== f.category && !r.alsoOffers.includes(f.category as Category)) return false;
       if (f.open && !open) return false;
       if (f.serves && !r.serves.includes(f.serves as Audience) && !r.serves.includes("everyone")) return false;
-      if (query) {
-        const haystack = [r.name, r.description, r.city, CATEGORY_LABELS[r.category], r.eligibility]
+      if (words.length) {
+        const haystack = [
+          r.name,
+          r.description,
+          r.address,
+          r.city,
+          r.county,
+          r.state,
+          STATE_NAMES[r.state] ?? "",
+          CATEGORY_LABELS[r.category],
+          ...r.alsoOffers.map((c) => CATEGORY_LABELS[c]),
+          r.eligibility,
+        ]
           .join(" ")
           .toLowerCase();
-        if (!haystack.includes(query)) return false;
+        if (!words.every((w) => haystack.includes(w))) return false;
       }
       return true;
     })
@@ -64,7 +77,7 @@ export default async function ResourcesPage({ searchParams }: PageProps<"/resour
           type="search"
           name="q"
           defaultValue={f.q}
-          placeholder="Search by name, city or need"
+          placeholder="Search by name, city, county, state or need"
           aria-label="Search resources"
           className="min-h-12 flex-1 rounded-xl border border-border bg-surface px-4 text-base outline-none focus:border-primary"
         />

@@ -68,8 +68,23 @@ export type Resource = DailyHours & {
   phone: string;
   address: string;
   city: string;
+  /** e.g. "Utah County". Searchable. */
+  county: string;
+  /** Two-letter code, e.g. "UT". Searchable, along with the full name. */
+  state: string;
   serves: Audience[];
+  /** One-line summary of who qualifies; the full list is `qualifiers`. */
   eligibility: string;
+  // Details missionaries need on a call (decision 005: each from an official page in
+  // `factSources`; empty when no official page says it, and the app shows "Call to ask").
+  /** Who qualifies, one requirement per item. */
+  qualifiers: string[];
+  howToApply: string;
+  whatToBring: string[];
+  /** Languages offered beyond English, e.g. a Spanish helpline. */
+  languages: string;
+  /** The official pages the details above came from. */
+  factSources: string[];
   /** Optional extra detail times can't say, shown under the hours ("Walk-ins first come, first served"). */
   hoursNote: string;
   /** False when listings disagree; the app says "Call for hours" instead of Open/Closed. */
@@ -131,8 +146,15 @@ export const EDITABLE_FIELDS = [
   ...DAY_HOURS_FIELDS,
   "hoursNote",
   "eligibility",
+  "qualifiers",
+  "howToApply",
+  "whatToBring",
+  "languages",
   "description",
   "website",
 ] as const;
 export type EditableField = (typeof EDITABLE_FIELDS)[number];
 export type ResourceChanges = Partial<Pick<Resource, EditableField | "status" | "lastVerified" | "hoursKnown">>;
+
+/** Full state names so "Utah" finds places stored as "UT". Add states as places outside Utah are added. */
+export const STATE_NAMES: Record<string, string> = { UT: "Utah" };
