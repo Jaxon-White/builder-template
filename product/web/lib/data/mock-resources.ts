@@ -17,6 +17,8 @@ type SeedResource = Omit<
   | "whatToBring"
   | "languages"
   | "factSources"
+  | "seasonStart"
+  | "seasonEnd"
 >;
 
 const SEED: SeedResource[] = [
@@ -685,5 +687,7 @@ export const MOCK_RESOURCES: Resource[] = SEED.map((r, i) => ({
   whatToBring: ["Photo ID, if they have one"],
   languages: "",
   factSources: [],
+  seasonStart: "",
+  seasonEnd: "",
   lastVerified: daysAgo(DAYS_AGO[i % DAYS_AGO.length]),
 }));

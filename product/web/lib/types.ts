@@ -34,6 +34,8 @@ export const AUDIENCES = [
   "veterans",
   "abuse-survivors",
   "immigrants",
+  /** Adults without children with them (alone or as a couple), e.g. a warming center. */
+  "single-adults",
 ] as const;
 export type Audience = (typeof AUDIENCES)[number];
 
@@ -46,6 +48,7 @@ export const AUDIENCE_LABELS: Record<Audience, string> = {
   veterans: "Veterans",
   "abuse-survivors": "Abuse survivors",
   immigrants: "Immigrants & refugees",
+  "single-adults": "Single adults and couples (no children)",
 };
 
 export const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] as const;
@@ -90,6 +93,12 @@ export type Resource = DailyHours & {
   /** False when listings disagree; the app says "Call for hours" instead of Open/Closed. */
   hoursKnown: boolean;
   open24h: boolean;
+  /**
+   * For seasonal places: the first and last day it opens, "YYYY-MM-DD" ("" = all year).
+   * For overnight hours, the last day is the last night it opens (it closes the next morning).
+   */
+  seasonStart: string;
+  seasonEnd: string;
   walkIn: boolean;
   petsAllowed: boolean;
   free: boolean;

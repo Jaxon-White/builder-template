@@ -27,7 +27,7 @@ export default async function ResourcePage({ params }: PageProps<"/resources/[id
     ["Eligibility", r.eligibility],
     ["Walk-ins", r.walkIn ? "Yes" : "Call first"],
     ["Pets", r.petsAllowed ? "Allowed" : "Not allowed"],
-    ["Cost", r.free ? "Free" : "Fees apply; see details or call"],
+    ["Cost", r.free ? "Free" : "Ask about cost; see details"],
   ];
   if (r.alsoOffers.length) facts.push(["Also offers", r.alsoOffers.map((c) => CATEGORY_LABELS[c]).join(", ")]);
 

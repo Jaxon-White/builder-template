@@ -1,4 +1,4 @@
-import { isOpenNow } from "@/lib/hours";
+import { isOpenNow, outOfSeason } from "@/lib/hours";
 import {
   CATEGORIES,
   CATEGORY_LABELS,
@@ -29,6 +29,7 @@ function audiencesFor(a: IntakeAnswers): Audience[] {
   if (a.gender === "man") out.push("men");
   if (a.gender === "woman") out.push("women");
   if (a.household === "kids") out.push("families");
+  else out.push("single-adults");
   if (a.situations.includes("youth")) out.push("youth");
   if (a.situations.includes("veteran")) out.push("veterans");
   if (a.situations.includes("abuse")) out.push("abuse-survivors");
@@ -111,6 +112,12 @@ export function matchResources(
     if (r.walkIn) {
       score += 0.5;
       reasons.push("Walk-in");
+    }
+
+    // A seasonal place that isn't open yet (or anymore) can't help tonight, so it goes last.
+    if (outOfSeason(r, now)) {
+      score -= 10;
+      reasons.splice(1, reasons.length - 1, "Closed for the season");
     }
 
     matches.push({ resource: r, score, reasons, openNow });

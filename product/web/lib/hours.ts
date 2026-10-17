@@ -9,19 +9,42 @@ export const DAY_HOURS = /^([01]\d|2[0-3]):[0-5]\d-([01]\d|2[0-3]):[0-5]\d$/;
 /** Days in the order people read a week: Monday first. */
 const WEEK: Day[] = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-function localNow(date: Date): { day: Day; minutes: number } {
+function localNow(date: Date): { day: Day; minutes: number; ymd: string; yesterdayYmd: string } {
   const parts = new Intl.DateTimeFormat("en-US", {
     timeZone: TIME_ZONE,
     weekday: "short",
     hour: "2-digit",
     minute: "2-digit",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
     hourCycle: "h23",
   }).formatToParts(date);
   const get = (type: string) => parts.find((p) => p.type === type)?.value ?? "";
+  const ymd = `${get("year")}-${get("month")}-${get("day")}`;
+  const y = new Date(`${ymd}T12:00:00Z`);
+  y.setUTCDate(y.getUTCDate() - 1);
   return {
     day: get("weekday") as Day,
     minutes: Number(get("hour")) * 60 + Number(get("minute")),
+    ymd,
+    yesterdayYmd: y.toISOString().slice(0, 10),
   };
+}
+
+/** Whether a place opens on that local date, given its season ("" means all year). */
+function inSeason(r: Resource, ymd: string): boolean {
+  return (!r.seasonStart || ymd >= r.seasonStart) && (!r.seasonEnd || ymd <= r.seasonEnd);
+}
+
+/** Before or after its season (not just closed for the night). */
+export function outOfSeason(r: Resource, date = new Date()): boolean {
+  const { ymd, yesterdayYmd } = localNow(date);
+  return !inSeason(r, ymd) && !inSeason(r, yesterdayYmd);
+}
+
+function formatDate(ymd: string): string {
+  return new Date(`${ymd}T12:00:00Z`).toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
 }
 
 function toMinutes(hhmm: string): number {
@@ -38,18 +61,18 @@ function dayRange(hours: DailyHours, day: Day): { opens: number; closes: number 
 }
 
 export function isOpenNow(r: Resource, date = new Date()): boolean {
-  if (r.open24h) return true;
+  const { day, minutes, ymd, yesterdayYmd } = localNow(date);
+  if (r.open24h) return inSeason(r, ymd);
   if (!r.hoursKnown) return false;
-  const { day, minutes } = localNow(date);
 
-  const today = dayRange(r, day);
+  const today = inSeason(r, ymd) ? dayRange(r, day) : null;
   if (today) {
     const overnight = today.closes <= today.opens;
     if (minutes >= today.opens && (overnight || minutes < today.closes)) return true;
   }
 
   // Overnight hours from yesterday, e.g. Fri 6 PM – 8 AM is still open Saturday at 7 AM.
-  const yesterday = dayRange(r, DAYS[(DAYS.indexOf(day) + 6) % 7]);
+  const yesterday = inSeason(r, yesterdayYmd) ? dayRange(r, DAYS[(DAYS.indexOf(day) + 6) % 7]) : null;
   return Boolean(yesterday && yesterday.closes <= yesterday.opens && minutes < yesterday.closes);
 }
 
@@ -75,7 +98,13 @@ function formatDays(days: Day[]): string {
  * The hours as leaders read them, built from the daily hours so it always agrees with
  * Open/Closed: "Mon 9 AM – 6 PM; Tue – Sat 9 AM – 7 PM".
  */
-export function hoursSummary(r: Resource): string {
+export function hoursSummary(r: Resource, date = new Date()): string {
+  if (outOfSeason(r, date)) {
+    const { ymd } = localNow(date);
+    return r.seasonStart && ymd < r.seasonStart
+      ? `Closed for the season (opens ${formatDate(r.seasonStart)})`
+      : "Closed for the season";
+  }
   if (r.open24h) return "Open 24 hours";
   if (!r.hoursKnown) return "Call for hours";
 
