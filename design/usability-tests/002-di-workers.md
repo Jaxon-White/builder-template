@@ -19,14 +19,19 @@ They used the live app while I watched, then gave this feedback:
 
 ## Where they got stuck
 
+- **They overlooked the warnings (main takeaway).** Places that hadn't been confirmed showed
+  an amber "Call ahead before sending someone" note, but while I watched, both of them missed
+  it completely, so they couldn't tell at a glance which places were trustworthy.
 - **Not enough detail.** They compared the app with WSRS, which they already use, and found the
   place pages too thin to help someone.
 - **Wrong eligibility.** The SNAP listing said "Anyone can apply," which isn't how SNAP works.
   The line was written during AI-assisted research; the 211 listing it cites says nothing about
   eligibility (decision 005).
-- **Can't tell what's trustworthy.** Nothing showed at a glance whether a place had been vetted.
 
 ## What I am changing because of this
+
+Made the warnings easier to see with a "! Not vetted" badge on every place (spec 005, Oct 16).
+I really like how it works.
 
 All six, in spec 005. I don't have WSRS access yet, so details and qualifiers come from each
 program's official pages, with every fact linked to its source, until WSRS data is available.

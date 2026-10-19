@@ -24,7 +24,7 @@ one DI worker. My notes from each are in the repo.
   (`design/usability-tests/002-di-workers.md`).
 - **Oct 16:** Got feedback by email and updated the app the same day: place pages now show who
   qualifies, how to apply, what to bring, and the official source for each fact. SNAP shows its
-  real qualifiers. I also added a Vetted / Not vetted badge, county and state search, and a
+  real qualifiers. I also added a Vetted / Not vetted badge, because they had completely missed the old warnings, county and state search, and a
   Print button (spec 005). I added 4 more real places too, so every kind of help has at least
   one, plus seasonal hours (spec 006).
 
