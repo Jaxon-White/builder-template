@@ -11,3 +11,5 @@
 | 2026-10-12 | Professor | Email (2) | Asked to set up a meeting to demo the prototype | Demo meeting scheduled | Demo the live app; ask for data access and intros to 3 DI workers |
 | 2026-10-14 | Professor | Meeting | Demoed the live app; he tried it himself | He loved it and said it was so simple to use. I found a small bug with the Share button | Fix Share; meet the DI people tomorrow |
 | 2026-10-15 | People from DI | Meeting | Talked about the app; they reviewed it | Six changes: county/state search, a vetted mark, WSRS-level detail, correct SNAP qualifiers, fix the AI-written "anyone can apply", a Print button (design/usability-tests/002-di-workers.md) | Build spec 005; still need WSRS access |
+| 2026-10-15 | DI manager | Email (to other DI workers, copied to me) | Sent the notes from our meeting and asked other DI workers for feedback on the app | Feedback started coming in by email the next day | Read the feedback and update the app |
+| 2026-10-16 | DI workers | Email | Feedback on the app, following the manager's request | I updated the app the same day (specs 005 and 006) | Get WSRS access; get feedback from a bishop |
