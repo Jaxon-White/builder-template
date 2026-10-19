@@ -19,7 +19,7 @@ one DI worker. My notes from each are in the repo.
 
 - **Oct 14:** Demoed the live app to the professor. He tried it himself and said it was so
   simple to use. I found a small bug with Share and fixed it (`design/usability-tests/001-professor.md`).
-- **Oct 15:** Met with people from DI, who reviewed the app. After the meeting, one of the DI
+- **Oct 15:** Met with a DI manager and a DI worker and watched them use the app. After the meeting, one of the DI
   managers emailed the meeting notes to other DI workers and asked them for feedback
   (`design/usability-tests/002-di-workers.md`).
 - **Oct 16:** Got feedback by email and updated the app the same day: place pages now show who

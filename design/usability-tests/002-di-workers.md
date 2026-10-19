@@ -1,11 +1,11 @@
 # Usability test: 2026-10-15
 
-**Who:** People from DI who help people with needs and use WSRS resource information
-**Task I gave them:** Not recorded. We met to talk about the app and they reviewed it.
+**Who:** A DI manager and one DI worker, who help people with needs and use WSRS resource information
+**Task I gave them:** No set task. We met to talk about the app, and I watched them use it so I could see where they had trouble.
 
 ## What they did
 
-They reviewed the live app and gave this feedback:
+They used the live app while I watched, then gave this feedback:
 
 - Add counties and states to the "search by name, city, or need" option.
 - Mark whether each resource/organization has been vetted, so users can tell at a glance.
