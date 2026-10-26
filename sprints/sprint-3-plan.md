@@ -37,3 +37,8 @@ Where "done" stands:
 | Feedback from a DI worker | Done: `design/usability-tests/002-di-workers.md` |
 | Feedback from a bishop | Not yet |
 | Notes from each in the repo | Done for the professor and DI; the bishop is still to come |
+
+**Update 2026-10-26.**
+
+- **Oct 21:** The DI team emailed that there would be no meeting this week, so my Thursday
+  weekly meeting with them (Oct 22) was canceled.

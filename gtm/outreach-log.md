@@ -13,3 +13,4 @@
 | 2026-10-15 | DI manager and a DI worker | Meeting | Talked about the app; watched them use it | Six changes: county/state search, a vetted mark, WSRS-level detail, correct SNAP qualifiers, fix the AI-written "anyone can apply", a Print button (design/usability-tests/002-di-workers.md) | Build spec 005; still need WSRS access |
 | 2026-10-15 | DI manager | Email (to other DI workers, copied to me) | Sent the notes from our meeting and asked other DI workers for feedback on the app | Feedback started coming in by email the next day | Read the feedback and update the app |
 | 2026-10-16 | DI workers | Email | Feedback on the app, following the manager's request | I updated the app the same day (specs 005 and 006) | Get WSRS access; get feedback from a bishop |
+| 2026-10-21 | DI team | Email (from them) | Nothing; they wrote to the group | Our Thursday weekly meeting (Oct 22) was canceled | Confirm the next meeting date with DI |
