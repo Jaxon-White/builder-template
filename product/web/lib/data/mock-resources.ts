@@ -15,6 +15,7 @@ type SeedResource = Omit<
   | "qualifiers"
   | "howToApply"
   | "whatToBring"
+  | "tags"
   | "languages"
   | "factSources"
   | "seasonStart"
@@ -26,8 +27,8 @@ const SEED: SeedResource[] = [
   {
     id: "harbor-house-mens-shelter",
     name: "Harbor House Men's Shelter",
-    category: "shelter",
-    alsoOffers: ["food", "clothing"],
+    category: "homeless-services",
+    alsoOffers: ["food", "clothing-household"],
     description: "Emergency overnight beds for adult men. Dinner and breakfast included.",
     phone: "(801) 555-0101",
     address: "120 Sample Ave",
@@ -50,8 +51,8 @@ const SEED: SeedResource[] = [
   {
     id: "willow-womens-shelter",
     name: "Willow Women's Shelter",
-    category: "shelter",
-    alsoOffers: ["food", "clothing"],
+    category: "homeless-services",
+    alsoOffers: ["food", "clothing-household"],
     description: "Overnight shelter for women. Showers, laundry and case management.",
     phone: "(801) 555-0102",
     address: "48 Placeholder St",
@@ -74,7 +75,7 @@ const SEED: SeedResource[] = [
   {
     id: "hearthstone-family-shelter",
     name: "Hearthstone Family Shelter",
-    category: "shelter",
+    category: "homeless-services",
     alsoOffers: ["food"],
     description: "Keeps families with children together. Private rooms, help finding housing.",
     phone: "(801) 555-0103",
@@ -98,7 +99,7 @@ const SEED: SeedResource[] = [
   {
     id: "safe-harbor-crisis-center",
     name: "Safe Harbor Crisis Center",
-    category: "shelter",
+    category: "homeless-services",
     alsoOffers: ["mental-health"],
     description:
       "Confidential emergency shelter for people fleeing domestic violence, and their children. Location is not public.",
@@ -123,8 +124,8 @@ const SEED: SeedResource[] = [
   {
     id: "bridges-newcomer-center",
     name: "Bridges Newcomer Center",
-    category: "documents",
-    alsoOffers: ["food", "clothing"],
+    category: "id-replacement",
+    alsoOffers: ["food", "clothing-household"],
     description:
       "Help for immigrants and refugees: paperwork and benefits, English classes, a food pantry and clothing. Spanish spoken.",
     phone: "(801) 555-0106",
@@ -148,8 +149,8 @@ const SEED: SeedResource[] = [
   {
     id: "next-step-youth-center",
     name: "Next Step Youth Drop-In",
-    category: "shelter",
-    alsoOffers: ["food", "clothing", "documents"],
+    category: "homeless-services",
+    alsoOffers: ["food", "clothing-household", "id-replacement"],
     description: "Day center and emergency beds for young people. Meals, showers, school and job help.",
     phone: "(801) 555-0105",
     address: "315 Sample Way",
@@ -199,7 +200,7 @@ const SEED: SeedResource[] = [
     id: "valley-food-pantry",
     name: "Valley Food Pantry",
     category: "food",
-    alsoOffers: ["clothing"],
+    alsoOffers: ["clothing-household"],
     description: "Groceries and hygiene items. Bring a bag if you can.",
     phone: "(801) 555-0111",
     address: "1500 Placeholder Pkwy",
@@ -271,7 +272,7 @@ const SEED: SeedResource[] = [
     id: "mobile-meals-van",
     name: "Street Outreach Meal Van",
     category: "food",
-    alsoOffers: ["clothing", "medical"],
+    alsoOffers: ["clothing-household", "medical"],
     description: "A van that brings food, water, socks and first aid to where people are. Call for today's stops.",
     phone: "(801) 555-0114",
     address: "Rotating stops, call for location",
@@ -321,7 +322,7 @@ const SEED: SeedResource[] = [
     id: "veterans-health-outpost",
     name: "Veterans Health Outpost",
     category: "medical",
-    alsoOffers: ["mental-health", "shelter"],
+    alsoOffers: ["mental-health", "homeless-services"],
     description: "Medical care and housing help for veterans, including emergency housing referrals.",
     phone: "(801) 555-0121",
     address: "1 Example Plaza",
@@ -371,7 +372,7 @@ const SEED: SeedResource[] = [
     id: "county-crisis-line",
     name: "County Mental Health Crisis Team",
     category: "mental-health",
-    alsoOffers: ["recovery"],
+    alsoOffers: ["addiction"],
     description: "24-hour crisis line. A mobile team can come to you.",
     phone: "(801) 555-0130",
     address: "Mobile team, comes to you",
@@ -395,7 +396,7 @@ const SEED: SeedResource[] = [
     id: "bridgeway-counseling",
     name: "Bridgeway Counseling Center",
     category: "mental-health",
-    alsoOffers: ["recovery"],
+    alsoOffers: ["addiction"],
     description: "Same-week counseling appointments. Free for people experiencing homelessness.",
     phone: "(801) 555-0131",
     address: "88 Example St",
@@ -444,7 +445,7 @@ const SEED: SeedResource[] = [
   {
     id: "detox-receiving-center",
     name: "Receiving & Detox Center",
-    category: "recovery",
+    category: "addiction",
     alsoOffers: ["mental-health", "medical"],
     description: "Walk-in withdrawal management and same-day referral to treatment.",
     phone: "(801) 555-0140",
@@ -468,7 +469,7 @@ const SEED: SeedResource[] = [
   {
     id: "addiction-recovery-group",
     name: "Addiction Recovery Support Group",
-    category: "recovery",
+    category: "addiction",
     alsoOffers: [],
     description: "Weekly 12-step style recovery meetings at several local meetinghouses.",
     phone: "(801) 555-0141",
@@ -492,8 +493,8 @@ const SEED: SeedResource[] = [
   {
     id: "sober-living-referral",
     name: "Sober Living Referral Line",
-    category: "recovery",
-    alsoOffers: ["shelter"],
+    category: "addiction",
+    alsoOffers: ["homeless-services"],
     description: "Finds open beds in sober living homes, including scholarship beds.",
     phone: "(801) 555-0142",
     address: "Phone only",
@@ -518,7 +519,7 @@ const SEED: SeedResource[] = [
   {
     id: "id-recovery-project",
     name: "ID Recovery Project",
-    category: "documents",
+    category: "id-replacement",
     alsoOffers: [],
     description: "Helps replace a lost state ID, birth certificate or Social Security card, and pays the fees.",
     phone: "(801) 555-0150",
@@ -542,7 +543,7 @@ const SEED: SeedResource[] = [
   {
     id: "benefits-help-desk",
     name: "Benefits Help Desk",
-    category: "documents",
+    category: "id-replacement",
     alsoOffers: ["food"],
     description: "Help applying for food stamps (SNAP), Medicaid and other benefits. Can use their address for mail.",
     phone: "(801) 555-0151",
@@ -618,7 +619,7 @@ const SEED: SeedResource[] = [
   {
     id: "good-neighbor-closet",
     name: "Good Neighbor Clothing Closet",
-    category: "clothing",
+    category: "clothing-household",
     alsoOffers: [],
     description: "Free coats, shoes, clothes and sleeping bags. Seasonal gear in winter.",
     phone: "(801) 555-0170",
@@ -642,7 +643,7 @@ const SEED: SeedResource[] = [
   {
     id: "shower-and-laundry-day",
     name: "Fresh Start Showers & Laundry",
-    category: "clothing",
+    category: "clothing-household",
     alsoOffers: [],
     description: "Free hot showers, toiletries and laundry machines.",
     phone: "(801) 555-0171",
@@ -685,6 +686,7 @@ export const MOCK_RESOURCES: Resource[] = SEED.map((r, i) => ({
   qualifiers: [r.eligibility],
   howToApply: r.walkIn ? "Walk in during open hours." : "Call first to set up a time.",
   whatToBring: ["Photo ID, if they have one"],
+  tags: [],
   languages: "",
   factSources: [],
   seasonStart: "",

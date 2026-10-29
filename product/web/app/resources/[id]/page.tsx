@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Handoff } from "@/components/handoff";
-import { CallAheadWarning, OpenBadge, VettedBadge } from "@/components/resource-card";
+import { CallAheadWarning, OpenBadge, TagChips, VettedBadge } from "@/components/resource-card";
 import { getResource } from "@/lib/data";
 import { callAheadReason, checkedAgoText } from "@/lib/freshness";
 import { hoursSummary, isOpenNow } from "@/lib/hours";
@@ -43,6 +43,7 @@ export default async function ResourcePage({ params }: PageProps<"/resources/[id
           <OpenBadge open={isOpenNow(r)} always={r.open24h} unknown={!r.hoursKnown} />
         </div>
         <p className="text-base">{r.description}</p>
+        <TagChips tags={r.tags} />
       </section>
 
       {r.status === "closed" ? (

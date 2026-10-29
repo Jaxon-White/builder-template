@@ -24,6 +24,7 @@ const FIELD_LABELS: Record<string, string> = {
   qualifiers: "who qualifies",
   howToApply: "how to apply",
   whatToBring: "what to bring",
+  tags: "tags",
   languages: "languages",
 };
 
@@ -111,6 +112,9 @@ export default async function RecordCallPage({ params, searchParams }: PageProps
             </Field>
             <Field label="What to bring (one per line)">
               <textarea name="whatToBring" defaultValue={r.whatToBring.join("\n")} rows={3} className={`${input} py-2`} />
+            </Field>
+            <Field label="Tags, what it offers and who it's for (one per line)">
+              <textarea name="tags" defaultValue={r.tags.join("\n")} rows={4} className={`${input} py-2`} />
             </Field>
             <Field label="Languages">
               <input name="languages" defaultValue={r.languages} placeholder="e.g. Spanish spoken" className={input} />

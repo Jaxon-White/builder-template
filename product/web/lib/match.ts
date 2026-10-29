@@ -2,6 +2,7 @@ import { isOpenNow, outOfSeason } from "@/lib/hours";
 import {
   CATEGORIES,
   CATEGORY_LABELS,
+  SITUATION_CATEGORY,
   type Category,
   type Audience,
   type IntakeAnswers,
@@ -21,6 +22,12 @@ export type Match = {
  */
 export function categoriesOffered(all: Resource[]): Category[] {
   return CATEGORIES.filter((c) => all.some((r) => r.category === c || r.alsoOffers.includes(c)));
+}
+
+/** The needs picked, plus the programs for any group they belong to (veteran, older adult, …). */
+export function searchedCategories(a: IntakeAnswers): Category[] {
+  const groups = a.situations.map((s) => SITUATION_CATEGORY[s]).filter((c): c is Category => !!c);
+  return [...new Set([...a.needs, ...groups])];
 }
 
 /** The groups this person belongs to, based on their answers. */
@@ -57,11 +64,13 @@ export function matchResources(
   now = new Date(),
 ): Match[] {
   const matches: Match[] = [];
+  const searched = searchedCategories(answers);
+  const offersFor = (r: Resource, c: Category) => r.category === c || r.alsoOffers.includes(c);
 
   for (const r of all) {
-    const primary = answers.needs.includes(r.category);
-    const secondary = r.alsoOffers.filter((c) => answers.needs.includes(c));
-    if (answers.needs.length > 0 && !primary && secondary.length === 0) continue;
+    const primary = searched.includes(r.category);
+    const secondary = r.alsoOffers.filter((c) => searched.includes(c));
+    if (searched.length > 0 && !primary && secondary.length === 0) continue;
     if (!isEligible(r, answers)) continue;
 
     const reasons: string[] = [];
@@ -69,7 +78,7 @@ export function matchResources(
 
     if (primary) {
       // A bed tonight is the most time-sensitive need, so it outranks the others.
-      score += r.category === "shelter" ? 4 : 3;
+      score += r.category === "homeless-services" ? 4 : 3;
       reasons.push(CATEGORY_LABELS[r.category]);
     } else {
       score += 1.5;
@@ -89,13 +98,26 @@ export function matchResources(
       score += 3;
       reasons.unshift("Confidential help for abuse survivors");
     }
-    if (answers.situations.includes("veteran") && r.serves.includes("veterans")) {
+    const forVeterans = r.serves.includes("veterans") || offersFor(r, "veterans");
+    if (answers.situations.includes("veteran") && forVeterans) {
       score += 2;
       reasons.push("For veterans");
     }
     if (answers.situations.includes("youth") && r.serves.includes("youth")) {
       score += 2;
       reasons.push("For young people");
+    }
+    if (answers.situations.includes("senior") && offersFor(r, "seniors")) {
+      score += 2;
+      reasons.push("For older adults");
+    }
+    if (answers.situations.includes("disability-approved") && offersFor(r, "disability")) {
+      score += 2;
+      reasons.push("For people approved for disability benefits");
+    }
+    if (answers.situations.includes("reentry") && offersFor(r, "reentry")) {
+      score += 2;
+      reasons.push("For people leaving jail or prison");
     }
     if (answers.situations.includes("immigrant") && r.serves.includes("immigrants")) {
       score += 2;

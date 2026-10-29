@@ -7,15 +7,26 @@ import type { Category, Gender, Household, IntakeAnswers, Situation } from "@/li
 
 type Option<T> = { value: T; label: string; hint?: string };
 
-const NEEDS: Option<Category>[] = [
-  { value: "shelter", label: "A place to sleep tonight" },
-  { value: "food", label: "Food" },
-  { value: "medical", label: "Medical care" },
-  { value: "mental-health", label: "Mental health / someone to talk to" },
-  { value: "recovery", label: "Drug or alcohol recovery" },
-  { value: "documents", label: "Replacing ID or applying for benefits" },
-  { value: "transportation", label: "A ride or bus pass" },
-  { value: "clothing", label: "Clothes, a shower or laundry" },
+type Need = { categories: Category[]; label: string; more?: boolean };
+
+// Church HQ's categories (decision 006) in plain words, most urgent first. Veterans, Seniors,
+// Reentry and approved disability are asked as situations instead; `more` ones start hidden.
+const NEEDS: Need[] = [
+  { categories: ["homeless-services"], label: "A place to sleep, meals, showers or mail" },
+  { categories: ["food"], label: "Food" },
+  { categories: ["domestic-violence"], label: "Safety from abuse or violence" },
+  { categories: ["medical"], label: "Medical, dental or vision care" },
+  { categories: ["mental-health"], label: "Mental health / someone to talk to" },
+  { categories: ["addiction"], label: "Drug or alcohol recovery" },
+  { categories: ["housing"], label: "Finding or paying for a place to live" },
+  { categories: ["id-replacement"], label: "Replacing an ID or birth certificate", more: true },
+  { categories: ["clothing-household"], label: "Clothes, furniture or household goods", more: true },
+  { categories: ["transportation"], label: "A ride, bus pass or gas", more: true },
+  { categories: ["financial-assistance", "utilities"], label: "Help paying a bill", more: true },
+  { categories: ["employment"], label: "Finding a job", more: true },
+  { categories: ["legal"], label: "Legal help", more: true },
+  { categories: ["education"], label: "School, GED or job training", more: true },
+  { categories: ["disability"], label: "Help applying for disability benefits", more: true },
 ];
 
 const HOUSEHOLDS: Option<Household>[] = [
@@ -30,6 +41,9 @@ const SITUATIONS: Option<Situation>[] = [
   { value: "youth", label: "Under 25" },
   { value: "pets", label: "Has a pet with them" },
   { value: "immigrant", label: "Immigrant or refugee" },
+  { value: "senior", label: "Older adult" },
+  { value: "disability-approved", label: "Approved for disability benefits (SSI or SSDI)" },
+  { value: "reentry", label: "Recently released from jail or prison" },
 ];
 
 const GENDERS: Option<Gender>[] = [
@@ -39,7 +53,7 @@ const GENDERS: Option<Gender>[] = [
 
 const STEPS = 4;
 
-export function IntakeForm({ offered }: { offered: Category[] }) {
+export function IntakeForm() {
   const router = useRouter();
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<IntakeAnswers>({
@@ -48,9 +62,16 @@ export function IntakeForm({ offered }: { offered: Category[] }) {
     situations: [],
     gender: null,
   });
+  const [showMore, setShowMore] = useState(false);
 
   function toggle<T>(list: T[], v: T): T[] {
     return list.includes(v) ? list.filter((x) => x !== v) : [...list, v];
+  }
+
+  const hasNeed = (n: Need) => n.categories.every((c) => answers.needs.includes(c));
+  function toggleNeed(n: Need) {
+    const rest = answers.needs.filter((c) => !n.categories.includes(c));
+    setAnswers({ ...answers, needs: hasNeed(n) ? rest : [...rest, ...n.categories] });
   }
 
   function next() {
@@ -71,15 +92,24 @@ export function IntakeForm({ offered }: { offered: Category[] }) {
       <div className="flex-1">
         {step === 0 && (
           <Question title="What do they need most right now?" hint="Pick all that apply.">
-            {NEEDS.filter((o) => offered.includes(o.value)).map((o) => (
+            {NEEDS.filter((n) => showMore || !n.more || hasNeed(n)).map((n) => (
               <Choice
-                key={o.value}
-                label={o.label}
-                selected={answers.needs.includes(o.value)}
+                key={n.label}
+                label={n.label}
+                selected={hasNeed(n)}
                 multi
-                onClick={() => setAnswers({ ...answers, needs: toggle(answers.needs, o.value) })}
+                onClick={() => toggleNeed(n)}
               />
             ))}
+            <button
+              type="button"
+              aria-expanded={showMore}
+              onClick={() => setShowMore(!showMore)}
+              className="flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl px-4 text-base font-medium text-primary underline underline-offset-2"
+            >
+              {showMore ? "Fewer needs" : "More needs"}
+              <span aria-hidden>{showMore ? "▲" : "▼"}</span>
+            </button>
           </Question>
         )}
 
@@ -100,7 +130,7 @@ export function IntakeForm({ offered }: { offered: Category[] }) {
         )}
 
         {step === 2 && (
-          <Question title="Does any of this apply?" hint="Optional. Helps find places that specialize.">
+          <Question title="Does any of this apply?" hint="Optional. Helps find places that specialize. Each place lists who qualifies.">
             {SITUATIONS.map((o) => (
               <Choice
                 key={o.value}

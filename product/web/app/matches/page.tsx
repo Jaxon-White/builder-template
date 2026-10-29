@@ -2,13 +2,18 @@ import Link from "next/link";
 import { ResourceCard } from "@/components/resource-card";
 import { getFinderResources } from "@/lib/data";
 import { parseIntake } from "@/lib/intake";
-import { matchResources } from "@/lib/match";
+import { categoriesOffered, matchResources, searchedCategories } from "@/lib/match";
 import { CATEGORY_LABELS } from "@/lib/types";
 
 export default async function MatchesPage({ searchParams }: PageProps<"/matches">) {
   const answers = parseIntake(await searchParams);
-  const matches = matchResources(answers, await getFinderResources());
-  const needsText = answers.needs.map((n) => CATEGORY_LABELS[n].toLowerCase()).join(", ");
+  const all = await getFinderResources();
+  const matches = matchResources(answers, all);
+  const offered = categoriesOffered(all);
+  const searched = searchedCategories(answers);
+  // Intake offers every category, including ones no place in the app covers yet.
+  const uncovered = searched.filter((n) => !offered.includes(n));
+  const needsText = searched.map((n) => CATEGORY_LABELS[n].toLowerCase()).join(", ");
 
   return (
     <div className="space-y-5">
@@ -31,8 +36,15 @@ export default async function MatchesPage({ searchParams }: PageProps<"/matches"
         </p>
       )}
 
-      {answers.needs.includes("shelter") &&
-        !matches.some((m) => m.resource.category === "shelter") && <NoShelterHelp />}
+      {uncovered.length > 0 && (
+        <p className="rounded-2xl border border-border bg-surface p-4 text-sm">
+          No places for {uncovered.map((n) => CATEGORY_LABELS[n].toLowerCase()).join(", ")} are in
+          the app yet.
+        </p>
+      )}
+
+      {answers.needs.includes("homeless-services") &&
+        !matches.some((m) => m.resource.category === "homeless-services") && <NoShelterHelp />}
 
       {matches.length === 0 ? (
         <div className="space-y-3 rounded-2xl border border-border bg-surface p-5">

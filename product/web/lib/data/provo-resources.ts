@@ -3,9 +3,9 @@ import type { Resource } from "@/lib/types";
 // REAL places near Provo. Contact details and hours were gathered from public listings on
 // 2026-10-12 (see each `source`); `website` is each place's own site, checked 2026-10-15.
 //
-// Sourcing rule (decision 005): description, eligibility, qualifiers, howToApply, whatToBring
-// and languages come only from the official pages in `factSources` (re-researched 2026-10-16).
-// Nothing is inferred. If no official page says it, leave it empty and the app shows
+// Sourcing rule (decision 005): description, tags, eligibility, qualifiers, howToApply,
+// whatToBring and languages come only from the official pages in `factSources`
+// (re-researched 2026-10-16; tags added 2026-10-29 from those same details). Nothing is inferred. If no official page says it, leave it empty and the app shows
 // "Call to ask". Directory listings (211, WhyHunger, news) are not sources for eligibility.
 //
 // None have been confirmed by phone yet: `lastVerified` is "" until someone calls and records
@@ -18,7 +18,17 @@ export const PROVO_RESOURCES: Resource[] = [
     status: "active",
     name: "Food & Care Coalition",
     category: "food",
-    alsoOffers: ["clothing", "medical", "mental-health"],
+    alsoOffers: ["homeless-services", "medical", "mental-health"],
+    tags: [
+      "Meals",
+      "Showers and laundry",
+      "Hygiene",
+      "Clothing",
+      "Mail and storage",
+      "Computers and phones",
+      "Medical clinics",
+      "Dental",
+    ],
     description:
       "Hot breakfast, lunch and dinner with no paperwork. Weekday day services: hygiene kits, clothing, showers, laundry, computer access, and a mailing address patrons can use. Free on-site dental and medical care for patrons.",
     phone: "(801) 373-1825",
@@ -65,6 +75,7 @@ export const PROVO_RESOURCES: Resource[] = [
     name: "Community Action Services & Food Bank",
     category: "food",
     alsoOffers: [],
+    tags: ["Food pantries"],
     description:
       "Food pantries (several locations), with case managers and other services by appointment.",
     phone: "(801) 373-8200",
@@ -107,8 +118,9 @@ export const PROVO_RESOURCES: Resource[] = [
     id: "the-refuge-utah",
     status: "active",
     name: "The Refuge Utah",
-    category: "shelter",
-    alsoOffers: ["mental-health"],
+    category: "domestic-violence",
+    alsoOffers: ["homeless-services", "mental-health"],
+    tags: ["Safe shelter", "Hotlines", "Sexual assault services", "Safety planning", "Spanish"],
     description:
       "Confidential emergency shelter for survivors of domestic and sexual violence and their children, plus 24-hour helplines for crisis support, safety planning and shelter referrals.",
     phone: "(801) 377-5500",
@@ -156,6 +168,7 @@ export const PROVO_RESOURCES: Resource[] = [
     name: "Mountainlands Community Health Center",
     category: "medical",
     alsoOffers: ["mental-health"],
+    tags: ["Medical clinics", "Sliding fee", "No insurance needed"],
     description:
       "Community health center. Any patient, with or without insurance, can apply for a sliding fee discount based on family size and income.",
     phone: "(801) 429-2000",
@@ -205,6 +218,7 @@ export const PROVO_RESOURCES: Resource[] = [
     name: "Volunteer Care Clinic",
     category: "medical",
     alsoOffers: [],
+    tags: ["Medical clinics", "Walk-in"],
     description:
       "Volunteer-run walk-in clinic, Tuesday and Thursday evenings. No official page found yet; call to confirm services and eligibility.",
     phone: "(801) 812-8094",
@@ -243,7 +257,8 @@ export const PROVO_RESOURCES: Resource[] = [
     status: "active",
     name: "Wasatch Behavioral Health Receiving Center",
     category: "mental-health",
-    alsoOffers: ["recovery"],
+    alsoOffers: ["addiction"],
+    tags: ["Crisis and suicide prevention", "Mobile crisis outreach"],
     description:
       "Receiving & Outreach Center: crisis mental health evaluations for adults, staffed around the clock by therapists and peer support specialists. Adults can stay up to 24 hours. Mobile crisis outreach when needed.",
     phone: "(801) 852-2131",
@@ -286,8 +301,9 @@ export const PROVO_RESOURCES: Resource[] = [
     id: "wasatch-substance-use-assessment",
     status: "active",
     name: "Wasatch Behavioral Health Substance Use Intake",
-    category: "recovery",
+    category: "addiction",
     alsoOffers: ["mental-health"],
+    tags: ["Assessment and referral", "Sliding fee", "Medicaid accepted"],
     description:
       "Substance Use Assessments & Referrals (SAR): the required first step for Wasatch-funded drug and alcohol treatment in Utah County. Walk-in assessments for adults, first come, first served; plan for up to 4 hours. Fees are on a sliding scale unless covered by Medicaid.",
     phone: "(385) 268-5000",
@@ -337,8 +353,9 @@ export const PROVO_RESOURCES: Resource[] = [
     id: "dws-provo-employment-center",
     status: "active",
     name: "Workforce Services, Provo Employment Center",
-    category: "documents",
-    alsoOffers: ["food"],
+    category: "employment",
+    alsoOffers: ["food", "medical"],
+    tags: ["Food stamps (SNAP)", "Medicaid", "Job search help", "Spanish"],
     description:
       "State office to apply for SNAP (food stamps), Medicaid and other benefits, plus job help. Benefits start the day the application is turned in; some households get SNAP within 7 days through expedited service.",
     phone: "(801) 526-0950",
@@ -393,8 +410,9 @@ export const PROVO_RESOURCES: Resource[] = [
     id: "utah-county-vital-records",
     status: "active",
     name: "Utah County Vital Records",
-    category: "documents",
+    category: "id-replacement",
     alsoOffers: [],
+    tags: ["Birth certificate"],
     description:
       "Order a certified birth certificate, often the first step to replacing a lost ID. $25 for the first copy; $10 for each extra copy ordered at the same time (2026 fees).",
     phone: "(801) 851-7005",
@@ -444,8 +462,9 @@ export const PROVO_RESOURCES: Resource[] = [
     id: "deseret-industries-provo",
     status: "active",
     name: "Deseret Industries (Provo)",
-    category: "clothing",
-    alsoOffers: [],
+    category: "clothing-household",
+    alsoOffers: ["employment"],
+    tags: ["Clothing", "Household goods", "Thrift stores", "Job training", "Bishop referral"],
     description:
       "Thrift store with low-cost clothing, shoes, coats and household goods. Also a job training program with development counselors, by bishop referral.",
     phone: "(801) 373-7920",
@@ -491,6 +510,7 @@ export const PROVO_RESOURCES: Resource[] = [
     name: "UTA Reduced Fare",
     category: "transportation",
     alsoOffers: [],
+    tags: ["Public transit", "Reduced fares", "Seniors", "People with disabilities", "Youth"],
     description:
       "Reduced fares on UTA buses and trains with a FAREPAY card: $1 base fare, capped at $2 a day or $8 a week on local service. For riders with low income, seniors, youth and people with disabilities.",
     phone: "(801) 743-3882",
@@ -542,8 +562,19 @@ export const PROVO_RESOURCES: Resource[] = [
     id: "elevate-utah",
     status: "active",
     name: "Elevate Utah (formerly Centro Hispano)",
-    category: "documents",
-    alsoOffers: ["food", "clothing"],
+    category: "legal",
+    alsoOffers: ["food", "education"],
+    tags: [
+      "Immigration",
+      "Citizenship classes",
+      "English and literacy",
+      "Emergency food",
+      "Hygiene",
+      "Translation",
+      "Notary",
+      "Resume help",
+      "Spanish",
+    ],
     description:
       "Immigration legal help from immigration attorneys and DOJ-accredited representatives, citizenship classes, free emergency food and hygiene items, document translation, free notary and resume help, and English classes.",
     phone: "(801) 655-0258",
@@ -590,8 +621,9 @@ export const PROVO_RESOURCES: Resource[] = [
     id: "community-action-motel-shelter",
     status: "active",
     name: "Community Action Motel Shelter",
-    category: "shelter",
+    category: "homeless-services",
     alsoOffers: [],
+    tags: ["Emergency shelter", "Motel stays", "Families"],
     description:
       "There is no full-time shelter in Utah, Wasatch or Summit counties. Community Action provides short-term shelter at local motels for families, couples and vulnerable individuals: 1–3 nights, case by case. Space is limited.",
     phone: "(801) 373-8200",
@@ -637,8 +669,9 @@ export const PROVO_RESOURCES: Resource[] = [
     id: "brendas-warming-center",
     status: "active",
     name: "Brenda's Warming Center",
-    category: "shelter",
+    category: "homeless-services",
     alsoOffers: [],
+    tags: ["Emergency shelter", "Warming center", "Bus pass", "Breakfast"],
     description:
       "Overnight winter warming center run by Community Action for the Utah County Winter Taskforce: a safe, warm place to rest. Guests get a one-day bus pass, and Food & Care Coalition serves breakfast Mon – Sat.",
     phone: "(801) 373-8200",

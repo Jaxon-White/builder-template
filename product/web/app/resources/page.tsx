@@ -3,10 +3,12 @@ import { ResourceCard } from "@/components/resource-card";
 import { getFinderResources } from "@/lib/data";
 import { isOpenNow } from "@/lib/hours";
 import { categoriesOffered } from "@/lib/match";
+import { searchWords } from "@/lib/search";
 import {
   AUDIENCE_LABELS,
   CATEGORY_LABELS,
   STATE_NAMES,
+  toCategory,
   type Audience,
   type Category,
 } from "@/lib/types";
@@ -26,16 +28,21 @@ function hrefWith(current: Filters, change: Partial<Filters>) {
 export default async function ResourcesPage({ searchParams }: PageProps<"/resources">) {
   const sp = await searchParams;
   const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v) ?? "";
-  const f: Filters = { q: one(sp.q), category: one(sp.category), open: one(sp.open), serves: one(sp.serves) };
+  const f: Filters = {
+    q: one(sp.q),
+    category: toCategory(one(sp.category)) ?? "",
+    open: one(sp.open),
+    serves: one(sp.serves),
+  };
 
   const now = new Date();
   // Every word has to match somewhere, so "food utah county" finds food places in Utah County.
-  const words = f.q.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  const words = searchWords(f.q);
   const all = await getFinderResources();
   // Keep an active filter visible even if nothing offers it any more, so it can be cleared.
   const offered = categoriesOffered(all);
   const active = f.category as Category;
-  const needChips = active in CATEGORY_LABELS && !offered.includes(active) ? [...offered, active] : offered;
+  const needChips = f.category && !offered.includes(active) ? [...offered, active] : offered;
   const results = all
     .map((r) => ({ r, open: isOpenNow(r, now) }))
     .filter(({ r, open }) => {
@@ -53,6 +60,7 @@ export default async function ResourcesPage({ searchParams }: PageProps<"/resour
           STATE_NAMES[r.state] ?? "",
           CATEGORY_LABELS[r.category],
           ...r.alsoOffers.map((c) => CATEGORY_LABELS[c]),
+          ...r.tags,
           r.eligibility,
         ]
           .join(" ")
@@ -116,10 +124,20 @@ export default async function ResourcesPage({ searchParams }: PageProps<"/resour
         )}
       </div>
 
+      {results.length === 0 && (
+        <p className="rounded-2xl border border-border bg-surface p-4 text-sm">
+          No place in the app matches yet. For other options, call{" "}
+          <a href="tel:211" className="font-semibold text-primary underline">
+            211
+          </a>
+          .
+        </p>
+      )}
+
       <ul className="space-y-3">
         {results.map(({ r, open }) => (
           <li key={r.id}>
-            <ResourceCard resource={r} openNow={open} />
+            <ResourceCard resource={r} openNow={open} matchTerms={words} />
           </li>
         ))}
       </ul>

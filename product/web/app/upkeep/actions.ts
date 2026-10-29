@@ -38,7 +38,7 @@ export async function recordCheck(resourceId: string, formData: FormData) {
       }
       continue;
     }
-    if (field === "qualifiers" || field === "whatToBring") {
+    if (field === "qualifiers" || field === "whatToBring" || field === "tags") {
       // One item per line in the form.
       const items = String(formData.get(field) ?? "")
         .split("\n")

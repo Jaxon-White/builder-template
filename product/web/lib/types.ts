@@ -1,28 +1,65 @@
 // Fields are kept flat (strings, booleans, string arrays) so each one maps to a single
 // SharePoint list column: text, yes/no, or multi-choice.
 
+// Church HQ's category list (decision 006). Labels match HQ's names.
 export const CATEGORIES = [
-  "shelter",
+  "addiction",
+  "clothing-household",
+  "disability",
+  "domestic-violence",
+  "education",
+  "employment",
+  "financial-assistance",
   "food",
+  "homeless-services",
+  "housing",
+  "id-replacement",
+  "legal",
   "medical",
   "mental-health",
-  "recovery",
-  "documents",
+  "reentry",
+  "seniors",
   "transportation",
-  "clothing",
+  "utilities",
+  "veterans",
 ] as const;
 export type Category = (typeof CATEGORIES)[number];
 
 export const CATEGORY_LABELS: Record<Category, string> = {
-  shelter: "Shelter",
+  addiction: "Addiction",
+  "clothing-household": "Clothing/Household",
+  disability: "Disability",
+  "domestic-violence": "Domestic Violence",
+  education: "Education",
+  employment: "Employment",
+  "financial-assistance": "Financial Assistance",
   food: "Food",
-  medical: "Medical",
-  "mental-health": "Mental health",
-  recovery: "Addiction recovery",
-  documents: "ID & documents",
+  "homeless-services": "Homeless Services",
+  housing: "Housing",
+  "id-replacement": "ID Replacement",
+  legal: "Legal",
+  medical: "Medical/Dental/Vision",
+  "mental-health": "Mental Health",
+  reentry: "Reentry",
+  seniors: "Seniors",
   transportation: "Transportation",
-  clothing: "Clothing & hygiene",
+  utilities: "Utilities",
+  veterans: "Veterans",
 };
+
+/** The app's earlier category keys, so old shared links still work. */
+const LEGACY_CATEGORIES: Record<string, Category> = {
+  shelter: "homeless-services",
+  recovery: "addiction",
+  documents: "id-replacement",
+  clothing: "clothing-household",
+};
+
+/** A category key from a URL, with old keys mapped to new ones; null if unknown. */
+export function toCategory(key: string): Category | null {
+  const k = LEGACY_CATEGORIES[key] ?? key;
+  return (CATEGORIES as readonly string[]).includes(k) ? (k as Category) : null;
+}
 
 // Who a resource is set up to serve. "everyone" means no restriction.
 export const AUDIENCES = [
@@ -67,6 +104,12 @@ export type Resource = DailyHours & {
   name: string;
   category: Category;
   alsoOffers: Category[];
+  /**
+   * Short labels for what it offers and who it's for, searched on the Resources tab. HQ's
+   * subcategory names where they fit ("Meals", "Food pantries"); from official pages like the
+   * details below.
+   */
+  tags: string[];
   description: string;
   phone: string;
   address: string;
@@ -117,7 +160,27 @@ export type Resource = DailyHours & {
 export type DailyHours = Record<DayHoursField, string>;
 
 export type Household = "alone" | "kids" | "partner";
-export type Situation = "veteran" | "abuse" | "pets" | "youth" | "immigrant";
+export type Situation =
+  | "veteran"
+  | "abuse"
+  | "pets"
+  | "youth"
+  | "immigrant"
+  | "senior"
+  /** Already approved for SSI or SSDI; many disability programs require it. */
+  | "disability-approved"
+  | "reentry";
+
+/**
+ * Groups asked about as a situation rather than a need. Picking one also searches the
+ * programs built for that group (decision 006).
+ */
+export const SITUATION_CATEGORY: Partial<Record<Situation, Category>> = {
+  veteran: "veterans",
+  senior: "seniors",
+  "disability-approved": "disability",
+  reentry: "reentry",
+};
 export type Gender = "man" | "woman";
 
 export type IntakeAnswers = {
@@ -158,6 +221,7 @@ export const EDITABLE_FIELDS = [
   "qualifiers",
   "howToApply",
   "whatToBring",
+  "tags",
   "languages",
   "description",
   "website",

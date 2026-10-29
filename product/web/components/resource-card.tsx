@@ -48,15 +48,36 @@ export function CallAheadWarning({ reason }: { reason: CallAheadReason }) {
   );
 }
 
+export function TagChips({ tags }: { tags: string[] }) {
+  if (tags.length === 0) return null;
+  return (
+    <ul className="flex flex-wrap gap-1.5" aria-label="Tags">
+      {tags.map((t) => (
+        <li key={t} className="rounded-full border border-primary/25 bg-primary-soft px-3 py-1 text-xs font-medium text-primary">
+          {t}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+const CARD_TAGS = 4;
+
 export function ResourceCard({
   resource: r,
   openNow,
   reasons,
+  matchTerms = [],
 }: {
   resource: Resource;
   openNow: boolean;
   reasons?: string[];
+  /** Search words; tags they match are shown first so it's clear why the place came up. */
+  matchTerms?: string[];
 }) {
+  const matches = (t: string) => matchTerms.some((w) => t.toLowerCase().includes(w));
+  const tags = [...r.tags.filter(matches), ...r.tags.filter((t) => !matches(t))].slice(0, CARD_TAGS);
+
   return (
     <article className="space-y-3 rounded-2xl border border-border bg-surface p-4 shadow-sm">
       <Link href={`/resources/${r.id}`} className="block space-y-1.5">
@@ -81,6 +102,20 @@ export function ResourceCard({
       </Link>
       <CallAhead resource={r} />
       <Handoff resource={r} />
+      {tags.length > 0 && (
+        <div className="space-y-1.5 border-t border-border pt-3">
+          <p className="text-xs font-semibold uppercase tracking-wide text-muted">Helps with</p>
+          <TagChips tags={tags} />
+          {r.tags.length > tags.length && (
+            <Link
+              href={`/resources/${r.id}`}
+              className="inline-block rounded-full border border-border px-3 py-1 text-xs font-medium text-primary hover:border-primary"
+            >
+              +{r.tags.length - tags.length} more
+            </Link>
+          )}
+        </div>
+      )}
     </article>
   );
 }

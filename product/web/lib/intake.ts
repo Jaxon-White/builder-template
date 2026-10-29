@@ -1,5 +1,5 @@
 import {
-  CATEGORIES,
+  toCategory,
   type Category,
   type Gender,
   type Household,
@@ -7,7 +7,7 @@ import {
   type Situation,
 } from "@/lib/types";
 
-// Intake answers travel in the URL (e.g. /matches?need=shelter,food&with=kids) so results are
+// Intake answers travel in the URL (e.g. /matches?need=food&with=kids) so results are
 // linkable and nothing about the person is stored anywhere.
 
 type Params = Record<string, string | string[] | undefined>;
@@ -18,7 +18,16 @@ function list(v: string | string[] | undefined): string[] {
 }
 
 const HOUSEHOLDS: Household[] = ["alone", "kids", "partner"];
-const SITUATIONS: Situation[] = ["veteran", "abuse", "pets", "youth", "immigrant"];
+const SITUATIONS: Situation[] = [
+  "veteran",
+  "abuse",
+  "pets",
+  "youth",
+  "immigrant",
+  "senior",
+  "disability-approved",
+  "reentry",
+];
 const GENDERS: Gender[] = ["man", "woman"];
 
 export function parseIntake(p: Params): IntakeAnswers {
@@ -26,7 +35,7 @@ export function parseIntake(p: Params): IntakeAnswers {
   const household = one(p.with) as Household;
   const gender = one(p.gender) as Gender;
   return {
-    needs: list(p.need).filter((n): n is Category => (CATEGORIES as readonly string[]).includes(n)),
+    needs: [...new Set(list(p.need).map(toCategory).filter((n): n is Category => n !== null))],
     household: HOUSEHOLDS.includes(household) ? household : null,
     situations: list(p.also).filter((s): s is Situation => SITUATIONS.includes(s as Situation)),
     gender: GENDERS.includes(gender) ? gender : null,
