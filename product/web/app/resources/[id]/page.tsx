@@ -5,7 +5,8 @@ import { CallAheadWarning, OpenBadge, TagChips, VettedBadge } from "@/components
 import { getResource } from "@/lib/data";
 import { callAheadReason, checkedAgoText } from "@/lib/freshness";
 import { hoursSummary, isOpenNow } from "@/lib/hours";
-import { AUDIENCE_LABELS, CATEGORY_LABELS, STATE_NAMES } from "@/lib/types";
+import { subcategoryInfo } from "@/lib/subcategories";
+import { CATEGORY_LABELS, FOR_GROUP_INFO, STATE_NAMES } from "@/lib/types";
 
 export default async function ResourcePage({ params }: PageProps<"/resources/[id]">) {
   const { id } = await params;
@@ -23,7 +24,14 @@ export default async function ResourcePage({ params }: PageProps<"/resources/[id
     ["Where", `${r.address}, ${r.city}`],
     ["County / State", `${r.county}, ${STATE_NAMES[r.state] ?? r.state}`],
     ["Phone", r.phone],
-    ["Who it serves", r.serves.map((s) => AUDIENCE_LABELS[s]).join(", ")],
+    [
+      "For",
+      r.serves.length
+        ? r.serves.map((g) => FOR_GROUP_INFO[g].label).join(", ")
+        : r.noChildren
+          ? "Adults without children"
+          : "Open to everyone",
+    ],
     ["Eligibility", r.eligibility],
     ["Walk-ins", r.walkIn ? "Yes" : "Call first"],
     ["Pets", r.petsAllowed ? "Allowed" : "Not allowed"],
@@ -43,7 +51,7 @@ export default async function ResourcePage({ params }: PageProps<"/resources/[id
           <OpenBadge open={isOpenNow(r)} always={r.open24h} unknown={!r.hoursKnown} />
         </div>
         <p className="text-base">{r.description}</p>
-        <TagChips tags={r.tags} />
+        <TagChips tags={r.tags.filter((t) => !r.subcategories.includes(t))} />
       </section>
 
       {r.status === "closed" ? (
@@ -74,6 +82,23 @@ export default async function ResourcePage({ params }: PageProps<"/resources/[id
           </div>
         )}
       </dl>
+
+      {r.subcategories.length > 0 && (
+        <section className="space-y-3 rounded-2xl border border-border bg-surface p-4">
+          <h2 className="text-lg font-semibold">Helps with</h2>
+          <ul className="space-y-2 text-sm">
+            {r.subcategories.map((name) => {
+              const info = subcategoryInfo(name, [r.category, ...r.alsoOffers]);
+              return (
+                <li key={name}>
+                  <span className="font-semibold">{name}</span>
+                  {info && <span className="text-muted">: {info.definition}</span>}
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      )}
 
       <section className="space-y-4 rounded-2xl border border-border bg-surface p-4">
         <h2 className="text-lg font-semibold">Details for helping someone</h2>

@@ -2,11 +2,12 @@ import { isOpenNow, outOfSeason } from "@/lib/hours";
 import {
   CATEGORIES,
   CATEGORY_LABELS,
-  SITUATION_CATEGORY,
+  SITUATION_INFO,
   type Category,
-  type Audience,
+  type ForGroup,
   type IntakeAnswers,
   type Resource,
+  type Situation,
 } from "@/lib/types";
 
 export type Match = {
@@ -26,33 +27,54 @@ export function categoriesOffered(all: Resource[]): Category[] {
 
 /** The needs picked, plus the programs for any group they belong to (veteran, older adult, …). */
 export function searchedCategories(a: IntakeAnswers): Category[] {
-  const groups = a.situations.map((s) => SITUATION_CATEGORY[s]).filter((c): c is Category => !!c);
+  const groups = a.situations.map((s) => SITUATION_INFO[s].category).filter((c): c is Category => !!c);
   return [...new Set([...a.needs, ...groups])];
 }
 
-/** The groups this person belongs to, based on their answers. */
-function audiencesFor(a: IntakeAnswers): Audience[] {
-  const out: Audience[] = ["everyone"];
+/** For groups intake can place someone in. Places restricted to any other group are never hidden. */
+const ASKED_GROUPS: ForGroup[] = [
+  "men",
+  "women",
+  "families",
+  ...Object.values(SITUATION_INFO).flatMap((i) => (i.group ? [i.group] : [])),
+];
+
+/** The HQ For groups this person belongs to, based on their answers. */
+function groupsFor(a: IntakeAnswers): ForGroup[] {
+  const out: ForGroup[] = [];
   if (a.gender === "man") out.push("men");
   if (a.gender === "woman") out.push("women");
   if (a.household === "kids") out.push("families");
-  else out.push("single-adults");
-  if (a.situations.includes("youth")) out.push("youth");
-  if (a.situations.includes("veteran")) out.push("veterans");
-  if (a.situations.includes("abuse")) out.push("abuse-survivors");
-  if (a.situations.includes("immigrant")) out.push("immigrants");
+  for (const s of a.situations) {
+    const g = SITUATION_INFO[s].group;
+    if (g) out.push(g);
+  }
   return out;
 }
 
 function isEligible(r: Resource, a: IntakeAnswers): boolean {
-  const theirs = audiencesFor(a);
-  if (r.serves.some((s) => theirs.includes(s))) return true;
+  if (r.noChildren && a.household === "kids") return false;
+  if (r.serves.length === 0) return true;
+  if (r.serves.some((g) => groupsFor(a).includes(g))) return true;
+  // Intake doesn't ask about pregnancy, insurance, etc., so they might qualify; "Who qualifies" says.
+  if (r.serves.some((g) => !ASKED_GROUPS.includes(g))) return true;
   // Gender unknown: keep men-only / women-only places rather than hide a possible bed.
   if (a.gender === null && a.household !== "kids") {
     return r.serves.includes("men") || r.serves.includes("women");
   }
   return false;
 }
+
+/** Why a place built for one of their situations came up. */
+const SITUATION_REASONS: Partial<Record<Situation, string>> = {
+  veteran: "For veterans",
+  "under-18": "For children and youth",
+  "young-adult": "For young adults",
+  immigrant: "For immigrants & refugees",
+  senior: "For older adults",
+  "disability-approved": "For people with disabilities",
+  reentry: "For people leaving jail or prison",
+};
 
 /**
  * Ranks resources for one person. Pure: takes plain data in and returns plain data, so it
@@ -94,34 +116,17 @@ export function matchResources(
       reasons.push("Open now");
     }
 
-    if (answers.situations.includes("abuse") && r.serves.includes("abuse-survivors")) {
-      score += 3;
-      reasons.unshift("Confidential help for abuse survivors");
-    }
-    const forVeterans = r.serves.includes("veterans") || offersFor(r, "veterans");
-    if (answers.situations.includes("veteran") && forVeterans) {
-      score += 2;
-      reasons.push("For veterans");
-    }
-    if (answers.situations.includes("youth") && r.serves.includes("youth")) {
-      score += 2;
-      reasons.push("For young people");
-    }
-    if (answers.situations.includes("senior") && offersFor(r, "seniors")) {
-      score += 2;
-      reasons.push("For older adults");
-    }
-    if (answers.situations.includes("disability-approved") && offersFor(r, "disability")) {
-      score += 2;
-      reasons.push("For people approved for disability benefits");
-    }
-    if (answers.situations.includes("reentry") && offersFor(r, "reentry")) {
-      score += 2;
-      reasons.push("For people leaving jail or prison");
-    }
-    if (answers.situations.includes("immigrant") && r.serves.includes("immigrants")) {
-      score += 2;
-      reasons.push("For immigrants & refugees");
+    for (const sit of answers.situations) {
+      const { group, category } = SITUATION_INFO[sit];
+      const builtForThem = (group && r.serves.includes(group)) || (category && offersFor(r, category));
+      if (!builtForThem) continue;
+      if (sit === "abuse") {
+        score += 3;
+        reasons.unshift("Confidential help for abuse survivors");
+      } else if (SITUATION_REASONS[sit]) {
+        score += 2;
+        reasons.push(SITUATION_REASONS[sit]);
+      }
     }
     if (answers.household === "kids" && r.serves.includes("families")) {
       score += 1.5;

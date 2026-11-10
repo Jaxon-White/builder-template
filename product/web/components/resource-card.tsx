@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Handoff } from "@/components/handoff";
 import { callAheadReason, checkedAgoText, isVetted, type CallAheadReason } from "@/lib/freshness";
 import { hoursLine } from "@/lib/hours";
+import { subcategoryInfo } from "@/lib/subcategories";
 import { CATEGORY_LABELS, type Resource } from "@/lib/types";
 
 export function OpenBadge({ open, always, unknown }: { open: boolean; always?: boolean; unknown?: boolean }) {
@@ -48,12 +49,24 @@ export function CallAheadWarning({ reason }: { reason: CallAheadReason }) {
   );
 }
 
-export function TagChips({ tags }: { tags: string[] }) {
+/** A place's subcategories, then its other tags. */
+export function helpsWith(r: Resource): string[] {
+  return [...r.subcategories, ...r.tags.filter((t) => !r.subcategories.includes(t))];
+}
+
+/** `resource` adds HQ's definition on hover for tags that are its subcategories. */
+export function TagChips({ tags, resource: r }: { tags: string[]; resource?: Resource }) {
   if (tags.length === 0) return null;
+  const definition = (t: string) =>
+    r && r.subcategories.includes(t) ? subcategoryInfo(t, [r.category, ...r.alsoOffers])?.definition : undefined;
   return (
     <ul className="flex flex-wrap gap-1.5" aria-label="Tags">
       {tags.map((t) => (
-        <li key={t} className="rounded-full border border-primary/25 bg-primary-soft px-3 py-1 text-xs font-medium text-primary">
+        <li
+          key={t}
+          title={definition(t)}
+          className="rounded-full border border-primary/25 bg-primary-soft px-3 py-1 text-xs font-medium text-primary"
+        >
           {t}
         </li>
       ))}
@@ -76,7 +89,8 @@ export function ResourceCard({
   matchTerms?: string[];
 }) {
   const matches = (t: string) => matchTerms.some((w) => t.toLowerCase().includes(w));
-  const tags = [...r.tags.filter(matches), ...r.tags.filter((t) => !matches(t))].slice(0, CARD_TAGS);
+  const all = helpsWith(r);
+  const tags = [...all.filter(matches), ...all.filter((t) => !matches(t))].slice(0, CARD_TAGS);
 
   return (
     <article className="space-y-3 rounded-2xl border border-border bg-surface p-4 shadow-sm">
@@ -105,13 +119,13 @@ export function ResourceCard({
       {tags.length > 0 && (
         <div className="space-y-1.5 border-t border-border pt-3">
           <p className="text-xs font-semibold uppercase tracking-wide text-muted">Helps with</p>
-          <TagChips tags={tags} />
-          {r.tags.length > tags.length && (
+          <TagChips tags={tags} resource={r} />
+          {all.length > tags.length && (
             <Link
               href={`/resources/${r.id}`}
               className="inline-block rounded-full border border-border px-3 py-1 text-xs font-medium text-primary hover:border-primary"
             >
-              +{r.tags.length - tags.length} more
+              +{all.length - tags.length} more
             </Link>
           )}
         </div>

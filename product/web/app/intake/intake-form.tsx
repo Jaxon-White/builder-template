@@ -22,9 +22,9 @@ const NEEDS: Need[] = [
   { categories: ["id-replacement"], label: "Replacing an ID or birth certificate", more: true },
   { categories: ["clothing-household"], label: "Clothes, furniture or household goods", more: true },
   { categories: ["transportation"], label: "A ride, bus pass or gas", more: true },
-  { categories: ["financial-assistance", "utilities"], label: "Help paying a bill", more: true },
+  { categories: ["utilities"], label: "Help with power, phone or internet bills", more: true },
   { categories: ["employment"], label: "Finding a job", more: true },
-  { categories: ["legal"], label: "Legal help", more: true },
+  { categories: ["legal"], label: "Legal or tax help", more: true },
   { categories: ["education"], label: "School, GED or job training", more: true },
   { categories: ["disability"], label: "Help applying for disability benefits", more: true },
 ];
@@ -38,7 +38,8 @@ const HOUSEHOLDS: Option<Household>[] = [
 const SITUATIONS: Option<Situation>[] = [
   { value: "abuse", label: "Fleeing abuse or violence" },
   { value: "veteran", label: "Veteran" },
-  { value: "youth", label: "Under 25" },
+  { value: "under-18", label: "Under 18" },
+  { value: "young-adult", label: "Young adult (18 to 24)" },
   { value: "pets", label: "Has a pet with them" },
   { value: "immigrant", label: "Immigrant or refugee" },
   { value: "senior", label: "Older adult" },

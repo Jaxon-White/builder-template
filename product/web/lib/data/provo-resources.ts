@@ -3,9 +3,9 @@ import type { Resource } from "@/lib/types";
 // REAL places near Provo. Contact details and hours were gathered from public listings on
 // 2026-10-12 (see each `source`); `website` is each place's own site, checked 2026-10-15.
 //
-// Sourcing rule (decision 005): description, tags, eligibility, qualifiers, howToApply,
+// Sourcing rule (decision 005): description, subcategories, tags, eligibility, qualifiers, howToApply,
 // whatToBring and languages come only from the official pages in `factSources`
-// (re-researched 2026-10-16; tags added 2026-10-29 from those same details). Nothing is inferred. If no official page says it, leave it empty and the app shows
+// (re-researched 2026-10-16; tags added 2026-10-29 from those same details; HQ subcategory names moved to `subcategories` 2026-11-09). Nothing is inferred. If no official page says it, leave it empty and the app shows
 // "Call to ask". Directory listings (211, WhyHunger, news) are not sources for eligibility.
 //
 // None have been confirmed by phone yet: `lastVerified` is "" until someone calls and records
@@ -19,16 +19,8 @@ export const PROVO_RESOURCES: Resource[] = [
     name: "Food & Care Coalition",
     category: "food",
     alsoOffers: ["homeless-services", "medical", "mental-health"],
-    tags: [
-      "Meals",
-      "Showers and laundry",
-      "Hygiene",
-      "Clothing",
-      "Mail and storage",
-      "Computers and phones",
-      "Medical clinics",
-      "Dental",
-    ],
+    subcategories: ["Meals", "Showers and laundry", "Hygiene", "Clothing", "Mail and storage", "Computers and phones", "Medical clinics", "Dental"],
+    tags: [],
     description:
       "Hot breakfast, lunch and dinner with no paperwork. Weekday day services: hygiene kits, clothing, showers, laundry, computer access, and a mailing address patrons can use. Free on-site dental and medical care for patrons.",
     phone: "(801) 373-1825",
@@ -36,7 +28,7 @@ export const PROVO_RESOURCES: Resource[] = [
     city: "Provo",
     county: "Utah County",
     state: "UT",
-    serves: ["everyone"],
+    serves: [],
     eligibility: "Meals: anyone, no ID or proof of need. Dental and medical care: Food & Care patrons or people referred by a partner.",
     qualifiers: [
       "Meals are open to anyone: no eligibility requirements, no ID, no proof of need.",
@@ -75,7 +67,8 @@ export const PROVO_RESOURCES: Resource[] = [
     name: "Community Action Services & Food Bank",
     category: "food",
     alsoOffers: [],
-    tags: ["Food pantries"],
+    subcategories: ["Food pantries"],
+    tags: [],
     description:
       "Food pantries (several locations), with case managers and other services by appointment.",
     phone: "(801) 373-8200",
@@ -83,7 +76,7 @@ export const PROVO_RESOURCES: Resource[] = [
     city: "Provo",
     county: "Utah County",
     state: "UT",
-    serves: ["everyone"],
+    serves: [],
     eligibility: "Call to ask about eligibility.",
     qualifiers: [],
     howToApply: "Come in to any pantry and fill out the intake form at a lobby kiosk. You get a family ID for future visits and can shop every two weeks. Meeting a case manager too? Come 30 minutes before the appointment.",
@@ -120,7 +113,8 @@ export const PROVO_RESOURCES: Resource[] = [
     name: "The Refuge Utah",
     category: "domestic-violence",
     alsoOffers: ["homeless-services", "mental-health"],
-    tags: ["Safe shelter", "Hotlines", "Sexual assault services", "Safety planning", "Spanish"],
+    subcategories: ["Safe shelter", "Hotlines", "Sexual assault services"],
+    tags: ["Safety planning", "Spanish"],
     description:
       "Confidential emergency shelter for survivors of domestic and sexual violence and their children, plus 24-hour helplines for crisis support, safety planning and shelter referrals.",
     phone: "(801) 377-5500",
@@ -128,7 +122,7 @@ export const PROVO_RESOURCES: Resource[] = [
     city: "Orem",
     county: "Utah County",
     state: "UT",
-    serves: ["abuse-survivors"],
+    serves: [],
     eligibility: "Anyone experiencing domestic violence, sexual assault or abuse who needs a safe place. All genders, ages and family types.",
     qualifiers: [
       "Anyone experiencing domestic violence, sexual assault, or abuse who needs a safe place.",
@@ -168,7 +162,8 @@ export const PROVO_RESOURCES: Resource[] = [
     name: "Mountainlands Community Health Center",
     category: "medical",
     alsoOffers: ["mental-health"],
-    tags: ["Medical clinics", "Sliding fee", "No insurance needed"],
+    subcategories: ["Medical clinics"],
+    tags: ["Sliding fee", "No insurance needed"],
     description:
       "Community health center. Any patient, with or without insurance, can apply for a sliding fee discount based on family size and income.",
     phone: "(801) 429-2000",
@@ -176,7 +171,7 @@ export const PROVO_RESOURCES: Resource[] = [
     city: "Provo",
     county: "Utah County",
     state: "UT",
-    serves: ["everyone"],
+    serves: [],
     eligibility: "Anyone can become a patient. Sliding fee discount for uninsured patients with proof of income.",
     qualifiers: [
       "Any patient, regardless of insurance status, can apply for a sliding fee discount, based on family size and income.",
@@ -218,7 +213,8 @@ export const PROVO_RESOURCES: Resource[] = [
     name: "Volunteer Care Clinic",
     category: "medical",
     alsoOffers: [],
-    tags: ["Medical clinics", "Walk-in"],
+    subcategories: ["Medical clinics"],
+    tags: ["Walk-in"],
     description:
       "Volunteer-run walk-in clinic, Tuesday and Thursday evenings. No official page found yet; call to confirm services and eligibility.",
     phone: "(801) 812-8094",
@@ -226,7 +222,7 @@ export const PROVO_RESOURCES: Resource[] = [
     city: "Provo",
     county: "Utah County",
     state: "UT",
-    serves: ["everyone"],
+    serves: [],
     eligibility: "Call to ask about eligibility.",
     qualifiers: [],
     howToApply: "",
@@ -258,7 +254,8 @@ export const PROVO_RESOURCES: Resource[] = [
     name: "Wasatch Behavioral Health Receiving Center",
     category: "mental-health",
     alsoOffers: ["addiction"],
-    tags: ["Crisis and suicide prevention", "Mobile crisis outreach"],
+    subcategories: ["Crisis and suicide prevention"],
+    tags: ["Mobile crisis outreach"],
     description:
       "Receiving & Outreach Center: crisis mental health evaluations for adults, staffed around the clock by therapists and peer support specialists. Adults can stay up to 24 hours. Mobile crisis outreach when needed.",
     phone: "(801) 852-2131",
@@ -266,7 +263,7 @@ export const PROVO_RESOURCES: Resource[] = [
     city: "Provo",
     county: "Utah County",
     state: "UT",
-    serves: ["everyone"],
+    serves: [],
     eligibility: "Adults in Utah and Wasatch Counties. Youth may be referred to Vantage Point. For a crisis anywhere, call or text 988.",
     qualifiers: [
       "Adults in Utah and Wasatch Counties.",
@@ -303,6 +300,7 @@ export const PROVO_RESOURCES: Resource[] = [
     name: "Wasatch Behavioral Health Substance Use Intake",
     category: "addiction",
     alsoOffers: ["mental-health"],
+    subcategories: [],
     tags: ["Assessment and referral", "Sliding fee", "Medicaid accepted"],
     description:
       "Substance Use Assessments & Referrals (SAR): the required first step for Wasatch-funded drug and alcohol treatment in Utah County. Walk-in assessments for adults, first come, first served; plan for up to 4 hours. Fees are on a sliding scale unless covered by Medicaid.",
@@ -311,7 +309,7 @@ export const PROVO_RESOURCES: Resource[] = [
     city: "Orem",
     county: "Utah County",
     state: "UT",
-    serves: ["everyone"],
+    serves: [],
     eligibility: "Utah County residents (all treatment services are limited to Utah County residents).",
     qualifiers: [
       "Treatment services are limited to Utah County residents.",
@@ -355,7 +353,8 @@ export const PROVO_RESOURCES: Resource[] = [
     name: "Workforce Services, Provo Employment Center",
     category: "employment",
     alsoOffers: ["food", "medical"],
-    tags: ["Food stamps (SNAP)", "Medicaid", "Job search help", "Spanish"],
+    subcategories: ["Food benefits (SNAP, WIC)", "Health coverage (Medicaid, CHIP, Marketplace)", "Job search help"],
+    tags: ["Food stamps (SNAP)", "Spanish"],
     description:
       "State office to apply for SNAP (food stamps), Medicaid and other benefits, plus job help. Benefits start the day the application is turned in; some households get SNAP within 7 days through expedited service.",
     phone: "(801) 526-0950",
@@ -363,7 +362,7 @@ export const PROVO_RESOURCES: Resource[] = [
     city: "Provo",
     county: "Utah County",
     state: "UT",
-    serves: ["everyone"],
+    serves: [],
     eligibility: "SNAP depends on household income, resources and work rules. A DWS eligibility specialist decides; see Who qualifies.",
     qualifiers: [
       "Gross monthly income usually at or below 130% of poverty: $1,729 for 1 person, $2,345 for 2, $2,960 for 3, $3,575 for 4 (DWS table effective Oct 1, 2026).",
@@ -412,7 +411,8 @@ export const PROVO_RESOURCES: Resource[] = [
     name: "Utah County Vital Records",
     category: "id-replacement",
     alsoOffers: [],
-    tags: ["Birth certificate"],
+    subcategories: ["Birth certificate"],
+    tags: [],
     description:
       "Order a certified birth certificate, often the first step to replacing a lost ID. $25 for the first copy; $10 for each extra copy ordered at the same time (2026 fees).",
     phone: "(801) 851-7005",
@@ -420,7 +420,7 @@ export const PROVO_RESOURCES: Resource[] = [
     city: "Provo",
     county: "Utah County",
     state: "UT",
-    serves: ["everyone"],
+    serves: [],
     eligibility: "The person on the record, an immediate family member, a legal guardian or a legal representative, with valid photo ID.",
     qualifiers: [
       "Can be requested by the person named on the record, an immediate family member, a legal guardian, or a designated legal representative.",
@@ -464,7 +464,8 @@ export const PROVO_RESOURCES: Resource[] = [
     name: "Deseret Industries (Provo)",
     category: "clothing-household",
     alsoOffers: ["employment"],
-    tags: ["Clothing", "Household goods", "Thrift stores", "Job training", "Bishop referral"],
+    subcategories: ["Clothing", "Household goods", "Thrift stores", "Job training"],
+    tags: ["Bishop referral"],
     description:
       "Thrift store with low-cost clothing, shoes, coats and household goods. Also a job training program with development counselors, by bishop referral.",
     phone: "(801) 373-7920",
@@ -472,7 +473,7 @@ export const PROVO_RESOURCES: Resource[] = [
     city: "Provo",
     county: "Utah County",
     state: "UT",
-    serves: ["everyone"],
+    serves: [],
     eligibility: "The store is open to anyone. Job training: a bishop's referral; Church membership isn't required.",
     qualifiers: [
       "Store: open to anyone.",
@@ -510,7 +511,8 @@ export const PROVO_RESOURCES: Resource[] = [
     name: "UTA Reduced Fare",
     category: "transportation",
     alsoOffers: [],
-    tags: ["Public transit", "Reduced fares", "Seniors", "People with disabilities", "Youth"],
+    subcategories: ["Public transit"],
+    tags: ["Reduced fares", "Seniors", "People with disabilities", "Youth"],
     description:
       "Reduced fares on UTA buses and trains with a FAREPAY card: $1 base fare, capped at $2 a day or $8 a week on local service. For riders with low income, seniors, youth and people with disabilities.",
     phone: "(801) 743-3882",
@@ -518,7 +520,7 @@ export const PROVO_RESOURCES: Resource[] = [
     city: "Provo",
     county: "Utah County",
     state: "UT",
-    serves: ["everyone"],
+    serves: [],
     eligibility: "Ages 19–64 on SNAP, Medicaid or other DWS programs, or under UTA's income limit. Also seniors 65+, youth and people with disabilities.",
     qualifiers: [
       "Income: ages 19–64 and enrolled in a DWS program (SNAP, medical assistance, TANF cash assistance, General Assistance, child care assistance, Family Employment Program, HEAT or ABD), or household gross income at or under the limit: $31,920 a year for 1 person, $43,280 for 2, $54,640 for 3, $66,000 for 4.",
@@ -564,17 +566,8 @@ export const PROVO_RESOURCES: Resource[] = [
     name: "Elevate Utah (formerly Centro Hispano)",
     category: "legal",
     alsoOffers: ["food", "education"],
-    tags: [
-      "Immigration",
-      "Citizenship classes",
-      "English and literacy",
-      "Emergency food",
-      "Hygiene",
-      "Translation",
-      "Notary",
-      "Resume help",
-      "Spanish",
-    ],
+    subcategories: ["Immigration", "English and literacy"],
+    tags: ["Citizenship classes", "Emergency food", "Hygiene", "Translation", "Notary", "Resume help", "Spanish"],
     description:
       "Immigration legal help from immigration attorneys and DOJ-accredited representatives, citizenship classes, free emergency food and hygiene items, document translation, free notary and resume help, and English classes.",
     phone: "(801) 655-0258",
@@ -623,7 +616,8 @@ export const PROVO_RESOURCES: Resource[] = [
     name: "Community Action Motel Shelter",
     category: "homeless-services",
     alsoOffers: [],
-    tags: ["Emergency shelter", "Motel stays", "Families"],
+    subcategories: ["Emergency shelter"],
+    tags: ["Motel stays", "Families"],
     description:
       "There is no full-time shelter in Utah, Wasatch or Summit counties. Community Action provides short-term shelter at local motels for families, couples and vulnerable individuals: 1–3 nights, case by case. Space is limited.",
     phone: "(801) 373-8200",
@@ -631,7 +625,7 @@ export const PROVO_RESOURCES: Resource[] = [
     city: "Provo",
     county: "Utah County",
     state: "UT",
-    serves: ["families", "everyone"],
+    serves: [],
     eligibility: "Families, couples and vulnerable individuals, if eligible, case by case. ID required.",
     qualifiers: [
       "Families, individuals, couples and vulnerable individuals, if eligible; decided case by case.",
@@ -671,7 +665,8 @@ export const PROVO_RESOURCES: Resource[] = [
     name: "Brenda's Warming Center",
     category: "homeless-services",
     alsoOffers: [],
-    tags: ["Emergency shelter", "Warming center", "Bus pass", "Breakfast"],
+    subcategories: ["Emergency shelter"],
+    tags: ["Warming center", "Bus pass", "Breakfast"],
     description:
       "Overnight winter warming center run by Community Action for the Utah County Winter Taskforce: a safe, warm place to rest. Guests get a one-day bus pass, and Food & Care Coalition serves breakfast Mon – Sat.",
     phone: "(801) 373-8200",
@@ -679,7 +674,8 @@ export const PROVO_RESOURCES: Resource[] = [
     city: "Provo",
     county: "Utah County",
     state: "UT",
-    serves: ["single-adults"],
+    serves: [],
+    noChildren: true,
     eligibility: "Unhoused single adults 18+ and couples. Families: call (801) 852-6210 about a motel voucher.",
     qualifiers: [
       "Unhoused single adults, 18 and older, and couples.",

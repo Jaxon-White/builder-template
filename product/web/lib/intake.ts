@@ -1,4 +1,6 @@
 import {
+  LEGACY_SITUATIONS,
+  SITUATION_INFO,
   toCategory,
   type Category,
   type Gender,
@@ -18,16 +20,7 @@ function list(v: string | string[] | undefined): string[] {
 }
 
 const HOUSEHOLDS: Household[] = ["alone", "kids", "partner"];
-const SITUATIONS: Situation[] = [
-  "veteran",
-  "abuse",
-  "pets",
-  "youth",
-  "immigrant",
-  "senior",
-  "disability-approved",
-  "reentry",
-];
+const SITUATIONS = Object.keys(SITUATION_INFO) as Situation[];
 const GENDERS: Gender[] = ["man", "woman"];
 
 export function parseIntake(p: Params): IntakeAnswers {
@@ -37,7 +30,13 @@ export function parseIntake(p: Params): IntakeAnswers {
   return {
     needs: [...new Set(list(p.need).map(toCategory).filter((n): n is Category => n !== null))],
     household: HOUSEHOLDS.includes(household) ? household : null,
-    situations: list(p.also).filter((s): s is Situation => SITUATIONS.includes(s as Situation)),
+    situations: [
+      ...new Set(
+        list(p.also)
+          .map((s) => LEGACY_SITUATIONS[s] ?? s)
+          .filter((s): s is Situation => SITUATIONS.includes(s as Situation)),
+      ),
+    ],
     gender: GENDERS.includes(gender) ? gender : null,
   };
 }

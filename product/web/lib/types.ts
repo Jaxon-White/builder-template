@@ -1,7 +1,8 @@
 // Fields are kept flat (strings, booleans, string arrays) so each one maps to a single
 // SharePoint list column: text, yes/no, or multi-choice.
 
-// Church HQ's category list (decision 006). Labels match HQ's names.
+// Church HQ's category list (decisions 006 and 007, revised 29 Oct 2026). Labels match HQ's
+// names; subcategories and definitions are in lib/subcategories.ts.
 export const CATEGORIES = [
   "addiction",
   "clothing-household",
@@ -9,7 +10,6 @@ export const CATEGORIES = [
   "domestic-violence",
   "education",
   "employment",
-  "financial-assistance",
   "food",
   "homeless-services",
   "housing",
@@ -32,18 +32,17 @@ export const CATEGORY_LABELS: Record<Category, string> = {
   "domestic-violence": "Domestic Violence",
   education: "Education",
   employment: "Employment",
-  "financial-assistance": "Financial Assistance",
   food: "Food",
   "homeless-services": "Homeless Services",
   housing: "Housing",
   "id-replacement": "ID Replacement",
-  legal: "Legal",
+  legal: "Legal and Tax Help",
   medical: "Medical/Dental/Vision",
   "mental-health": "Mental Health",
   reentry: "Reentry",
   seniors: "Seniors",
   transportation: "Transportation",
-  utilities: "Utilities",
+  utilities: "Utilities, Phone, Internet",
   veterans: "Veterans",
 };
 
@@ -53,6 +52,8 @@ const LEGACY_CATEGORIES: Record<string, Category> = {
   recovery: "addiction",
   documents: "id-replacement",
   clothing: "clothing-household",
+  // Dropped by HQ on 29 Oct 2026 (decision 007); bill help is under Utilities now.
+  "financial-assistance": "utilities",
 };
 
 /** A category key from a URL, with old keys mapped to new ones; null if unknown. */
@@ -61,32 +62,68 @@ export function toCategory(key: string): Category | null {
   return (CATEGORIES as readonly string[]).includes(k) ? (k as Category) : null;
 }
 
-// Who a resource is set up to serve. "everyone" means no restriction.
-export const AUDIENCES = [
-  "everyone",
-  "men",
-  "women",
+// Church HQ's 16 "For groups" (decision 007). A place lists a group only when its program is
+// restricted to or built for that group; an empty list means open to everyone.
+export const FOR_GROUPS = [
+  "children-youth",
+  "disability",
   "families",
-  "youth",
-  "veterans",
-  "abuse-survivors",
   "immigrants",
-  /** Adults without children with them (alone or as a couple), e.g. a warming center. */
-  "single-adults",
+  "medically-vulnerable",
+  "men",
+  "native-americans",
+  "criminal-record",
+  "pregnant",
+  "seniors",
+  "single-parents",
+  "students",
+  "uninsured",
+  "veterans",
+  "women",
+  "young-adults",
 ] as const;
-export type Audience = (typeof AUDIENCES)[number];
+export type ForGroup = (typeof FOR_GROUPS)[number];
 
-export const AUDIENCE_LABELS: Record<Audience, string> = {
-  everyone: "Everyone",
-  men: "Men",
-  women: "Women",
-  families: "Families",
-  youth: "Youth (under 25)",
-  veterans: "Veterans",
-  "abuse-survivors": "Abuse survivors",
-  immigrants: "Immigrants & refugees",
-  "single-adults": "Single adults and couples (no children)",
+/** HQ's name for each group and who belongs to it. */
+export const FOR_GROUP_INFO: Record<ForGroup, { label: string; who: string }> = {
+  "children-youth": { label: "Children and youth", who: "Under 18." },
+  disability: {
+    label: "Individual with disability",
+    who: "A person with a physical, mental, intellectual, or developmental disability.",
+  },
+  families: { label: "Families with minor children", who: "Parents or guardians with minor children living with them." },
+  immigrants: {
+    label: "Immigrants, refugees, and non-English speaking",
+    who: "People born in another country, including refugees and asylees, or people more comfortable using a language other than English.",
+  },
+  "medically-vulnerable": { label: "Medically vulnerable", who: "People too ill or frail for an ordinary shelter or the street." },
+  men: { label: "Men", who: "Programs restricted or specifically targeted to men." },
+  "native-americans": { label: "Native Americans", who: "Members or descendants of tribes and pueblos." },
+  "criminal-record": {
+    label: "People with a criminal record",
+    who: "People with a criminal record, whether recently released or not.",
+  },
+  pregnant: { label: "Pregnant or postpartum", who: "People who are pregnant or within the program-defined postpartum period." },
+  seniors: { label: "Seniors", who: "Older adults; each program sets its own age requirement." },
+  "single-parents": { label: "Single parents", who: "Parents raising children without another parent in the household." },
+  students: { label: "Students", who: "People enrolled in school, college, or an eligible training program." },
+  uninsured: { label: "Uninsured", who: "People without health insurance." },
+  veterans: {
+    label: "Veterans",
+    who: "People who served in the U.S. military and, when the program allows, their families.",
+  },
+  women: { label: "Women", who: "Programs restricted or specifically targeted to women." },
+  "young-adults": { label: "Young adults", who: "Ages 18 to 24." },
 };
+
+/** The app's earlier group keys, so old shared links still work. */
+const LEGACY_GROUPS: Record<string, ForGroup> = { youth: "young-adults" };
+
+/** A group key from a URL, with old keys mapped to new ones; null if unknown. */
+export function toForGroup(key: string): ForGroup | null {
+  const k = LEGACY_GROUPS[key] ?? key;
+  return (FOR_GROUPS as readonly string[]).includes(k) ? (k as ForGroup) : null;
+}
 
 export const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] as const;
 export type Day = (typeof DAYS)[number];
@@ -105,10 +142,11 @@ export type Resource = DailyHours & {
   category: Category;
   alsoOffers: Category[];
   /**
-   * Short labels for what it offers and who it's for, searched on the Resources tab. HQ's
-   * subcategory names where they fit ("Meals", "Food pantries"); from official pages like the
-   * details below.
+   * HQ subcategories it offers, by HQ's exact name ("Meals", "Food pantries"), from its own
+   * categories. Only names in lib/subcategories.ts; from official pages like the details below.
    */
+  subcategories: string[];
+  /** Other short labels searched on the Resources tab ("Spanish", "Sliding fee"). */
   tags: string[];
   description: string;
   phone: string;
@@ -118,7 +156,13 @@ export type Resource = DailyHours & {
   county: string;
   /** Two-letter code, e.g. "UT". Searchable, along with the full name. */
   state: string;
-  serves: Audience[];
+  /** HQ For groups the program is restricted to; empty = open to everyone. */
+  serves: ForGroup[];
+  /**
+   * App-only (decision 007): turns away people with children, so it's hidden from them.
+   * HQ has no group for this.
+   */
+  noChildren?: boolean;
   /** One-line summary of who qualifies; the full list is `qualifiers`. */
   eligibility: string;
   // Details missionaries need on a call (decision 005: each from an official page in
@@ -164,22 +208,31 @@ export type Situation =
   | "veteran"
   | "abuse"
   | "pets"
-  | "youth"
+  | "under-18"
+  | "young-adult"
   | "immigrant"
   | "senior"
   /** Already approved for SSI or SSDI; many disability programs require it. */
   | "disability-approved"
   | "reentry";
 
+/** The app's earlier situation keys, so old shared links still work. */
+export const LEGACY_SITUATIONS: Record<string, Situation> = { youth: "young-adult" };
+
 /**
- * Groups asked about as a situation rather than a need. Picking one also searches the
- * programs built for that group (decision 006).
+ * What each situation means for matching: the HQ For group it puts the person in, and the
+ * category of programs built for them, which picking it also searches (decisions 006, 007).
  */
-export const SITUATION_CATEGORY: Partial<Record<Situation, Category>> = {
-  veteran: "veterans",
-  senior: "seniors",
-  "disability-approved": "disability",
-  reentry: "reentry",
+export const SITUATION_INFO: Record<Situation, { group?: ForGroup; category?: Category }> = {
+  veteran: { group: "veterans", category: "veterans" },
+  abuse: { category: "domestic-violence" },
+  pets: {},
+  "under-18": { group: "children-youth" },
+  "young-adult": { group: "young-adults" },
+  immigrant: { group: "immigrants" },
+  senior: { group: "seniors", category: "seniors" },
+  "disability-approved": { group: "disability", category: "disability" },
+  reentry: { group: "criminal-record", category: "reentry" },
 };
 export type Gender = "man" | "woman";
 
