@@ -19,3 +19,5 @@
 | 2026-11-12 | TSO and HQ working group | Meeting | Worked on finalizing items for the tool, including the standardized sections | Notes in discovery/meetings/2026-11-12-to-19-standardization-meetings.md | Keep working toward final categories |
 | 2026-11-18 | Senior church leadership over the resource work | Meeting | Met with leadership about the resource tool | Staffing has completely changed; new bureaucratic hurdles slowed the Sprint 5 goals (same notes file) | Work through the new staff's approval process |
 | 2026-11-19 | TSO and HQ working group | Meeting | Worked on standardizing the questions so the work can move forward | I left with clear tasks for next week (same notes file) | Do next week's tasks |
+| 2026-11-13 | HQ lead software developer | Email | Asked for the other version of the tool they are upgrading from, which they brought me on to work on | Email thread ongoing | Get access to their version |
+| 2026-11-13 | HQ | Email (to me) | Nothing; they sent an update | An updated category list, almost fully standardized | Use the final categories in the app once they are confirmed |
