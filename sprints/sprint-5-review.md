@@ -67,3 +67,19 @@ nothing was applied in the app.
 The standard tag list was the part fully in your control, and it was not started: there is no
 tag list, the search bar doesn't match everyday words like "can't see", and the resource cards
 are unchanged.
+
+---
+
+## Your retro
+
+*The builder's own answers, recorded word for word.*
+
+**Did you hit the goal?** yes, I hit the goal. I found what I need to do, and the list should be standardized this week. If not, I will standardize it myself.
+
+**What did the report show you?** it showed me that bureaucracy can really get in the way of being successful in a company, and it can really slow things down.
+
+**If the plan changed, why?** (Skipped: the plan did not change.)
+
+**Actual difficulty:** I would say it's a 3, just because it's really frustrating to have to just sit back and watch, and the way is not necessarily clear.
+
+**What will you change next sprint?** one specific thing I would change is more work on the app, reiterating more, and relying less on the people that I'm working with. Just keep reiterating and reiterating until we just find something we like.
